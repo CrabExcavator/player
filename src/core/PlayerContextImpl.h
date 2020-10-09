@@ -9,6 +9,7 @@
 
 #include "video/VideoOutput.h"
 #include "input/InputContext.h"
+#include "PlayList.h"
 
 namespace core {
 

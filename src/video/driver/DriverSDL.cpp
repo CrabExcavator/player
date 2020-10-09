@@ -10,27 +10,8 @@
 
 namespace video::driver {
 
-    static void window_deleter(SDL_Window* window) {
-        LOG(INFO) << "window deleter called";
-        if (window != nullptr) {
-            SDL_DestroyWindow(window);
-        } else {
-            LOG(WARNING) << "destroy null window";
-        }
-    }
-
-    static void surface_deleter(SDL_Surface* surface) {
-        LOG(INFO) << "surface deleter called";
-        if (surface != nullptr) {
-            SDL_FreeSurface(surface);
-        } else {
-            LOG(WARNING) << "destroy null surface";
-        }
-    }
-
     DriverSDL::~DriverSDL() {
-        this->_screen_surface = nullptr;
-        this->_image_surface = nullptr;
+        this->_renderer = nullptr;
         this->_window = nullptr;
         SDL_Quit();
     }
@@ -46,18 +27,23 @@ namespace video::driver {
             window_uptr window{
                     SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                      this->_width, this->_height, SDL_WINDOW_SHOWN),
-                    window_deleter
+                    SDL_DestroyWindow
             };
             if (window == nullptr) {
                 LOG(WARNING) << "Window could not be created! SDL_Error: " << SDL_GetError();
                 success = false;
             } else {
-                _window.swap(window);
-                surface_uptr screen_surface{
-                        SDL_GetWindowSurface(_window.get()),
-                        surface_deleter
+                this->_window.swap(window);
+                renderer_uptr renderer{
+                    SDL_CreateRenderer(this->_window.get(), -1, SDL_RENDERER_ACCELERATED), // todo choose best driver
+                    SDL_DestroyRenderer
                 };
-                _screen_surface.swap(screen_surface);
+                if (renderer == nullptr) {
+                    LOG(WARNING) << "Renderer could not be created! SDL_Error: " << SDL_GetError();
+                    success = false;
+                }
+                this->_renderer.swap(renderer);
+                SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
             }
         }
         if (!success) {
@@ -66,7 +52,9 @@ namespace video::driver {
     }
 
     void DriverSDL::drawImage(vo_sptr vo) {
-        SDL_UpdateWindowSurface(this->_window.get());
+        SDL_RenderClear(this->_renderer.get());
+        // todo render picture here
+        SDL_RenderPresent(this->_renderer.get());
     }
 
     void DriverSDL::waitEvents(vo_sptr vo) {

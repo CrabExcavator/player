@@ -7,13 +7,14 @@
 
 #include <string>
 #include <mutex>
+#include <glog/logging.h>
 
 namespace misc {
 
     class Lock {
 #define MISC_LOCK_TT "lock " << _lock_name << " "
     public:
-        Lock() = delete;
+        Lock(): _lock_name("air") {};
         Lock(const Lock& rhs) = delete;
         Lock(Lock&& rhs) = delete;
         Lock& operator = (const Lock& rhs) = delete;

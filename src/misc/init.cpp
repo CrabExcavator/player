@@ -13,7 +13,7 @@ namespace misc {
 #ifdef NDEBUG
             FLAGS_alsologtostderr = false;
 #else
-            FLAGS_alsologtostderr = false;
+            FLAGS_alsologtostderr = true;
 #endif
         }
         ~init() noexcept {

@@ -21,12 +21,11 @@ namespace video::driver {
         void waitEvents(vo_sptr vo) override;
     private:
         using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;
-        using surface_uptr = std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface*)>>;
+        using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer*)>>;
         window_uptr _window;
-        surface_uptr _screen_surface;
-        surface_uptr _image_surface;
-        int _width{};
-        int _height{};
+        renderer_uptr _renderer;
+        int _width{640};
+        int _height{480};
     };
 
 }

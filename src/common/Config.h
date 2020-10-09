@@ -34,7 +34,7 @@ namespace common {
         template<typename T>
         T get(const misc::Pocket<T>& pocket) {
             misc::LockGuard lock_guard(this->_lock);
-            auto key = pocket.getKey();
+            const auto& key = pocket.getKey();
             if (this->_dic->contains(key)) {
                 return misc::Pocket<T>::cast(this->_dic->at(key));
             }

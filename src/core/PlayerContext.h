@@ -9,7 +9,10 @@
 
 namespace core {
 
+    class PlayerContext;
     class PlayerContextImpl;
+    using player_ctx_sptr = std::shared_ptr<PlayerContext>;
+    using player_ctx_wptr = std::weak_ptr<PlayerContext>;
 
     class PlayerContext {
     public:

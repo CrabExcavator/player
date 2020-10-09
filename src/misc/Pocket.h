@@ -49,7 +49,7 @@ namespace misc {
 
         ~Pocket() = default;
 
-        const std::string& getKey() const {
+        [[nodiscard]] const std::string& getKey() const {
             return this->_key;
         }
 

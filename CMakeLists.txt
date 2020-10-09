@@ -20,6 +20,8 @@ set(
         src/misc/init.cpp
         src/core/PlayerContext.cpp
         src/core/PlayerContextImpl.cpp
+        src/core/PlayList.cpp
+        src/core/PlayEntry.cpp
         src/video/VideoOutput.cpp
         src/video/driver/DriverFactory.cpp
         src/video/driver/Driver.cpp
