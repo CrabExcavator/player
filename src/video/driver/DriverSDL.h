@@ -6,6 +6,7 @@
 #define PLAYER_DRIVERSDL_H
 
 #include <memory>
+#include <functional>
 #include <SDL2/SDL.h>
 
 #include "Driver.h"
