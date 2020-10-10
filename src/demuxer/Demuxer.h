@@ -6,6 +6,8 @@
 #define PLAYER_DEMUXER_H
 
 #include <memory>
+#include "DemuxerImpl.h"
+
 
 namespace demuxer {
 
@@ -14,6 +16,11 @@ namespace demuxer {
     class Demuxer {
     public:
         Demuxer();
+        Demuxer(const Demuxer& rhs) = delete;
+        Demuxer(Demuxer&& rhs) noexcept;
+        Demuxer& operator = (const Demuxer& rhs) = delete;
+        Demuxer& operator = (Demuxer&& rhs) noexcept;
+        ~Demuxer();
 
     private:
         std::unique_ptr<DemuxerImpl> _impl;

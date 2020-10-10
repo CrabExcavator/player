@@ -3,3 +3,15 @@
 //
 
 #include "DemuxerImpl.h"
+
+namespace demuxer {
+
+    DemuxerImpl::~DemuxerImpl() {
+
+    }
+
+    void DemuxerImpl::init() {
+
+    }
+
+}

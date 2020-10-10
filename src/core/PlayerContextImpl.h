@@ -15,6 +15,7 @@ namespace core {
 
     class PlayerContextImpl {
     public:
+        friend class PlayerContext;
         PlayerContextImpl();
         void run();
 
