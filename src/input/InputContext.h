@@ -6,6 +6,7 @@
 #define PLAYER_INPUTCONTEXT_H
 
 #include <bitset>
+#include <memory>
 #include <glog/logging.h>
 
 #include "event.h"
