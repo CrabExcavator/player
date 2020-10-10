@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 
 #include "core/PlayerContext.h"
-#include "core/PlayList.h"
 #include "misc/Thread.h"
 #include "misc/Lock.h"
 #include "misc/LockGuard.h"
@@ -42,8 +41,4 @@ TEST(SAMPLE, LOCK) {
         thread->join();
     }
     ASSERT_EQ(a, thread_num*loop_num);
-}
-
-TEST(SAMPLE, PLAY_LIST) {
-
 }

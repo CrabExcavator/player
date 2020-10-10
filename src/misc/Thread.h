@@ -28,13 +28,13 @@ namespace misc {
 
         template<typename Fp, typename ...Args>
         void run(Fp&& callable, Args&&... args) {
-            LOG(INFO) << MISC_THREAD_TT << "start";
+            //LOG(INFO) << MISC_THREAD_TT << "start";
             this->_thread = std::move(std::thread(std::forward<Fp, Args...>(callable, args...)));
         }
 
         void join() {
             this->_thread.join();
-            LOG(INFO) << MISC_THREAD_TT << "join";
+            //LOG(INFO) << MISC_THREAD_TT << "join";
         }
 
     private:
@@ -48,7 +48,7 @@ namespace misc {
     }
 
     Thread::Thread(std::string thread_name): _thread_name(std::move(thread_name)) {
-        LOG(INFO) << MISC_THREAD_TT << "create";
+        //LOG(INFO) << MISC_THREAD_TT << "create";
     }
 }
 

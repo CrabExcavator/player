@@ -21,6 +21,6 @@ TEST(POCKET, CREATE) {
 }
 
 TEST(POCKET, DEFAULT) {
-    ASSERT_EQ(GET_CONFIG(window_height), 480);
-    ASSERT_EQ(GET_CONFIG(window_width), 640);
+    ASSERT_EQ(GET_CONFIG(window_height), 1080);
+    ASSERT_EQ(GET_CONFIG(window_width), 1920);
 }

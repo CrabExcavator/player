@@ -19,21 +19,19 @@ namespace misc {
         Lock(Lock&& rhs) = delete;
         Lock& operator = (const Lock& rhs) = delete;
         Lock& operator = (Lock&& rhs) = delete;
-        explicit Lock(std::string lock_name): _lock_name(std::move(lock_name)) {
-
-        }
+        explicit Lock(std::string lock_name): _lock_name(std::move(lock_name)) {}
         ~Lock() = default;
 
         inline void lock() {
-            LOG(INFO) << MISC_LOCK_TT << "lock";
+            //LOG(INFO) << MISC_LOCK_TT << "lock";
             this->_mutex.lock();
         }
         inline void unlock() {
-            LOG(INFO) << MISC_LOCK_TT << "unlock";
+            //LOG(INFO) << MISC_LOCK_TT << "unlock";
             this->_mutex.unlock();
         }
         inline bool try_lock() {
-            LOG(INFO) << MISC_LOCK_TT << "try_lock";
+            //LOG(INFO) << MISC_LOCK_TT << "try_lock";
             return this->_mutex.try_lock();
         }
 

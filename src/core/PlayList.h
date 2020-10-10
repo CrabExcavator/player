@@ -6,6 +6,7 @@
 #define PLAYER_PLAYLIST_H
 
 #include <list>
+#include <set>
 #include <memory>
 
 #include "PlayerContext.h"
@@ -31,30 +32,33 @@ namespace core {
         play_list_sptr removeFirst();
         play_list_sptr removeIndex(int index);
         play_list_sptr clear();
+        play_entry_sptr current();
+        void next(); // todo support random & loop
+        size_t size();
 
     private:
         inline void _check_first_entry() {
             if (this->_entries.size() == 1) {
-                this->_current = this->_entries.front();
+                this->_current = this->_entries.begin();
             }
         }
 
         inline void _check_empty_entry() {
             if (this->_entries.empty()) {
-                this->_current = nullptr;
+                this->_current = this->_entries.end();
             }
         }
 
         inline void _check_is_current(std::list<play_entry_sptr>::iterator entry) {
-            if (this->_current == *entry) {
-                // todo different logic handle remove current delete situation
-                this->_current = nullptr;
+            if (this->_current == entry) {
+                this->_current = this->_entries.end();
             }
         }
 
     private:
+        std::set<PlayEntry> _set;
         std::list<play_entry_sptr> _entries;
-        play_entry_sptr _current;
+        std::list<play_entry_sptr>::iterator _current;
     };
 }
 

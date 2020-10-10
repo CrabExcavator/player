@@ -6,4 +6,8 @@
 
 namespace core {
 
+    PlayEntry::PlayEntry(entry_type type, std::string uri): _type(type), _uri(std::move(uri)) {
+
+    }
+
 }

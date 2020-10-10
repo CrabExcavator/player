@@ -21,11 +21,15 @@ namespace core {
     class PlayEntry {
     public:
         PlayEntry() = delete;
+        PlayEntry(entry_type type, std::string uri);
         PlayEntry(const PlayEntry& rhs) = default;
         PlayEntry(PlayEntry&& rhs) = default;
         PlayEntry& operator = (const PlayEntry& rhs) = default;
         PlayEntry& operator = (PlayEntry&& rhs) = default;
         ~PlayEntry() = default;
+        bool operator < (const PlayEntry&rhs) const {
+            return (this->_type < rhs._type) || (this->_type == rhs._type && this->_uri < rhs._uri);
+        }
 
     private:
         entry_type _type;

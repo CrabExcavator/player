@@ -17,7 +17,6 @@ set(
         COMMON_SOURCE
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
-        src/misc/init.cpp
         src/core/PlayerContext.cpp
         src/core/PlayerContextImpl.cpp
         src/core/PlayList.cpp
@@ -32,7 +31,7 @@ set(
         COMMON_LIB
         glog::glog
         gflags
-        ${SDL2_LIBRARIES}
+        SDL2::SDL2
 )
 
 set(
@@ -49,6 +48,10 @@ set(
 set(
         TEST_SOURCE
         ${COMMON_SOURCE}
+        test/sample.cpp
+        test/vo.cpp
+        test/Pocket.cpp
+        test/PlayList.cpp
 )
 set(
         TEST_LIB
@@ -57,23 +60,6 @@ set(
         GTest::Main
 )
 
-set (
-        TEST_SAMPLE_SOURCE
-        ${TEST_SOURCE}
-        test/sample.cpp
-)
-
-set(
-        TEST_DRIVER_SOURCE
-        ${TEST_SOURCE}
-        test/vo.cpp
-)
-
-set(
-        TEST_POCKET_SOURCE
-        ${TEST_SOURCE}
-        test/Pocket.cpp
-)
 ########## init ##########
 
 ########## target ##########
@@ -82,18 +68,8 @@ add_executable(player ${RELEASE_SOURCE})
 target_link_libraries(player ${RELEASE_LIB})
 
 # test
-add_executable(test_sample ${TEST_SAMPLE_SOURCE})
-target_link_libraries(test_sample ${TEST_LIB})
-add_executable(test_vo ${TEST_DRIVER_SOURCE})
-target_link_libraries(test_vo ${TEST_LIB})
-add_executable(test_pocket ${TEST_POCKET_SOURCE})
-target_link_libraries(test_pocket ${TEST_LIB})
-add_test(
-        test_all
-        test_sample
-        test_vo
-        test_pocket
-)
+add_executable(unit_test ${TEST_SOURCE})
+target_link_libraries(unit_test ${TEST_LIB})
 ########## target ##########
 
 ########## misc ##########
