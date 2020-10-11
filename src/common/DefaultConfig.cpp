@@ -10,5 +10,6 @@ namespace common {
 
     DEFINE_POCKET(int, window_width, 1920);
     DEFINE_POCKET(int, window_height, 1080);
+    DEFINE_POCKET(std::string, vo_driver, "SDL2");
 
 }

@@ -7,27 +7,32 @@
 
 #include <memory>
 
+#include "demux/DemuxContext.h"
+#include "video/VideoOutput.h"
+#include "input/InputContext.h"
+#include "PlayList.h"
+
 namespace core {
 
-    class PlayerContext;
-    class PlayerContextImpl;
-    using player_ctx_sptr = std::shared_ptr<PlayerContext>;
-    using player_ctx_wptr = std::weak_ptr<PlayerContext>;
-
-    class PlayerContext {
+    class PlayerContext: public std::enable_shared_from_this<PlayerContext> {
     public:
-        PlayerContext();
-        PlayerContext(const PlayerContext& rhs) = delete;
-        PlayerContext(PlayerContext&& rhs) noexcept;
-        PlayerContext& operator = (const PlayerContext& rhs) = delete;
-        PlayerContext& operator = (PlayerContext&& rhs) noexcept;
-        ~PlayerContext();
-
+        PlayerContext() = default;
+        void init();
         void run();
+
     private:
-        std::unique_ptr<PlayerContextImpl> _impl;
+        bool loop();
+
+    public:
+        play_list_sptr  play_list;
+        input::input_ctx_sptr input_ctx;
+
+    private:
+        video::vo_sptr _vo;
+        demux::demux_ctx_sptr _demux_ctx;
     };
 
 }
+
 
 #endif //PLAYER_PLAYERCONTEXT_H

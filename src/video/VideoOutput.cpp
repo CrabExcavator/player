@@ -5,35 +5,35 @@
 #include "VideoOutput.h"
 #include "video/driver/DriverFactory.h"
 #include "common/Config.h"
+#include "core/PlayerContext.h"
 
 namespace video {
 
-    VideoOutput::VideoOutput(input::input_ctx_sptr input_ctx): _input_ctx(std::move(input_ctx)) {
+    VideoOutput::VideoOutput(const std::shared_ptr<core::PlayerContext> &player_ctx):
+    _input_ctx(player_ctx->input_ctx), _thread("vo") {
         this->window_width = GET_CONFIG(window_width);
         this->window_height = GET_CONFIG(window_height);
-    }
-
-    VideoOutput::VideoOutput(VideoOutput &&rhs) noexcept: _input_ctx(std::move(rhs._input_ctx)) {
-
-    }
-
-    VideoOutput &VideoOutput::operator=(VideoOutput &&rhs) noexcept {
-        this->_input_ctx = std::move(rhs._input_ctx);
-        return *this;
+        this->running = false;
     }
 
     void VideoOutput::init() {
-        this->_driver = driver::DriverFactory::create("air");
+        this->_driver = driver::DriverFactory::create(GET_CONFIG(vo_driver));
         this->_driver->init(shared_from_this());
+        this->running = true;
+        this->_thread.run([&](){
+            do{} while(this->loop());
+        });
     }
 
     input::input_ctx_sptr VideoOutput::getInputCtx() {
         return this->_input_ctx;
     }
 
-    void VideoOutput::loop() {
-        this->_driver->drawImage(shared_from_this());
-        this->_driver->waitEvents(shared_from_this());
+    bool VideoOutput::loop() {
+        if (this->running) {
+            this->_driver->drawImage(shared_from_this());
+        }
+        return this->running;
     }
 
 }

@@ -8,6 +8,10 @@
 #include <string>
 #include <memory>
 
+namespace demux {
+    class Demuxer;
+}
+
 namespace core {
 
     class PlayEntry;
@@ -20,8 +24,9 @@ namespace core {
 
     class PlayEntry {
     public:
+        friend class demux::Demuxer;
         PlayEntry() = delete;
-        PlayEntry(entry_type type, std::string uri);
+        PlayEntry(entry_type type, std::string uri, int64_t last_pts);
         PlayEntry(const PlayEntry& rhs) = default;
         PlayEntry(PlayEntry&& rhs) = default;
         PlayEntry& operator = (const PlayEntry& rhs) = default;
@@ -33,7 +38,9 @@ namespace core {
 
     private:
         entry_type _type;
-        std::string _uri; // todo impl uri in misc
+        std::string _uri;
+        // this is last pts played
+        int64_t _last_pts;
     };
 
 }

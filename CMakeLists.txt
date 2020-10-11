@@ -37,7 +37,7 @@ set(
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
         src/core/PlayerContext.cpp
-        src/core/PlayerContextImpl.cpp
+        src/core/PlayerContext.cpp
         src/core/PlayList.cpp
         src/core/PlayEntry.cpp
         src/video/VideoOutput.cpp
@@ -45,8 +45,10 @@ set(
         src/video/driver/Driver.cpp
         src/video/driver/DriverSDL.cpp
         src/input/InputContext.cpp
-        src/demuxer/Demuxer.cpp
-        src/demuxer/DemuxerImpl.cpp
+        src/demux/Demuxer.cpp
+        src/demux/Stream.cpp
+        src/demux/Frame.cpp
+        src/demux/DemuxContext.cpp
 )
 set(
         COMMON_LIB
@@ -79,6 +81,7 @@ set(
         test/vo.cpp
         test/Pocket.cpp
         test/PlayList.cpp
+        test/Demuxer.cpp
 )
 set(
         TEST_LIB

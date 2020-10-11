@@ -19,6 +19,10 @@ TEST(SAMPLE, THREAD) {
     t2.join();
 }
 
+extern "C" {
+#include <libavcodec/avcodec.h>
+}
+
 TEST(SAMPLE, LOCK) {
     auto thread_num = 10;
     auto loop_num = 10000;

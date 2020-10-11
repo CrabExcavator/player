@@ -7,6 +7,7 @@
 
 #include "DriverSDL.h"
 #include "video/VideoOutput.h"
+#include "exception/InitException.h"
 
 namespace video::driver {
 
@@ -47,7 +48,7 @@ namespace video::driver {
             }
         }
         if (!success) {
-            throw "init SDL error"; // todo modify exception
+            throw exception::SDLInitException();
         }
     }
 

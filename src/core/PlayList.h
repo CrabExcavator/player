@@ -9,7 +9,6 @@
 #include <set>
 #include <memory>
 
-#include "PlayerContext.h"
 #include "PlayEntry.h"
 
 namespace core {

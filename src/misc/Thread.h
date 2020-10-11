@@ -18,12 +18,17 @@ namespace misc {
     class Thread {
 #define MISC_THREAD_TT "Thread " << _thread_name << " "
     public:
-        Thread() = delete;
+        Thread() = default;
         Thread(const Thread& rhs) = delete;
-        Thread(Thread&& rhs) noexcept;
+        Thread(Thread&& rhs) noexcept {
+            this->_thread_name = std::move(rhs._thread_name);
+            this->_thread = std::move(rhs._thread);
+        }
         Thread& operator = (const Thread& rhs) = delete;
         Thread& operator = (Thread&& rhs) = delete;
-        explicit Thread(std::string thread_name);
+        explicit Thread(std::string thread_name): _thread_name(std::move(thread_name)) {
+            //LOG(INFO) << MISC_THREAD_TT << "create";
+        }
         ~Thread() = default;
 
         template<typename Fp, typename ...Args>
@@ -42,14 +47,6 @@ namespace misc {
         std::thread _thread;
     };
 
-    Thread::Thread(Thread &&rhs) noexcept {
-        this->_thread_name = std::move(rhs._thread_name);
-        this->_thread = std::move(rhs._thread);
-    }
-
-    Thread::Thread(std::string thread_name): _thread_name(std::move(thread_name)) {
-        //LOG(INFO) << MISC_THREAD_TT << "create";
-    }
 }
 
 #endif //PLAYER_THREAD_H
