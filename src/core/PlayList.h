@@ -10,14 +10,45 @@
 #include <memory>
 
 #include "PlayEntry.h"
+#include "misc/typeptr.h"
 
 namespace core {
 
-    class PlayList;
-    using play_list_sptr = std::shared_ptr<PlayList>;
+    enum class play_method {
+        entry_end,
+        entry_loop,
+        list_loop,
+        list_end,
+        numOfPlayMethod,
+    };
+
+    class PlayMethod {
+    public:
+        PlayMethod() = default;
+        virtual ~PlayMethod() = default;
+        virtual play_entry_sptr current(play_list_sptr play_list) = 0;
+        virtual void next(play_list_sptr play_list) = 0;
+    };
+
+    class PlayMethodEntryEnd : public PlayMethod {
+    public:
+        play_entry_sptr current(play_list_sptr play_list) override;
+        void next(play_list_sptr play_list) override;
+    };
+
+    class PlayMethodListLoop : public PlayMethod {
+    public:
+        play_entry_sptr current(play_list_sptr play_list) override;
+        void next(play_list_sptr play_list) override;
+    };
 
     class PlayList: public std::enable_shared_from_this<PlayList> {
     public:
+        // make playmethod friend
+        friend class PlayMethod;
+        friend class PlayMethodEntryEnd;
+        friend class PlayMethodListLoop;
+
         PlayList() = default;
         PlayList(const PlayList& rhs) = default;
         PlayList(PlayList&& rhs) noexcept = default;
@@ -34,6 +65,7 @@ namespace core {
         play_entry_sptr current();
         void next(); // todo support random & loop
         size_t size();
+        void setPlayMethod(play_method method);
 
     private:
         inline void _check_first_entry() {
@@ -55,6 +87,7 @@ namespace core {
         }
 
     private:
+        std::shared_ptr<PlayMethod> _play_method;
         std::set<PlayEntry> _set;
         std::list<play_entry_sptr> _entries;
         std::list<play_entry_sptr>::iterator _current;

@@ -12,9 +12,6 @@ extern "C" {
 
 namespace demux {
 
-    class Frame;
-    using frame_sptr = std::shared_ptr<Frame>;
-
     class Frame {
     public:
         Frame();

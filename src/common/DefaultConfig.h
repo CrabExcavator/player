@@ -8,6 +8,7 @@
 #include <string>
 
 #include "misc/Pocket.h"
+#include "core/PlayList.h"
 
 namespace common {
 
@@ -16,6 +17,7 @@ namespace common {
         static misc::Pocket<int> window_width;
         static misc::Pocket<int> window_height;
         static misc::Pocket<std::string> vo_driver;
+        static misc::Pocket<core::play_method> default_play_method;
     };
 
 }

@@ -10,11 +10,7 @@
 #include "Demuxer.h"
 #include "core/PlayList.h"
 #include "misc/Thread.h"
-
-namespace core {
-    class PlayerContext;
-    using player_ctx_sptr = std::shared_ptr<PlayerContext>;
-}
+#include "misc/typeptr.h"
 
 namespace demux {
 
@@ -28,7 +24,7 @@ namespace demux {
     private:
         demuxer_sptr _demuxer;
         core::play_list_sptr _play_list;
-        bool running;
+        bool running = false;
         misc::Thread _thread;
     };
 

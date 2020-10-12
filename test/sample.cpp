@@ -4,7 +4,6 @@
 
 #include <gtest/gtest.h>
 
-#include "core/PlayerContext.h"
 #include "misc/Thread.h"
 #include "misc/Lock.h"
 #include "misc/LockGuard.h"

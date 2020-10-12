@@ -11,8 +11,8 @@ namespace core {
         this->play_list->addLast(std::make_shared<core::PlayEntry>
                                          (core::entry_type::file, "small_bunny_1080p_60fps.mp4", 0));
         this->input_ctx = std::make_shared<input::InputContext>();
-        this->_vo = std::make_shared<video::VideoOutput>(shared_from_this());
-        this->_vo->init();
+        this->_vo = std::make_shared<video::VideoOutput>();
+        this->_vo->init(shared_from_this());
         this->_demux_ctx = std::make_shared<demux::DemuxContext>();
         this->_demux_ctx->init(shared_from_this());
     }
@@ -32,7 +32,7 @@ namespace core {
         }
         this->input_ctx->clear();
 
-        // call vo function in main loop
+        // some vo function must be called in main loop
         this->_vo->_driver->waitEvents(this->_vo);
 
         return true;

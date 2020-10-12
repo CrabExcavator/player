@@ -3,6 +3,7 @@
 //
 
 #include "PlayList.h"
+#include "common/Config.h"
 
 namespace core {
 
@@ -82,27 +83,65 @@ namespace core {
     }
 
     play_entry_sptr PlayList::current() {
-        if (this->_current == this->_entries.end() && !this->_entries.empty()) {
-            this->_current = this->_entries.begin();
+        if (this->_play_method == nullptr) {
+            this->setPlayMethod(GET_CONFIG(default_play_method));
         }
-        return this->_current == this->_entries.end() ? nullptr : *this->_current;
+        return this->_play_method->current(shared_from_this());
     }
 
     void PlayList::next() {
-        if (!this->_entries.empty()) {
-            if (this->_current == this->_entries.end()) {
-                this->_current = this->_entries.begin();
-            } else {
-                this->_current++;
-                if (this->_current == this->_entries.end()) {
-                    this->_current = this->_entries.begin();
-                }
-            }
+        if (this->_play_method == nullptr) {
+            this->setPlayMethod(GET_CONFIG(default_play_method));
         }
+        this->_play_method->next(shared_from_this());
     }
 
     size_t PlayList::size() {
         return this->_entries.size();
     }
 
+    void PlayList::setPlayMethod(play_method method) {
+        switch (method) {
+            case play_method::list_loop: {
+                this->_play_method = std::make_shared<PlayMethodListLoop>();
+                break;
+            }
+            case play_method::entry_end: {
+                this->_play_method = std::make_shared<PlayMethodEntryEnd>();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+#define RETURN_PLAY_ENTRY return play_list->_current == play_list->_entries.end() ? nullptr : *play_list->_current
+
+    play_entry_sptr PlayMethodEntryEnd::current(play_list_sptr play_list) {
+        RETURN_PLAY_ENTRY;
+    }
+
+    void PlayMethodEntryEnd::next(play_list_sptr play_list) {
+        play_list->_current = play_list->_entries.end();
+    }
+
+    play_entry_sptr PlayMethodListLoop::current(play_list_sptr play_list) {
+        if (play_list->_current == play_list->_entries.end() && !play_list->_entries.empty()) {
+            play_list->_current = play_list->_entries.begin();
+        }
+        RETURN_PLAY_ENTRY;
+    }
+
+    void PlayMethodListLoop::next(play_list_sptr play_list) {
+        if (!play_list->_entries.empty()) {
+            if (play_list->_current == play_list->_entries.end()) {
+                play_list->_current = play_list->_entries.begin();
+            } else {
+                play_list->_current++;
+                if (play_list->_current == play_list->_entries.end()) {
+                    play_list->_current = play_list->_entries.begin();
+                }
+            }
+        }
+    }
 }

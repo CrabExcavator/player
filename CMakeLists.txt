@@ -78,7 +78,6 @@ set(
         TEST_SOURCE
         ${COMMON_SOURCE}
         test/sample.cpp
-        test/vo.cpp
         test/Pocket.cpp
         test/PlayList.cpp
         test/Demuxer.cpp

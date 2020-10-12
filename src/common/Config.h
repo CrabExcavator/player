@@ -35,9 +35,10 @@ namespace common {
         T get(const misc::Pocket<T>& pocket) {
             misc::LockGuard lock_guard(this->_lock);
             const auto& key = pocket.getKey();
-            if (this->_dic->contains(key)) {
-                return misc::Pocket<T>::cast(this->_dic->at(key));
-            }
+            // todo add additional type support
+//            if (this->_dic->contains(key)) {
+//                return misc::Pocket<T>::cast(this->_dic->at(key));
+//            }
             return pocket.getValue();
         }
 

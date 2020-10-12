@@ -10,6 +10,7 @@
 
 #include "Frame.h"
 #include "Demuxer.h"
+#include "misc/typeptr.h"
 
 namespace demux {
 

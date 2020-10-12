@@ -10,39 +10,34 @@
 #include "input/InputContext.h"
 #include "video/driver/Driver.h"
 #include "misc/Thread.h"
-
-namespace core {
-    class PlayerContext;
-}
+#include "misc/typeptr.h"
 
 namespace video {
 
     class VideoOutput: public std::enable_shared_from_this<VideoOutput> {
     public:
         friend class core::PlayerContext;
-        VideoOutput() = delete;
-        explicit VideoOutput(const std::shared_ptr<core::PlayerContext>& player_ctx);
+        VideoOutput();
         VideoOutput(const VideoOutput& rhs) = delete;
         VideoOutput(VideoOutput&& rhs) = default;
         VideoOutput& operator = (const VideoOutput& rhs) = delete;
         VideoOutput& operator = (VideoOutput&& rhs) = delete;
         ~VideoOutput() = default;
-        void init();
+        void init(const core::player_ctx_sptr& player_ctx);
         input::input_ctx_sptr getInputCtx();
         bool loop();
 
     public:
-        int window_width;
-        int window_height;
+        int window_width = 1920;
+        int window_height = 1080;
 
     private:
         input::input_ctx_sptr _input_ctx;
         driver::driver_uptr _driver;
         misc::Thread _thread;
-        bool running;
+        bool running = false;
     };
 
-    using vo_sptr = std::shared_ptr<VideoOutput>;
 }
 
 #endif //PLAYER_VIDEOOUTPUT_H

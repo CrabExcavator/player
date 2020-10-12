@@ -9,14 +9,14 @@
 
 namespace video {
 
-    VideoOutput::VideoOutput(const std::shared_ptr<core::PlayerContext> &player_ctx):
-    _input_ctx(player_ctx->input_ctx), _thread("vo") {
-        this->window_width = GET_CONFIG(window_width);
-        this->window_height = GET_CONFIG(window_height);
-        this->running = false;
+    VideoOutput::VideoOutput(): _thread("vo") {
+
     }
 
-    void VideoOutput::init() {
+    void VideoOutput::init(const core::player_ctx_sptr& player_ctx) {
+        this->_input_ctx = player_ctx->input_ctx;
+        this->window_width = GET_CONFIG(window_width);
+        this->window_height = GET_CONFIG(window_height);
         this->_driver = driver::DriverFactory::create(GET_CONFIG(vo_driver));
         this->_driver->init(shared_from_this());
         this->running = true;

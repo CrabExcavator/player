@@ -5,6 +5,8 @@
 #ifndef PLAYER_PLAYENTRY_H
 #define PLAYER_PLAYENTRY_H
 
+#include "misc/typeptr.h"
+
 #include <string>
 #include <memory>
 
@@ -13,9 +15,6 @@ namespace demux {
 }
 
 namespace core {
-
-    class PlayEntry;
-    using play_entry_sptr = std::shared_ptr<PlayEntry>;
 
     enum class entry_type {
         file,

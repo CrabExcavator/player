@@ -15,6 +15,7 @@ extern "C" {
 }
 
 #include "core/PlayEntry.h"
+#include "misc/typeptr.h"
 
 namespace demux {
 
