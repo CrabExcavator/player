@@ -14,6 +14,8 @@ namespace video {
     }
 
     void VideoOutput::init(const core::player_ctx_sptr& player_ctx) {
+        this->queue = player_ctx->queue;
+
         this->_input_ctx = player_ctx->input_ctx;
         this->window_width = GET_CONFIG(window_width);
         this->window_height = GET_CONFIG(window_height);

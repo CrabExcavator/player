@@ -11,21 +11,15 @@
 namespace misc {
 
     template <typename T>
-    inline std::string to_string(T&& tail) {
+    inline std::string to_string(T&& head) {
         std::stringstream ss;
-        std::string s;
-        ss << tail;
-        ss >> s;
-        return s;
+        ss << head;
+        return ss.str();
     }
 
     template <typename T, typename... Args>
     inline std::string to_string(T&& head, Args&&... args) {
-        std::stringstream ss;
-        std::string s;
-        ss << head;
-        ss >> s;
-        return s + to_string(std::forward<Args>(args)...);
+        return to_string(std::forward<T>(head)) + to_string(std::forward<Args>(args)...);
     }
 
 }

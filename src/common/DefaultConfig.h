@@ -18,6 +18,7 @@ namespace common {
         static misc::Pocket<int> window_height;
         static misc::Pocket<std::string> vo_driver;
         static misc::Pocket<core::play_method> default_play_method;
+        static misc::Pocket<int> default_queue_size;
     };
 
 }

@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <functional>
+#include <folly/MPMCQueue.h>
 
 #include "Frame.h"
 #include "Demuxer.h"
@@ -17,7 +18,7 @@ namespace demux {
     class Stream {
     public:
         Stream() = delete;
-        Stream(const std::shared_ptr<Demuxer>& demuxer, int index);
+        Stream(const std::shared_ptr<Demuxer>& demuxer, int index, std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue);
         Stream(const Stream& rhs) = delete;
         Stream(Stream&& rhs) = default;
         Stream& operator = (const Stream& rhs) = delete;
@@ -30,6 +31,8 @@ namespace demux {
         int _index;
         av_codec_ctx_uptr _av_codec_ctx;
         frame_sptr _frame;
+
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> _queue;
     };
 
 }

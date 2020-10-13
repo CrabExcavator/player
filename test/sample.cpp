@@ -45,3 +45,8 @@ TEST(SAMPLE, LOCK) {
     }
     ASSERT_EQ(a, thread_num*loop_num);
 }
+
+
+TEST(SAMPLE, TO_STRING) {
+    LOG(INFO) << misc::to_string(" a b c ", 233, "h asdadasd asdaposdkmas");
+}

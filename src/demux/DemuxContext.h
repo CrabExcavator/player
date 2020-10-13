@@ -6,6 +6,7 @@
 #define PLAYER_DEMUXCONTEXT_H
 
 #include <memory>
+#include <folly/MPMCQueue.h>
 
 #include "Demuxer.h"
 #include "core/PlayList.h"
@@ -14,12 +15,15 @@
 
 namespace demux {
 
-    class DemuxContext {
+    class DemuxContext: public std::enable_shared_from_this<DemuxContext> {
     public:
         friend class core::PlayerContext;
         DemuxContext() = default;
         void init(const core::player_ctx_sptr& player_ctx);
         bool loop();
+
+    public:
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
 
     private:
         demuxer_sptr _demuxer;

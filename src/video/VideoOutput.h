@@ -6,6 +6,7 @@
 #define PLAYER_VIDEOOUTPUT_H
 
 #include <memory>
+#include <folly/MPMCQueue.h>
 
 #include "input/InputContext.h"
 #include "video/driver/Driver.h"
@@ -30,6 +31,7 @@ namespace video {
     public:
         int window_width = 1920;
         int window_height = 1080;
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
 
     private:
         input::input_ctx_sptr _input_ctx;

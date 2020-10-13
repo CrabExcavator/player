@@ -8,6 +8,7 @@
 #include "DriverSDL.h"
 #include "video/VideoOutput.h"
 #include "exception/InitException.h"
+#include "demux/Frame.h"
 
 namespace video::driver {
 
@@ -21,32 +22,49 @@ namespace video::driver {
         this->_width = vo->window_width;
         this->_height = vo->window_height;
         bool success = true;
-        if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-            LOG(WARNING) << "SDL could not initialize! SDL_Error: " << SDL_GetError();
-            success = false;
-        } else {
-            window_uptr window{
-                    SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                     this->_width, this->_height, SDL_WINDOW_SHOWN),
-                    SDL_DestroyWindow
-            };
-            if (window == nullptr) {
-                LOG(WARNING) << "Window could not be created! SDL_Error: " << SDL_GetError();
+        do {
+            if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+                LOG(WARNING) << "SDL could not initialize! SDL_Error: " << SDL_GetError();
                 success = false;
+                break;
             } else {
-                this->_window.swap(window);
-                renderer_uptr renderer{
-                    SDL_CreateRenderer(this->_window.get(), -1, SDL_RENDERER_ACCELERATED), // todo choose best driver
-                    SDL_DestroyRenderer
+                window_uptr window{
+                        SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                         this->_width, this->_height, SDL_WINDOW_SHOWN),
+                        SDL_DestroyWindow
                 };
-                if (renderer == nullptr) {
-                    LOG(WARNING) << "Renderer could not be created! SDL_Error: " << SDL_GetError();
+                if (window == nullptr) {
+                    LOG(WARNING) << "Window could not be created! SDL_Error: " << SDL_GetError();
                     success = false;
+                    break;
+                } else {
+                    this->_window.swap(window);
+                    renderer_uptr renderer{
+                            SDL_CreateRenderer(this->_window.get(), -1,
+                                               SDL_RENDERER_ACCELERATED), // todo choose best driver
+                            SDL_DestroyRenderer
+                    };
+                    if (renderer == nullptr) {
+                        LOG(WARNING) << "Renderer could not be created! SDL_Error: " << SDL_GetError();
+                        success = false;
+                        break;
+                    }
+                    this->_renderer.swap(renderer);
+                    SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
+                    texture_uptr texture{
+                            SDL_CreateTexture(this->_renderer.get(), SDL_PIXELFORMAT_UNKNOWN,
+                                              SDL_TEXTUREACCESS_STREAMING, this->_width, this->_height),
+                            SDL_DestroyTexture
+                    };
+                    if (texture == nullptr) {
+                        LOG(WARNING) << "texture could not be created! SDL_Error: " << SDL_GetError();
+                        success = false;
+                        break;
+                    }
+                    this->_texture.swap(texture);
                 }
-                this->_renderer.swap(renderer);
-                SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
             }
-        }
+        } while(false);
         if (!success) {
             throw exception::SDLInitException();
         }
@@ -55,6 +73,13 @@ namespace video::driver {
     void DriverSDL::drawImage(vo_sptr vo) {
         SDL_RenderClear(this->_renderer.get());
         // todo render picture here
+        if (vo->queue->read(this->_frame)) {
+            //LOG(INFO) << "draw " << this->_frame->get()->pts;
+            auto frame = this->_frame->get();
+            SDL_UpdateTexture(this->_texture.get(), nullptr, frame->data[0], frame->linesize[0]);
+            auto dst = SDL_Rect{0, 0, this->_width, this->_height};
+            SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, &dst);
+        }
         SDL_RenderPresent(this->_renderer.get());
     }
 

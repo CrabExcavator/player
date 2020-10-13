@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 
 #include "Driver.h"
+#include "misc/typeptr.h"
 
 namespace video::driver {
 
@@ -23,10 +24,14 @@ namespace video::driver {
     private:
         using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;
         using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer*)>>;
+        using texture_uptr = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture*)>>;
         window_uptr _window;
         renderer_uptr _renderer;
+        texture_uptr _texture;
         int _width{640};
         int _height{480};
+
+        demux::frame_sptr _frame;
     };
 
 }

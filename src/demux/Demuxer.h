@@ -28,7 +28,7 @@ namespace demux {
         friend class Stream;
         Demuxer() = delete;
         explicit Demuxer(const core::play_entry_sptr & entry);
-        void init();
+        void init(demux_ctx_sptr demux_ctx);
         ~Demuxer();
         int epoch();
 

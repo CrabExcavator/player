@@ -8,6 +8,7 @@
 #include "Stream.h"
 #include "Demuxer.h"
 #include "exception/InitException.h"
+#include "DemuxContext.h"
 
 namespace demux {
 
@@ -26,8 +27,8 @@ namespace demux {
     Demuxer::Demuxer(const core::play_entry_sptr& entry): _streams() {
         this->_entry = entry;
         this->_base_pts = entry->_last_pts;
-        bool success = true;
         this->_av_format_ctx.reset(avformat_alloc_context(), avformat_close_input_wrapper);
+        bool success = true;
         success = (this->_av_format_ctx != nullptr);
         if (success) {
             auto raw_ptr = this->_av_format_ctx.get();
@@ -38,13 +39,13 @@ namespace demux {
         }
     }
 
-    void Demuxer::init() {
+    void Demuxer::init(demux_ctx_sptr demux_ctx) {
         bool success = true;
         success  = (avformat_find_stream_info(this->_av_format_ctx.get(), nullptr) >= 0);
         if (success) {
             for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
                 shared_from_this();
-                auto stream = std::make_shared<Stream>(shared_from_this(), stream_index);
+                auto stream = std::make_shared<Stream>(shared_from_this(), stream_index, demux_ctx->queue);
                 this->_streams.emplace_back(stream);
             }
         }
@@ -61,9 +62,9 @@ namespace demux {
         int ret = av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get());
         if (ret >= 0) {
             if (this->_av_packet->stream_index == 0) {
-                LOG(INFO) << "pts: " << this->_av_packet->pts << " dts: " << this->_av_packet->dts;
+                LOG(INFO) << "packet pts: " << this->_av_packet->pts;
+                this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
             }
-            this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
             av_packet_unref(this->_av_packet.get());
         }
         return ret;

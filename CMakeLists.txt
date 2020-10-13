@@ -9,7 +9,8 @@ find_package(GTest REQUIRED)
 find_package(gflags REQUIRED)
 find_package(glog REQUIRED)
 find_package(SDL2 REQUIRED)
-find_package(PkgConfig)
+find_package(folly REQUIRED)
+find_package(PkgConfig REQUIRED)
 pkg_search_module(avutil REQUIRED libavutil)
 pkg_search_module(avcodec REQUIRED libavcodec)
 pkg_search_module(avformat REQUIRED libavformat)
@@ -55,6 +56,7 @@ set(
         glog::glog
         gflags
         SDL2::SDL2
+        ${FOLLY_LIBRARIES}
         ${avutil_LIBRARIES}
         ${avcodec_LIBRARIES}
         ${avformat_LIBRARIES}

@@ -2,7 +2,6 @@
 // Created by weihan on 2020/10/11.
 //
 
-#include <glog/logging.h>
 #include <memory>
 
 #include "Stream.h"
@@ -14,9 +13,10 @@ namespace demux {
         avcodec_free_context(&ctx);
     }
 
-    Stream::Stream(const std::shared_ptr<Demuxer>& demuxer, int index) {
+    Stream::Stream(const std::shared_ptr<Demuxer>& demuxer, int index, std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue) {
         this->_index = index;
         this->_demuxer = demuxer;
+        this->_queue = std::move(queue);
         auto codec_param = demuxer->_av_format_ctx->streams[index]->codecpar;
         auto codec = avcodec_find_decoder(codec_param->codec_id);
         av_codec_ctx_uptr av_codec_ctx(avcodec_alloc_context3(codec), avcodec_free_context_wrapper);
@@ -41,8 +41,8 @@ namespace demux {
             ret = avcodec_receive_frame(this->_av_codec_ctx.get(), this->_frame->get());
         }
         if (ret >= 0) {
-            // todo send frame to time wheel
-            //LOG(INFO) << "pts: " << this->_frame->get()->pts;
+            this->_queue->write(this->_frame);
+            LOG(INFO) << "push stream pts: " << this->_frame->get()->pts;
         }
     }
 

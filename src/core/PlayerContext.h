@@ -6,11 +6,13 @@
 #define PLAYER_PLAYERCONTEXT_H
 
 #include <memory>
+#include <folly/MPMCQueue.h>
 
 #include "demux/DemuxContext.h"
 #include "video/VideoOutput.h"
 #include "input/InputContext.h"
 #include "PlayList.h"
+#include "misc/typeptr.h"
 
 namespace core {
 
@@ -26,6 +28,7 @@ namespace core {
     public:
         play_list_sptr  play_list;
         input::input_ctx_sptr input_ctx;
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
 
     private:
         video::vo_sptr _vo;
