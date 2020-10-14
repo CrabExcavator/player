@@ -42,7 +42,7 @@ namespace demux {
         }
         if (ret >= 0) {
             this->_queue->write(this->_frame);
-            LOG(INFO) << "push stream pts: " << this->_frame->get()->pts;
+            //LOG(INFO) << "push stream pts: " << this->_frame->get()->pts;
         }
     }
 

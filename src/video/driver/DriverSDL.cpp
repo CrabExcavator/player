@@ -52,7 +52,7 @@ namespace video::driver {
                     this->_renderer.swap(renderer);
                     SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
                     texture_uptr texture{
-                            SDL_CreateTexture(this->_renderer.get(), SDL_PIXELFORMAT_UNKNOWN,
+                            SDL_CreateTexture(this->_renderer.get(), SDL_PIXELFORMAT_IYUV,
                                               SDL_TEXTUREACCESS_STREAMING, this->_width, this->_height),
                             SDL_DestroyTexture
                     };
@@ -72,13 +72,22 @@ namespace video::driver {
 
     void DriverSDL::drawImage(vo_sptr vo) {
         SDL_RenderClear(this->_renderer.get());
-        // todo render picture here
+        SDL_SetTextureBlendMode(this->_texture.get(), SDL_BLENDMODE_NONE);
         if (vo->queue->read(this->_frame)) {
-            //LOG(INFO) << "draw " << this->_frame->get()->pts;
             auto frame = this->_frame->get();
-            SDL_UpdateTexture(this->_texture.get(), nullptr, frame->data[0], frame->linesize[0]);
-            auto dst = SDL_Rect{0, 0, this->_width, this->_height};
-            SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, &dst);
+            //SDL_UpdateYUVTexture(this->_texture.get(), nullptr, frame->data[0], frame->linesize[0],
+            //                     frame->data[1], frame->linesize[1], frame->data[2], frame->linesize[2]);
+            void* pixels = nullptr;
+            int pitch = 0;
+            SDL_LockTexture(this->_texture.get(), nullptr, &pixels, &pitch);
+            memcpy(pixels, frame->data[0], _width * _height);
+            pixels = (uint8_t*)pixels + _width * _height;
+            memcpy(pixels, frame->data[1], _width * _height / 4);
+            pixels = (uint8_t*)pixels + _width * _height / 4;
+            memcpy(pixels, frame->data[2], _width * _height / 4);
+            SDL_UnlockTexture(this->_texture.get());
+
+            SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, nullptr);
         }
         SDL_RenderPresent(this->_renderer.get());
     }

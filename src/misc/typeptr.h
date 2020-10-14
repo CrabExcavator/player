@@ -6,6 +6,22 @@
 #define PLAYER_TYPEPTR_H
 
 #include <memory>
+#include <vector>
+
+namespace misc {
+    template <typename T>
+    using vector_sptr = std::shared_ptr<std::vector<T>>;
+
+    template <typename T>
+    class ChainNode;
+    template <typename T>
+    using chain_node_sptr = std::shared_ptr<ChainNode<T>>;
+
+    template <typename T>
+    class Chain;
+    template <typename T>
+    using chain_sptr = std::shared_ptr<Chain<T>>;
+}
 
 namespace core {
     class PlayEntry;

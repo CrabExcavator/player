@@ -3,7 +3,6 @@
 //
 
 #include <core/PlayEntry.h>
-#include <glog/logging.h>
 
 #include "Stream.h"
 #include "Demuxer.h"
@@ -39,7 +38,7 @@ namespace demux {
         }
     }
 
-    void Demuxer::init(demux_ctx_sptr demux_ctx) {
+    void Demuxer::init(const demux_ctx_sptr& demux_ctx) {
         bool success = true;
         success  = (avformat_find_stream_info(this->_av_format_ctx.get(), nullptr) >= 0);
         if (success) {
@@ -62,7 +61,6 @@ namespace demux {
         int ret = av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get());
         if (ret >= 0) {
             if (this->_av_packet->stream_index == 0) {
-                LOG(INFO) << "packet pts: " << this->_av_packet->pts;
                 this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
             }
             av_packet_unref(this->_av_packet.get());

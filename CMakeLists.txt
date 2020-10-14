@@ -83,6 +83,7 @@ set(
         test/Pocket.cpp
         test/PlayList.cpp
         test/Demuxer.cpp
+        test/Chain.cpp
 )
 set(
         TEST_LIB
