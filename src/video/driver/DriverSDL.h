@@ -21,6 +21,10 @@ namespace video::driver {
         void init(vo_sptr vo) override;
         void drawImage(vo_sptr vo) override;
         void waitEvents(vo_sptr vo) override;
+        // reconfig objects:
+        // 1. window
+        // 2. texture
+        void reConfig(vo_sptr vo) override;
     private:
         using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;
         using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer*)>>;
@@ -28,10 +32,6 @@ namespace video::driver {
         window_uptr _window;
         renderer_uptr _renderer;
         texture_uptr _texture;
-        int _width{640};
-        int _height{480};
-
-        demux::frame_sptr _frame;
     };
 
 }

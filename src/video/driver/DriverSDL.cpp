@@ -4,11 +4,13 @@
 
 #include <SDL2/SDL.h>
 #include <glog/logging.h>
+#include <map>
 
 #include "DriverSDL.h"
 #include "video/VideoOutput.h"
 #include "exception/InitException.h"
 #include "demux/Frame.h"
+#include "video/image_format.h"
 
 namespace video::driver {
 
@@ -19,8 +21,6 @@ namespace video::driver {
     }
 
     void DriverSDL::init(vo_sptr vo) {
-        this->_width = vo->window_width;
-        this->_height = vo->window_height;
         bool success = true;
         do {
             if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -30,7 +30,7 @@ namespace video::driver {
             } else {
                 window_uptr window{
                         SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                         this->_width, this->_height, SDL_WINDOW_SHOWN),
+                                         vo->window_width, vo->window_height,  SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN),
                         SDL_DestroyWindow
                 };
                 if (window == nullptr) {
@@ -50,18 +50,7 @@ namespace video::driver {
                         break;
                     }
                     this->_renderer.swap(renderer);
-                    SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
-                    texture_uptr texture{
-                            SDL_CreateTexture(this->_renderer.get(), SDL_PIXELFORMAT_IYUV,
-                                              SDL_TEXTUREACCESS_STREAMING, this->_width, this->_height),
-                            SDL_DestroyTexture
-                    };
-                    if (texture == nullptr) {
-                        LOG(WARNING) << "texture could not be created! SDL_Error: " << SDL_GetError();
-                        success = false;
-                        break;
-                    }
-                    this->_texture.swap(texture);
+                    this->reConfig(vo);
                 }
             }
         } while(false);
@@ -73,18 +62,13 @@ namespace video::driver {
     void DriverSDL::drawImage(vo_sptr vo) {
         SDL_RenderClear(this->_renderer.get());
         SDL_SetTextureBlendMode(this->_texture.get(), SDL_BLENDMODE_NONE);
-        if (vo->queue->read(this->_frame)) {
-            auto frame = this->_frame->get();
-            //SDL_UpdateYUVTexture(this->_texture.get(), nullptr, frame->data[0], frame->linesize[0],
-            //                     frame->data[1], frame->linesize[1], frame->data[2], frame->linesize[2]);
+        if (vo->frame_rendering != nullptr) {
+            auto frame = vo->frame_rendering->raw();
             void* pixels = nullptr;
             int pitch = 0;
             SDL_LockTexture(this->_texture.get(), nullptr, &pixels, &pitch);
-            memcpy(pixels, frame->data[0], _width * _height);
-            pixels = (uint8_t*)pixels + _width * _height;
-            memcpy(pixels, frame->data[1], _width * _height / 4);
-            pixels = (uint8_t*)pixels + _width * _height / 4;
-            memcpy(pixels, frame->data[2], _width * _height / 4);
+            memcpy(pixels, vo->frame_rendering->pixels,
+                   vo->img_pitch * vo->img_height + vo->img_pitch * vo->img_height / 4 + vo->img_pitch * vo->img_height / 4);
             SDL_UnlockTexture(this->_texture.get());
 
             SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, nullptr);
@@ -120,10 +104,45 @@ namespace video::driver {
                             break;
                     }
                 }
+                case SDL_WINDOWEVENT: {
+                    switch (ev.window.event) {
+                        case SDL_WINDOWEVENT_SIZE_CHANGED:
+                            int w, h;
+                            SDL_GetWindowSize(this->_window.get(), &w, &h);
+                            vo->window_width = w;
+                            vo->window_height = h;
+                            input_ctx->receive(input::event::window_resize);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 default:
                     break;
             }
         }
+    }
+
+    static const std::map<video::image_format, SDL_PixelFormatEnum> formats = {
+            {video::image_format::yuv420p, SDL_PIXELFORMAT_IYUV}
+    };
+
+    static SDL_PixelFormatEnum getFormat(video::image_format imgfmt) {
+        if (!formats.contains(imgfmt)) {
+            return SDL_PIXELFORMAT_UNKNOWN;
+        }
+        return formats.at(imgfmt);
+    }
+
+    void DriverSDL::reConfig(vo_sptr vo) {
+        auto texture_fmt = getFormat(vo->imgfmt);
+        SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
+        texture_uptr texture{
+                SDL_CreateTexture(this->_renderer.get(), texture_fmt,
+                                  SDL_TEXTUREACCESS_STREAMING, vo->img_pitch, vo->img_height),
+                SDL_DestroyTexture
+        };
+        this->_texture.swap(texture);
     }
 
 }

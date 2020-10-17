@@ -17,6 +17,14 @@ namespace misc {
     public:
         Chain(): _queue() {}
 
+        Chain(const Chain<T>& rhs) = default;
+
+        Chain(Chain<T>&& rhs) noexcept = default;
+
+        Chain& operator = (const Chain<T>& rhs) = default;
+
+        Chain& operator = (Chain<T>&& rhs) noexcept = default;
+
         chain_sptr<T> addLast(chain_node_sptr<T> node) {
             this->_queue.emplace_back(std::move(node));
             return this->shared_from_this();

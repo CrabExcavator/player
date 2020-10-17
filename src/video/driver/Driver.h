@@ -7,29 +7,24 @@
 
 #include <memory>
 
-namespace video {
+#include "misc/typeptr.h"
 
-    class VideoOutput;
-    using vo_sptr = std::shared_ptr<VideoOutput>;
+namespace video::driver {
 
-    namespace driver {
+    class Driver {
+    public:
+        Driver() = default;
 
-        class Driver {
-        public:
-            Driver() = default;
+        virtual ~Driver() = 0;
 
-            virtual ~Driver() = 0;
+        virtual void init(vo_sptr vo) = 0;
 
-            virtual void init(vo_sptr vo) = 0;
+        virtual void drawImage(vo_sptr vo) = 0;
 
-            virtual void drawImage(vo_sptr vo) = 0;
+        virtual void waitEvents(vo_sptr vo) = 0;
 
-            virtual void waitEvents(vo_sptr vo) = 0;
-        };
-
-        using driver_uptr = std::unique_ptr<Driver>;
-
-    }
+        virtual void reConfig(vo_sptr vo) = 0;
+    };
 
 }
 

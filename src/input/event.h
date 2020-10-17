@@ -13,6 +13,7 @@ namespace input {
         key_down,
         key_left,
         key_right,
+        window_resize,
         numOfEvent,
     };
 

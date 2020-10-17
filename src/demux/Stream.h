@@ -12,10 +12,11 @@
 #include "Frame.h"
 #include "Demuxer.h"
 #include "misc/typeptr.h"
+#include "filter/FrameFilterBase.h"
 
 namespace demux {
 
-    class Stream {
+    class Stream: public std::enable_shared_from_this<Stream> {
     public:
         Stream() = delete;
         Stream(const std::shared_ptr<Demuxer>& demuxer, int index, std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue);
@@ -25,14 +26,16 @@ namespace demux {
         Stream& operator = (Stream&& rhs) = default;
         void feed(const av_packet_sptr& packet);
 
-    private:
+    public:
         using av_codec_ctx_uptr = std::unique_ptr<AVCodecContext, std::function<void(AVCodecContext*)>>;
+        av_codec_ctx_uptr av_codec_ctx;
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
+
+    private:
         std::weak_ptr<Demuxer> _demuxer;
         int _index;
-        av_codec_ctx_uptr _av_codec_ctx;
         frame_sptr _frame;
-
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> _queue;
+        filter::frame_filter_chain_sptr _frame_filter_chain;
     };
 
 }

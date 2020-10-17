@@ -2,6 +2,8 @@
 // Created by weihan on 2020/10/7.
 //
 
+#include <memory>
+
 #include "DriverFactory.h"
 #include "DriverSDL.h"
 

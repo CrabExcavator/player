@@ -8,6 +8,7 @@
 #include <memory>
 #include <folly/MPMCQueue.h>
 
+#include "image_format.h"
 #include "input/InputContext.h"
 #include "video/driver/Driver.h"
 #include "misc/Thread.h"
@@ -26,14 +27,23 @@ namespace video {
         ~VideoOutput() = default;
         void init(const core::player_ctx_sptr& player_ctx);
         input::input_ctx_sptr getInputCtx();
-        bool loop();
+        void loopInMainThread();
 
     public:
+        image_format imgfmt = image_format::unknown;
         int window_width = 1920;
         int window_height = 1080;
+        int img_pitch = 1920;
+        int img_height = 1080;
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
+        demux::frame_sptr frame_rendering = nullptr;
+        bool needReConfig = false;
 
     private:
+        bool loop();
+
+    private:
+        demux::frame_sptr _frame = nullptr;
         input::input_ctx_sptr _input_ctx;
         driver::driver_uptr _driver;
         misc::Thread _thread;

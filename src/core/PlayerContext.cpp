@@ -32,11 +32,13 @@ namespace core {
             this->_demux_ctx->running = false;
             this->_demux_ctx->_thread.join();
             return false;
+        } else if (this->input_ctx->hasEvent(input::event::window_resize)) {
+            // todo handle window_resize event
         }
         this->input_ctx->clear();
 
         // some vo function must be called in main loop
-        this->_vo->_driver->waitEvents(this->_vo);
+        this->_vo->loopInMainThread();
 
         return true;
     }

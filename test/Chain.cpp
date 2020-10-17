@@ -2,19 +2,43 @@
 // Created by weihan on 2020/10/14.
 //
 
+#include <string>
 #include <gtest/gtest.h>
+#include <glog/logging.h>
 
 #include "misc/Chain.h"
 
-class ChainNodeSample : public misc::ChainNode<ChainNodeSample> {
+class Sample {};
+
+class ChainNodeSample : public misc::ChainNode<Sample> {
 public:
-    misc::vector_sptr<ChainNodeSample> filter(const misc::vector_sptr<ChainNodeSample>& in) override {return nullptr;}
-    misc::vector_sptr<ChainNodeSample> flush(const misc::vector_sptr<ChainNodeSample>& in) override {return nullptr;}
+    void init(std::string name) {
+        this->_name = std::move(name);
+    }
+    misc::vector_sptr<Sample> filter(const misc::vector_sptr<Sample>& in) override {
+        LOG(INFO) << "filter";
+        return nullptr;
+    }
+    misc::vector_sptr<Sample> flush(const misc::vector_sptr<Sample>& in) override {
+        LOG(INFO) << "flush";
+        return nullptr;
+    }
     void close() override {}
+
+private:
+    std::string _name;
+};
+
+class ChainNodeSampleDrived : public ChainNodeSample {
+    misc::vector_sptr<Sample> filter(const misc::vector_sptr<Sample>& in) override {
+        LOG(INFO) << "drived filter";
+        return nullptr;
+    }
 };
 
 TEST(CHAIN, CHAIN) {
-    auto chain = std::make_shared<misc::Chain<ChainNodeSample>>();
+    auto chain = std::make_shared<misc::Chain<Sample>>();
     chain->addLast(std::make_shared<ChainNodeSample>())->addLast(std::make_shared<ChainNodeSample>())
-    ->addFirst(std::make_shared<ChainNodeSample>());
+    ->addFirst(std::make_shared<ChainNodeSample>())->addFirst(std::make_shared<ChainNodeSampleDrived>());
+    chain->filter(nullptr);
 }
