@@ -24,6 +24,7 @@ bool demux::DemuxContext::loop() {
     }
     int ret = this->_demuxer->epoch();
     if (ret < 0) {
+        this->_demuxer->flush();
         this->_demuxer = nullptr;
         this->_play_list->next();
     }

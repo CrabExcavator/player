@@ -37,19 +37,23 @@ namespace demux {
 
     void Stream::init() {
         this->_frame_filter_chain = std::make_shared<misc::Chain<frame_sptr>>();
-        this->_frame_filter_chain->addLast(std::make_shared<filter::Blit>())->addLast(std::make_shared<filter::Fill>(shared_from_this()));
+        this->_frame_filter_chain
+        ->addLast(std::make_shared<filter::Fill>(shared_from_this()))
+        ->addLast(std::make_shared<filter::Blit>());
         this->_first = true;
     }
 
     void Stream::feed(const av_packet_sptr &packet) {
-        int ret = 0;
-        ret = (avcodec_send_packet(this->av_codec_ctx.get(), packet.get()) >= 0);
-        if (ret >= 0) {
+        int ret = (avcodec_send_packet(this->av_codec_ctx.get(), packet.get()) >= 0);
+        while (ret >= 0) {
             this->_frame = std::make_shared<Frame>();
             ret = avcodec_receive_frame(this->av_codec_ctx.get(), this->_frame->raw());
-            this->_frame->fill(shared_from_this());
-        }
-        if (ret >= 0) {
+            if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+                break;
+            } else if (ret < 0) {
+                // todo throw exception
+                break;
+            }
             misc::vector_sptr<frame_sptr> in = std::make_shared<std::vector<frame_sptr>>();
             in->emplace_back(this->_frame);
             this->_frame = this->_frame_filter_chain->filter(in)->at(0);

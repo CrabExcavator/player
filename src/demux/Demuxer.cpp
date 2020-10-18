@@ -43,7 +43,6 @@ namespace demux {
         success  = (avformat_find_stream_info(this->_av_format_ctx.get(), nullptr) >= 0);
         if (success) {
             for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
-                shared_from_this();
                 auto stream = std::make_shared<Stream>(shared_from_this(), stream_index, demux_ctx->queue);
                 stream->init();
                 this->_streams.emplace_back(stream);
@@ -67,6 +66,16 @@ namespace demux {
             av_packet_unref(this->_av_packet.get());
         }
         return ret;
+    }
+
+    int Demuxer::flush() {
+        int stream_index = 0;
+        for (auto& stream : this->_streams) {
+            av_packet_unref(this->_av_packet.get());
+            this->_av_packet.get()->stream_index = stream_index++;
+            stream->feed(this->_av_packet);
+        }
+        return 0;
     }
 
 }

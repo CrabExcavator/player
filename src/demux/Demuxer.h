@@ -31,11 +31,11 @@ namespace demux {
         void init(const demux_ctx_sptr& demux_ctx);
         ~Demuxer();
         int epoch();
+        int flush();
 
     private:
-        std::weak_ptr<core::PlayEntry> _entry;
-        // drop packet pts < base_pts
         int64_t _base_pts;
+        std::weak_ptr<core::PlayEntry> _entry;
         std::shared_ptr<AVFormatContext> _av_format_ctx;
         std::vector<std::shared_ptr<Stream>> _streams;
         av_packet_sptr _av_packet;

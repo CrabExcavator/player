@@ -26,7 +26,6 @@ namespace demux {
         Frame& operator = (Frame&& rhs) = delete;
         // todo return raw pointer have safety problem here, fixit
         AVFrame* raw() {return this->_frame;}
-        void fill(const demux::stream_sptr& stream);
 
     public:
         video::image_format imgfmt = video::image_format::unknown;
@@ -35,7 +34,7 @@ namespace demux {
         int height = 0;
         // is it the first of frame of a stream
         bool first = false;
-        std::chrono::steady_clock::duration time_base;
+        std::chrono::steady_clock::duration time_base{};
         int64_t pts = 0;
 
     private:
