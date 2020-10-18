@@ -52,6 +52,7 @@ set(
         src/demux/DemuxContext.cpp
         src/demux/filter/FrameFilterBase.cpp
         src/demux/filter/Blit.cpp
+        src/demux/filter/Fill.cpp
 )
 set(
         COMMON_LIB

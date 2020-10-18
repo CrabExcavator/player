@@ -22,8 +22,7 @@ namespace video::driver {
         void drawImage(vo_sptr vo) override;
         void waitEvents(vo_sptr vo) override;
         // reconfig objects:
-        // 1. window
-        // 2. texture
+        // 1. texture
         void reConfig(vo_sptr vo) override;
     private:
         using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;

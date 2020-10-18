@@ -46,6 +46,7 @@ namespace demux {
 
     class Stream;
     using stream_sptr = std::shared_ptr<Stream>;
+    using stream_wptr = std::weak_ptr<Stream>;
 }
 
 namespace input {

@@ -6,6 +6,7 @@
 #define PLAYER_VIDEOOUTPUT_H
 
 #include <memory>
+#include <chrono>
 #include <folly/MPMCQueue.h>
 
 #include "image_format.h"
@@ -43,11 +44,14 @@ namespace video {
         bool loop();
 
     private:
+        bool running = false;
+        driver::driver_uptr _driver = nullptr;
+        std::chrono::steady_clock::time_point _last_tick = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::duration _time_base = std::chrono::steady_clock::now() - std::chrono::steady_clock::now();
+        int64_t _last_pts = 0;
         demux::frame_sptr _frame = nullptr;
         input::input_ctx_sptr _input_ctx;
-        driver::driver_uptr _driver;
         misc::Thread _thread;
-        bool running = false;
     };
 
 }

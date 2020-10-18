@@ -50,3 +50,12 @@ TEST(SAMPLE, LOCK) {
 TEST(SAMPLE, TO_STRING) {
     LOG(INFO) << misc::to_string(" a b c ", 233, "h asdadasd asdaposdkmas");
 }
+
+#include <chrono>
+
+TEST(SAMPLE, CHRONO) {
+    double raw = 2.23;
+    auto seconds = std::chrono::duration<double>(raw);
+    auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(seconds);
+    LOG(INFO) << nanoseconds.count();
+}

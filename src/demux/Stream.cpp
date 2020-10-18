@@ -3,6 +3,7 @@
 //
 
 #include <memory>
+#include <thread>
 
 #include "Stream.h"
 #include "filter/Blit.h"
@@ -29,13 +30,15 @@ namespace demux {
         if (success) {
             this->av_codec_ctx.swap(av_codec_ctx_);
         }
-        if (success) {
-            this->_frame_filter_chain = std::make_shared<misc::Chain<frame_sptr>>();
-            this->_frame_filter_chain->addLast(std::make_shared<filter::Blit>());
-        }
         if (!success) {
             throw exception::StreamInitException();
         }
+    }
+
+    void Stream::init() {
+        this->_frame_filter_chain = std::make_shared<misc::Chain<frame_sptr>>();
+        this->_frame_filter_chain->addLast(std::make_shared<filter::Blit>())->addLast(std::make_shared<filter::Fill>(shared_from_this()));
+        this->_first = true;
     }
 
     void Stream::feed(const av_packet_sptr &packet) {
@@ -51,8 +54,14 @@ namespace demux {
             in->emplace_back(this->_frame);
             this->_frame = this->_frame_filter_chain->filter(in)->at(0);
             this->queue->write(this->_frame);
-            //LOG(INFO) << "push stream pts: " << this->_frame->get()->pts;
         }
+    }
+
+    std::chrono::nanoseconds Stream::timeBase() const {
+        auto demuxer = this->_demuxer.lock();
+        // todo check if demuxer is null
+        auto seconds = std::chrono::duration<double>(av_q2d(demuxer->_av_format_ctx->streams[this->_index]->time_base));
+        return std::chrono::duration_cast<std::chrono::nanoseconds>(seconds);
     }
 
 }

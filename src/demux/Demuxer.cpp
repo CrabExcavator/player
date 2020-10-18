@@ -45,6 +45,7 @@ namespace demux {
             for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
                 shared_from_this();
                 auto stream = std::make_shared<Stream>(shared_from_this(), stream_index, demux_ctx->queue);
+                stream->init();
                 this->_streams.emplace_back(stream);
             }
         }

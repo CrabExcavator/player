@@ -38,7 +38,20 @@ namespace video {
                 this->_driver->reConfig(shared_from_this());
                 this->needReConfig = false;
             }
-            if (this->queue->read(this->_frame)) {
+            if (this->_frame != nullptr) {
+                auto rendering_time = (this->_frame->pts - this->_last_pts) * this->_time_base + this->_last_tick;
+                std::this_thread::sleep_until(rendering_time);
+                this->_last_tick = std::chrono::steady_clock::now();
+                this->_last_pts = this->_frame->pts;
+                this->_time_base = this->_frame->time_base;
+
+                // rendering
+                this->frame_rendering = this->_frame;
+                this->_driver->drawImage(shared_from_this());
+                this->frame_rendering = nullptr;
+
+                this->_frame = nullptr;
+            } else if (this->queue->read(this->_frame)) {
                 if (this->_frame->imgfmt != this->imgfmt) {
                     this->imgfmt = this->_frame->imgfmt;
                     this->_driver->reConfig(shared_from_this());
@@ -48,11 +61,12 @@ namespace video {
                     this->img_pitch = this->_frame->pitch;
                     this->_driver->reConfig(shared_from_this());
                 }
-                this->frame_rendering = this->_frame;
-                this->_frame = nullptr;
+                if (this->_frame->first) {
+                    this->_last_tick = std::chrono::steady_clock::now();
+                    this->_last_pts = 0;
+                    this->_time_base = this->_frame->time_base;
+                }
             }
-            this->_driver->drawImage(shared_from_this());
-            this->frame_rendering = nullptr;
         }
         return this->running;
     }

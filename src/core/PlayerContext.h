@@ -28,6 +28,8 @@ namespace core {
     public:
         play_list_sptr  play_list;
         input::input_ctx_sptr input_ctx;
+        // todo put frame & audio & sub in the same queue ?
+        // a ticker run in cycle to check is the right pts?
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
 
     private:
