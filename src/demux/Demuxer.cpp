@@ -23,28 +23,27 @@ namespace demux {
         this->_av_format_ctx = nullptr;
     }
 
-    Demuxer::Demuxer(const core::play_entry_sptr& entry): _streams() {
+    Demuxer::Demuxer(): _streams() {
+
+    }
+
+    void Demuxer::init(const core::play_entry_sptr& entry, const demux_ctx_sptr& demux_ctx) {
         this->_entry = entry;
-        this->_base_pts = entry->_last_pts;
+        this->_base_pts = entry->last_pts;
         this->_av_format_ctx.reset(avformat_alloc_context(), avformat_close_input_wrapper);
         bool success = true;
         success = (this->_av_format_ctx != nullptr);
         if (success) {
             auto raw_ptr = this->_av_format_ctx.get();
-            success = (avformat_open_input(&raw_ptr, entry->_uri.c_str(), nullptr, nullptr) >= 0);
+            success = (avformat_open_input(&raw_ptr, entry->uri.c_str(), nullptr, nullptr) >= 0);
         }
-        if (!success) {
-            throw exception::DemuxerInitException();
+        if (success) {
+            success = (avformat_find_stream_info(this->_av_format_ctx.get(), nullptr) >= 0);
         }
-    }
-
-    void Demuxer::init(const demux_ctx_sptr& demux_ctx) {
-        bool success = true;
-        success  = (avformat_find_stream_info(this->_av_format_ctx.get(), nullptr) >= 0);
         if (success) {
             for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
-                auto stream = std::make_shared<Stream>(shared_from_this(), stream_index, demux_ctx->queue);
-                stream->init();
+                auto stream = std::make_shared<Stream>();
+                stream->init(this->_av_format_ctx, stream_index, demux_ctx->queue);
                 this->_streams.emplace_back(stream);
             }
         }

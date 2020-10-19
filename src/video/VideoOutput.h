@@ -29,6 +29,7 @@ namespace video {
         void init(const core::player_ctx_sptr& player_ctx);
         input::input_ctx_sptr getInputCtx();
         void loopInMainThread();
+        void stopRunning();
 
     public:
         image_format imgfmt = image_format::unknown;
@@ -44,7 +45,7 @@ namespace video {
         bool loop();
 
     private:
-        bool running = false;
+        bool _running = false;
         driver::driver_uptr _driver = nullptr;
         std::chrono::steady_clock::time_point _last_tick = std::chrono::steady_clock::now();
         std::chrono::steady_clock::duration _time_base = std::chrono::steady_clock::now() - std::chrono::steady_clock::now();

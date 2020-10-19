@@ -22,7 +22,7 @@ namespace video {
         this->window_height = GET_CONFIG(window_height);
         this->_driver = driver::DriverFactory::create(GET_CONFIG(vo_driver));
         this->_driver->init(shared_from_this());
-        this->running = true;
+        this->_running = true;
         this->_thread.run([&](){
             do{} while(this->loop());
         });
@@ -33,7 +33,7 @@ namespace video {
     }
 
     bool VideoOutput::loop() {
-        if (this->running) {
+        if (this->_running) {
             if (this->needReConfig) {
                 this->_driver->reConfig(shared_from_this());
                 this->needReConfig = false;
@@ -46,9 +46,11 @@ namespace video {
                 this->_time_base = this->_frame->time_base;
 
                 // rendering
+                LOG(INFO) << "rendering start";
                 this->frame_rendering = this->_frame;
                 this->_driver->drawImage(shared_from_this());
                 this->frame_rendering = nullptr;
+                LOG(INFO) << "rendering end";
 
                 this->_frame = nullptr;
             } else if (this->queue->read(this->_frame)) {
@@ -62,17 +64,22 @@ namespace video {
                     this->_driver->reConfig(shared_from_this());
                 }
                 if (this->_frame->first) {
-                    this->_last_tick = std::chrono::steady_clock::now();
+                    this->_last_tick = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     this->_last_pts = 0;
                     this->_time_base = this->_frame->time_base;
                 }
             }
         }
-        return this->running;
+        return this->_running;
     }
 
     void VideoOutput::loopInMainThread() {
         this->_driver->waitEvents(shared_from_this());
+    }
+
+    void VideoOutput::stopRunning() {
+        this->_running = false;
+        this->_thread.join();
     }
 
 }

@@ -23,7 +23,6 @@ namespace core {
 
     class PlayEntry {
     public:
-        friend class demux::Demuxer;
         PlayEntry() = delete;
         PlayEntry(entry_type type, std::string uri, int64_t last_pts);
         PlayEntry(const PlayEntry& rhs) = default;
@@ -32,14 +31,14 @@ namespace core {
         PlayEntry& operator = (PlayEntry&& rhs) = default;
         ~PlayEntry() = default;
         bool operator < (const PlayEntry&rhs) const {
-            return (this->_type < rhs._type) || (this->_type == rhs._type && this->_uri < rhs._uri);
+            return (this->type < rhs.type) || (this->type == rhs.type && this->uri < rhs.uri);
         }
 
-    private:
-        entry_type _type;
-        std::string _uri;
+    public:
+        entry_type type;
+        std::string uri;
         // this is last pts played
-        int64_t _last_pts;
+        int64_t last_pts;
     };
 
 }

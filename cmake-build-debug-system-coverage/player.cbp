@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="player"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\local\;CMake Files\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\usr\local\lib\cmake\gflags\;CMake Files\..\..\..\..\usr\local\lib\cmake\glog\;CMake Files\..\..\..\..\usr\local\lib\cmake\SDL2\;CMake Files\..\..\..\..\usr\local\lib\cmake\folly\;CMake Files\..\..\..\..\usr\local\lib\cmake\fmt\;CMake Files\..\..\..\..\usr\local\lib\cmake\Boost-1.73.0\;CMake Files\..\..\..\..\usr\local\lib\cmake\boost_headers-1.73.0\;CMake Files\..\..\..\..\usr\local\lib\cmake\boost_context-1.73.0\;CMake Files\..\..\..\..\usr\local\lib\cmake\boost_filesystem-1.73.0\;CMake Files\..\..\..\..\usr\local\lib\cmake\boost_program_options-1.73.0\;CMake Files\..\..\..\..\usr\local\lib\cmake\boost_regex-1.73.0\;CMake Files\..\..\..\..\usr\local\lib\cmake\boost_system-1.73.0\;CMake Files\..\..\..\..\usr\local\lib\cmake\boost_thread-1.73.0\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test">
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 test"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="unit_test">
+				<Option output="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/unit_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL="/>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS="/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
+					<Add option="-DFMT_LOCALE"/>
+					<Add option="-DFMT_SHARED"/>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_CONTEXT_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_REGEX_DYN_LINK"/>
+					<Add option="-DBOOST_SYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_THREAD_DYN_LINK"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./src"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./test"/>
+					<Add directory="/usr/local/Cellar/ffmpeg/4.3.1_1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2"/>
+					<Add directory="/usr/local/opt/openssl@1.1/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 unit_test"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="unit_test/fast">
+				<Option output="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/unit_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL="/>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS="/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
+					<Add option="-DFMT_LOCALE"/>
+					<Add option="-DFMT_SHARED"/>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_CONTEXT_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_REGEX_DYN_LINK"/>
+					<Add option="-DBOOST_SYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_THREAD_DYN_LINK"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./src"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./test"/>
+					<Add directory="/usr/local/Cellar/ffmpeg/4.3.1_1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2"/>
+					<Add directory="/usr/local/opt/openssl@1.1/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 unit_test/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="player">
+				<Option output="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/player" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL="/>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS="/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
+					<Add option="-DFMT_LOCALE"/>
+					<Add option="-DFMT_SHARED"/>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_CONTEXT_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_REGEX_DYN_LINK"/>
+					<Add option="-DBOOST_SYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_THREAD_DYN_LINK"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./src"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./test"/>
+					<Add directory="/usr/local/Cellar/ffmpeg/4.3.1_1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2"/>
+					<Add directory="/usr/local/opt/openssl@1.1/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 player"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="player/fast">
+				<Option output="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/player" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL="/>
+					<Add option="-DGOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS="/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
+					<Add option="-DFMT_LOCALE"/>
+					<Add option="-DFMT_SHARED"/>
+					<Add option="-DBOOST_ALL_NO_LIB"/>
+					<Add option="-DBOOST_CONTEXT_DYN_LINK"/>
+					<Add option="-DBOOST_FILESYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_PROGRAM_OPTIONS_DYN_LINK"/>
+					<Add option="-DBOOST_REGEX_DYN_LINK"/>
+					<Add option="-DBOOST_SYSTEM_DYN_LINK"/>
+					<Add option="-DBOOST_THREAD_DYN_LINK"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./src"/>
+					<Add directory="/Users/weihan/CLionProjects/player/./test"/>
+					<Add directory="/usr/local/Cellar/ffmpeg/4.3.1_1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/sdl2/2.0.12_1/include/SDL2"/>
+					<Add directory="/usr/local/opt/openssl@1.1/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 player/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/common/Config.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/common/Config.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/common/DefaultConfig.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/common/DefaultConfig.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/core/PlayEntry.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/core/PlayEntry.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/core/PlayList.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/core/PlayList.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/core/PlayerContext.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/core/PlayerContext.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/DemuxContext.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/DemuxContext.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/Demuxer.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/Demuxer.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/Frame.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/Frame.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/Stream.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/Stream.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/filter/Blit.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/filter/Blit.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/filter/Fill.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/filter/Fill.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/filter/FrameFilterBase.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/demux/filter/FrameFilterBase.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/input/InputContext.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/input/InputContext.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/main.cpp">
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/osal/main_osx.cpp">
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/VideoOutput.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/VideoOutput.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/driver/Driver.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/driver/Driver.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/driver/DriverFactory.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/driver/DriverFactory.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/driver/DriverSDL.cpp">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/src/video/driver/DriverSDL.h">
+			<Option target="unit_test"/>
+			<Option target="player"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/test/Chain.cpp">
+			<Option target="unit_test"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/test/Demuxer.cpp">
+			<Option target="unit_test"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/test/PlayList.cpp">
+			<Option target="unit_test"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/test/Pocket.cpp">
+			<Option target="unit_test"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/test/sample.cpp">
+			<Option target="unit_test"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/BoostDetectToolset-1.73.0.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/gflags/gflags-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/gflags/gflags-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/gflags/gflags-nonamespace-targets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/gflags/gflags-nonamespace-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/glog/glog-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/glog/glog-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/glog/glog-targets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/glog/glog-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\glog\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/SDL2/sdl2-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\SDL2\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/SDL2/sdl2-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\SDL2\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/folly/folly-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\folly\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/folly/folly-targets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\folly\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/folly/folly-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\folly\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/fmt/fmt-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\fmt\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/fmt/fmt-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\fmt\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/fmt/fmt-targets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\fmt\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/fmt/fmt-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\fmt\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/Boost-1.73.0/BoostConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\Boost-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/Boost-1.73.0/BoostConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\Boost-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_headers-1.73.0/boost_headers-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_headers-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_headers-1.73.0/boost_headers-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_headers-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_context-1.73.0/boost_context-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_context-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_context-1.73.0/boost_context-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_context-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_context-1.73.0/libboost_context-variant-mt-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_context-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_context-1.73.0/libboost_context-variant-mt-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_context-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_filesystem-1.73.0/boost_filesystem-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_filesystem-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_filesystem-1.73.0/boost_filesystem-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_filesystem-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_filesystem-1.73.0/libboost_filesystem-variant-mt-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_filesystem-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_filesystem-1.73.0/libboost_filesystem-variant-mt-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_filesystem-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_filesystem-1.73.0/libboost_filesystem-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_filesystem-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_filesystem-1.73.0/libboost_filesystem-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_filesystem-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_program_options-1.73.0/boost_program_options-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_program_options-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_program_options-1.73.0/boost_program_options-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_program_options-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_program_options-1.73.0/libboost_program_options-variant-mt-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_program_options-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_program_options-1.73.0/libboost_program_options-variant-mt-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_program_options-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_program_options-1.73.0/libboost_program_options-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_program_options-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_program_options-1.73.0/libboost_program_options-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_program_options-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_regex-1.73.0/boost_regex-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_regex-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_regex-1.73.0/boost_regex-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_regex-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_regex-1.73.0/libboost_regex-variant-mt-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_regex-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_regex-1.73.0/libboost_regex-variant-mt-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_regex-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_regex-1.73.0/libboost_regex-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_regex-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_regex-1.73.0/libboost_regex-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_regex-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_system-1.73.0/boost_system-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_system-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_system-1.73.0/boost_system-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_system-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_system-1.73.0/libboost_system-variant-mt-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_system-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_system-1.73.0/libboost_system-variant-mt-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_system-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_system-1.73.0/libboost_system-variant-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_system-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_system-1.73.0/libboost_system-variant-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_system-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_thread-1.73.0/boost_thread-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_thread-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_thread-1.73.0/boost_thread-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_thread-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_thread-1.73.0/libboost_thread-variant-mt-shared.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_thread-1.73.0\"/>
+		</Unit>
+		<Unit filename="/Users/weihan/CLionProjects/player/../../../../usr/local/lib/cmake/boost_thread-1.73.0/libboost_thread-variant-mt-static.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\boost_thread-1.73.0\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

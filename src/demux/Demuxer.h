@@ -25,16 +25,14 @@ namespace demux {
 
     class Demuxer: public std::enable_shared_from_this<Demuxer> {
     public:
-        friend class Stream;
-        Demuxer() = delete;
-        explicit Demuxer(const core::play_entry_sptr & entry);
-        void init(const demux_ctx_sptr& demux_ctx);
+        Demuxer();
+        void init(const core::play_entry_sptr& entry, const demux_ctx_sptr& demux_ctx);
         ~Demuxer();
         int epoch();
         int flush();
 
     private:
-        int64_t _base_pts;
+        int64_t _base_pts{};
         std::weak_ptr<core::PlayEntry> _entry;
         std::shared_ptr<AVFormatContext> _av_format_ctx;
         std::vector<std::shared_ptr<Stream>> _streams;

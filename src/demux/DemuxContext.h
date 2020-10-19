@@ -17,10 +17,10 @@ namespace demux {
 
     class DemuxContext: public std::enable_shared_from_this<DemuxContext> {
     public:
-        friend class core::PlayerContext;
         DemuxContext() = default;
         void init(const core::player_ctx_sptr& player_ctx);
         bool loop();
+        void stopRunning();
 
     public:
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
@@ -28,7 +28,7 @@ namespace demux {
     private:
         demuxer_sptr _demuxer;
         core::play_list_sptr _play_list;
-        bool running = false;
+        bool _running = false;
         misc::Thread _thread;
     };
 

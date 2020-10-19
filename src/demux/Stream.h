@@ -20,9 +20,8 @@ namespace demux {
     class Stream: public std::enable_shared_from_this<Stream> {
     public:
         friend class filter::Fill;
-        Stream() = delete;
-        Stream(const std::shared_ptr<Demuxer>& demuxer, int index, std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue);
-        void init();
+        Stream() = default;
+        void init(const std::shared_ptr<AVFormatContext>& av_fmt_ctx_, int index, std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue);
         Stream(const Stream& rhs) = delete;
         Stream(Stream&& rhs) = default;
         Stream& operator = (const Stream& rhs) = delete;
@@ -37,10 +36,10 @@ namespace demux {
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
 
     private:
-        std::weak_ptr<Demuxer> _demuxer;
-        int _index;
+        int _index{};
         frame_sptr _frame;
         filter::frame_filter_chain_sptr _frame_filter_chain;
+        std::shared_ptr<AVFormatContext> _av_fmt_ctx;
         bool _first = true;
     };
 

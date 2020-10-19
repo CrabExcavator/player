@@ -27,10 +27,9 @@ namespace core {
     bool PlayerContext::loop() {
         // handle events
         if (this->input_ctx->hasEvent(input::event::exit)) {
-            this->_vo->running = false;
-            this->_vo->_thread.join();
-            this->_demux_ctx->running = false;
-            this->_demux_ctx->_thread.join();
+            // stop producer before consumer
+            this->_demux_ctx->stopRunning();
+            this->_vo->stopRunning();
             return false;
         } else if (this->input_ctx->hasEvent(input::event::window_resize)) {
             // todo handle window_resize event

@@ -1,0 +1,5 @@
+/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/CMakeFiles/rebuild_cache.dir
+/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/CMakeFiles/edit_cache.dir
+/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/CMakeFiles/test.dir
+/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/CMakeFiles/unit_test.dir
+/Users/weihan/CLionProjects/player/cmake-build-debug-system-coverage/CMakeFiles/player.dir
