@@ -2,8 +2,8 @@
 // Created by weihan on 2020/10/7.
 //
 
-#ifndef PLAYER_DRIVER_H
-#define PLAYER_DRIVER_H
+#ifndef PLAYER_VIDEODRIVER_H
+#define PLAYER_VIDEODRIVER_H
 
 #include <memory>
 
@@ -11,11 +11,11 @@
 
 namespace video::driver {
 
-    class Driver {
+    class VideoDriver {
     public:
-        Driver() = default;
+        VideoDriver() = default;
 
-        virtual ~Driver() = 0;
+        virtual ~VideoDriver() = default;
 
         virtual void init(vo_sptr vo) = 0;
 
@@ -28,4 +28,4 @@ namespace video::driver {
 
 }
 
-#endif //PLAYER_DRIVER_H
+#endif //PLAYER_VIDEODRIVER_H

@@ -10,8 +10,7 @@
 #include <folly/MPMCQueue.h>
 
 #include "image_format.h"
-#include "input/InputContext.h"
-#include "video/driver/Driver.h"
+#include "video/driver/VideoDriver.h"
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 
@@ -19,7 +18,6 @@ namespace video {
 
     class VideoOutput: public std::enable_shared_from_this<VideoOutput> {
     public:
-        friend class core::PlayerContext;
         VideoOutput();
         VideoOutput(const VideoOutput& rhs) = delete;
         VideoOutput(VideoOutput&& rhs) = default;
@@ -39,16 +37,16 @@ namespace video {
         int img_height = 1080;
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
         demux::frame_sptr frame_rendering = nullptr;
-        bool needReConfig = false;
+        bool need_reConfig = false;
 
     private:
         bool loop();
 
     private:
         bool _running = false;
-        driver::driver_uptr _driver = nullptr;
-        std::chrono::steady_clock::time_point _last_tick = std::chrono::steady_clock::now();
-        std::chrono::steady_clock::duration _time_base = std::chrono::steady_clock::now() - std::chrono::steady_clock::now();
+        driver::video_driver_uptr _driver = nullptr;
+        std::chrono::steady_clock::time_point _last_tick{};
+        std::chrono::steady_clock::duration _time_base{};
         int64_t _last_pts = 0;
         demux::frame_sptr _frame = nullptr;
         input::input_ctx_sptr _input_ctx;

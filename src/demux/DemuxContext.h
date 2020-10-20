@@ -23,7 +23,8 @@ namespace demux {
         void stopRunning();
 
     public:
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> vo_queue;
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> ao_queue;
 
     private:
         demuxer_sptr _demuxer;

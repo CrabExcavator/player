@@ -59,8 +59,18 @@ namespace video {
     using vo_sptr = std::shared_ptr<VideoOutput>;
 
     namespace driver {
-        class Driver;
-        using driver_uptr = std::unique_ptr<Driver>;
+        class VideoDriver;
+        using video_driver_uptr = std::unique_ptr<VideoDriver>;
+    }
+}
+
+namespace audio {
+    class AudioOutput;
+    using ao_sptr = std::shared_ptr<AudioOutput>;
+
+    namespace driver {
+        class AudioDriver;
+        using audio_driver_uptr = std::unique_ptr<AudioDriver>;
     }
 }
 

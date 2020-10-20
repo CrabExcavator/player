@@ -11,6 +11,7 @@
 #include "exception/InitException.h"
 #include "demux/Frame.h"
 #include "video/image_format.h"
+#include "input/InputContext.h"
 
 namespace video::driver {
 

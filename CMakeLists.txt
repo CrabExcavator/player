@@ -38,13 +38,14 @@ set(
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
         src/core/PlayerContext.cpp
-        src/core/PlayerContext.cpp
         src/core/PlayList.cpp
         src/core/PlayEntry.cpp
         src/video/VideoOutput.cpp
         src/video/driver/DriverFactory.cpp
-        src/video/driver/Driver.cpp
         src/video/driver/DriverSDL.cpp
+        src/audio/AudioOutput.cpp
+        src/audio/driver/DriverFactory.cpp
+        src/audio/driver/DriverSDL.cpp
         src/input/InputContext.cpp
         src/demux/Demuxer.cpp
         src/demux/Stream.cpp

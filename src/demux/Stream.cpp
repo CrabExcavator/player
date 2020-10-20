@@ -8,6 +8,7 @@
 #include "Stream.h"
 #include "filter/Blit.h"
 #include "exception/InitException.h"
+#include "demux/DemuxContext.h"
 
 namespace demux {
 
@@ -15,15 +16,23 @@ namespace demux {
         avcodec_free_context(&ctx);
     }
 
-    void Stream::init(const std::shared_ptr<AVFormatContext>& av_fmt_ctx_, int index, std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue_) {
+    void Stream::init(const std::shared_ptr<AVFormatContext>& av_fmt_ctx_, int index, const demux_ctx_sptr& demux_ctx) {
+        bool success = true;
         this->_index = index;
-        this->queue = std::move(std::move(queue_));
         this->_av_fmt_ctx = av_fmt_ctx_;
         auto codec_param = av_fmt_ctx_->streams[index]->codecpar;
+        if (codec_param->codec_type == AVMEDIA_TYPE_VIDEO) {
+            this->queue = demux_ctx->vo_queue;
+        } else if (codec_param->codec_type == AVMEDIA_TYPE_AUDIO) {
+            this->queue = demux_ctx->ao_queue;
+        } else {
+            success = false;
+        }
         auto codec = avcodec_find_decoder(codec_param->codec_id);
         av_codec_ctx_uptr av_codec_ctx_(avcodec_alloc_context3(codec), avcodec_free_context_wrapper);
-        bool success = true;
-        success = (avcodec_parameters_to_context(av_codec_ctx_.get(), codec_param) >= 0);
+        if (success) {
+            success = (avcodec_parameters_to_context(av_codec_ctx_.get(), codec_param) >= 0);
+        }
         if (success) {
             success = (avcodec_open2(av_codec_ctx_.get(), codec, nullptr) >= 0);
         }
@@ -54,7 +63,11 @@ namespace demux {
             misc::vector_sptr<frame_sptr> in = std::make_shared<std::vector<frame_sptr>>();
             in->emplace_back(this->_frame);
             this->_frame = this->_frame_filter_chain->filter(in)->at(0);
-            this->queue->blockingWrite(this->_frame);
+            if (this->_index == 0) {
+                this->queue->blockingWrite(this->_frame);
+            } else {
+                LOG(INFO) << "audio frame";
+            }
         }
     }
 

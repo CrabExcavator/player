@@ -21,7 +21,7 @@ namespace demux {
     public:
         friend class filter::Fill;
         Stream() = default;
-        void init(const std::shared_ptr<AVFormatContext>& av_fmt_ctx_, int index, std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue);
+        void init(const std::shared_ptr<AVFormatContext>& av_fmt_ctx_, int index, const demux_ctx_sptr& demux_ctx);
         Stream(const Stream& rhs) = delete;
         Stream(Stream&& rhs) = default;
         Stream& operator = (const Stream& rhs) = delete;

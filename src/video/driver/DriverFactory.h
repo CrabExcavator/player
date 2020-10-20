@@ -7,13 +7,13 @@
 
 #include <string>
 
-#include "Driver.h"
+#include "VideoDriver.h"
 
 namespace video::driver {
 
     class DriverFactory {
     public:
-        static driver_uptr create(std::string driver_name);
+        static video_driver_uptr create(const std::string& driver_name);
     };
 
 }

@@ -8,10 +8,6 @@
 #include <memory>
 #include <folly/MPMCQueue.h>
 
-#include "demux/DemuxContext.h"
-#include "video/VideoOutput.h"
-#include "input/InputContext.h"
-#include "PlayList.h"
 #include "misc/typeptr.h"
 
 namespace core {
@@ -28,12 +24,14 @@ namespace core {
     public:
         play_list_sptr  play_list;
         input::input_ctx_sptr input_ctx;
-        // todo put frame & audio & sub in the same queue ?
         // a ticker run in cycle to check is the right pts?
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
+        // todo support multiple vo & ao
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> vo_queue;
+        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> ao_queue;
 
     private:
         video::vo_sptr _vo;
+        audio::ao_sptr _ao;
         demux::demux_ctx_sptr _demux_ctx;
     };
 

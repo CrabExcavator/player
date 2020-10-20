@@ -9,12 +9,12 @@
 #include <functional>
 #include <SDL2/SDL.h>
 
-#include "Driver.h"
+#include "VideoDriver.h"
 #include "misc/typeptr.h"
 
 namespace video::driver {
 
-    class DriverSDL: public Driver {
+    class DriverSDL: public VideoDriver {
     public:
         DriverSDL() = default;
         ~DriverSDL() override;

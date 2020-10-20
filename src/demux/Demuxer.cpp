@@ -43,7 +43,12 @@ namespace demux {
         if (success) {
             for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
                 auto stream = std::make_shared<Stream>();
-                stream->init(this->_av_format_ctx, stream_index, demux_ctx->queue);
+                auto codec_type = this->_av_format_ctx->streams[stream_index]->codecpar->codec_type;
+                if (codec_type == AVMEDIA_TYPE_VIDEO) {
+                    stream->init(this->_av_format_ctx, stream_index, demux_ctx);
+                } else if (codec_type == AVMEDIA_TYPE_AUDIO) {
+                    stream->init(this->_av_format_ctx, stream_index, demux_ctx);
+                }
                 this->_streams.emplace_back(stream);
             }
         }
@@ -59,9 +64,9 @@ namespace demux {
     int Demuxer::epoch() {
         int ret = av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get());
         if (ret >= 0) {
-            if (this->_av_packet->stream_index == 0) {
+            //if (this->_av_packet->stream_index == 0) {
                 this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
-            }
+            //}
             av_packet_unref(this->_av_packet.get());
         }
         return ret;

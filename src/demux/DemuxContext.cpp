@@ -6,7 +6,8 @@
 #include "core/PlayerContext.h"
 
 void demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
-    this->queue = player_ctx->queue;
+    this->vo_queue = player_ctx->vo_queue;
+    this->ao_queue = player_ctx->ao_queue;
 
     this->_play_list = player_ctx->play_list;
     this->_running = true;
