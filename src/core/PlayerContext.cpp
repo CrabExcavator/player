@@ -20,7 +20,7 @@ namespace core {
 
         this->play_list = std::make_shared<PlayList>();
         this->play_list->addLast(std::make_shared<core::PlayEntry>
-                                         (core::entry_type::file, "sample.mp3", 0));
+                                         (core::entry_type::file, "small_bunny_1080p_60fps.mp4", 0));
         this->input_ctx = std::make_shared<input::InputContext>();
         this->_ao = std::make_shared<audio::AudioOutput>();
         this->_ao->init(shared_from_this());

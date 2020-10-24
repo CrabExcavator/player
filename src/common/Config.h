@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <unordered_map>
+#include <mutex>
 
 #include "misc/Pocket.h"
 #include "common/DefaultConfig.h"

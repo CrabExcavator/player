@@ -7,6 +7,9 @@
 
 #include <algorithm>
 #include <glog/logging.h>
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
 
 #include "typeptr.h"
 
@@ -32,13 +35,14 @@ namespace misc {
 
         void put(const T* src, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
-            this->_cond.wait(lock, [&](){
-                return numOfEle + this->_buffered_ele <= Size;
-            });
+            while(!this->_close) {
+                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
+                    return numOfEle + this->_buffered_ele <= Size;
+                });
+                if (this->_close) return;
+                if (lock.owns_lock()) break;
+            }
             int nxt_tail = this->_tail + numOfEle;
-//            for(int i = this->_tail ; i < nxt_tail ; i++) {
-//                this->_array[i % Size] = src[beginOfEle + i];
-//            }
             for (int i = 0 ; i < numOfEle ; i++) {
                 this->_array[(this->_tail + i) % Size] = src[beginOfEle + i];
             }
@@ -51,13 +55,14 @@ namespace misc {
         template<size_t oSize>
         void put(const std::array<T, oSize>& src, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
-            this->_cond.wait(lock, [&](){
-                return numOfEle + this->_buffered_ele <= Size;
-            });
+            while(!this->_close) {
+                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
+                    return numOfEle + this->_buffered_ele <= Size;
+                });
+                if (this->_close) return;
+                if (lock.owns_lock()) break;
+            }
             int nxt_tail = this->_tail + numOfEle;
-//            for(int i = this->_tail ; i < nxt_tail ; i++) {
-//                this->_array[i % Size] = src[(beginOfEle + i) % oSize];
-//            }
             for (int i = 0 ; i < numOfEle ; i++) {
                 this->_array[(this->_tail + i) % Size] = src[(beginOfEle + i) % oSize];
             }
@@ -69,13 +74,14 @@ namespace misc {
 
         void get(T* dst, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
-            this->_cond.wait(lock, [&](){
-                return this->_buffered_ele >= numOfEle;
-            });
+            while(!this->_close) {
+                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
+                    return this->_buffered_ele >= numOfEle;
+                });
+                if (this->_close) return;
+                if (lock.owns_lock()) break;
+            }
             int nxt_head = this->_head + numOfEle;
-//            for (int i = this->_head ; i < nxt_head ; i++) {
-//                dst[beginOfEle + i] = this->_array[i % Size];
-//            }
             for (int i = 0 ; i < numOfEle ; i++) {
                 dst[beginOfEle + i] = this->_array[(this->_head + i) % Size];
             }
@@ -88,13 +94,14 @@ namespace misc {
         template<size_t oSize>
         void get(std::array<T, oSize>& dst, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
-            this->_cond.wait(lock, [&](){
-                return this->_buffered_ele >= numOfEle;
-            });
+            while(!this->_close) {
+                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
+                    return this->_buffered_ele >= numOfEle;
+                });
+                if (this->_close) return;
+                if (lock.owns_lock()) break;
+            }
             int nxt_head = this->_head + numOfEle;
-//            for (int i = this->_head ; i < nxt_head ; i++) {
-//                dst[(beginOfEle + i) % oSize] = this->_array[i % Size];
-//            }
             for (int i = 0 ; i < numOfEle ; i++) {
                 dst[(beginOfEle + i) % oSize] = this->_array[(this->_head + i) % Size];
             }
@@ -104,10 +111,15 @@ namespace misc {
             this->_cond.notify_one();
         }
 
+        void close() {
+            this->_close = true;
+        }
+
         int size() {
             return this->_buffered_ele;
         }
     private:
+        std::atomic<bool> _close = false;
         std::mutex _mutex;
         std::condition_variable _cond;
         int _head = 0;

@@ -108,10 +108,15 @@ TEST(SAMPLE, BUFFER) {
         thread.join();
         LOG(INFO) << total_put << " " << total_get << " " << buffer.size();
     }
+    std::array<uint8_t, 3> in{3, 2, 1};
     misc::Buffer<uint8_t , 100> buffer;
-    uint8_t in[10] = {1,2,3,4,5,6,7,8,9,10};
-    uint8_t out[10];
-    buffer.put(in, 0, 10);
-    buffer.get(out, 0, 10);
-    //ASSERT_EQ(in, out);
+    misc::Thread thread;
+    thread.run([&](){
+        for (int i = 0 ; i < 100 ; i++) {
+            buffer.put(in, 0, 3);
+        }
+    });
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    buffer.close();
+    thread.join();
 }
