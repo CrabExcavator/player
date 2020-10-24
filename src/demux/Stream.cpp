@@ -7,6 +7,7 @@
 
 #include "Stream.h"
 #include "filter/Blit.h"
+#include "filter/ReSample.h"
 #include "exception/InitException.h"
 #include "demux/DemuxContext.h"
 
@@ -20,11 +21,20 @@ namespace demux {
         bool success = true;
         this->_index = index;
         this->_av_fmt_ctx = av_fmt_ctx_;
+        this->_frame_filter_chain = std::make_shared<misc::Chain<frame_sptr>>();
         auto codec_param = av_fmt_ctx_->streams[index]->codecpar;
         if (codec_param->codec_type == AVMEDIA_TYPE_VIDEO) {
             this->queue = demux_ctx->vo_queue;
+            this->_frame_filter_chain
+            ->addLast(std::make_shared<filter::Fill>(shared_from_this()))
+            ->addLast(std::make_shared<filter::Blit>())
+            ;
         } else if (codec_param->codec_type == AVMEDIA_TYPE_AUDIO) {
             this->queue = demux_ctx->ao_queue;
+            this->_frame_filter_chain
+            ->addLast(std::make_shared<filter::Fill>(shared_from_this()))
+            //->addLast(std::make_shared<filter::ReSample>())
+            ;
         } else {
             success = false;
         }
@@ -42,11 +52,8 @@ namespace demux {
         if (!success) {
             throw exception::StreamInitException();
         }
-        this->_frame_filter_chain = std::make_shared<misc::Chain<frame_sptr>>();
-        this->_frame_filter_chain
-        ->addLast(std::make_shared<filter::Fill>(shared_from_this()))
-        ->addLast(std::make_shared<filter::Blit>());
         this->_first = true;
+        this->av_codec_ctx->channel_layout = av_get_default_channel_layout(this->av_codec_ctx->channels);
     }
 
     void Stream::feed(const av_packet_sptr &packet) {
@@ -63,11 +70,7 @@ namespace demux {
             misc::vector_sptr<frame_sptr> in = std::make_shared<std::vector<frame_sptr>>();
             in->emplace_back(this->_frame);
             this->_frame = this->_frame_filter_chain->filter(in)->at(0);
-            if (this->_index == 0) {
-                this->queue->blockingWrite(this->_frame);
-            } else {
-                LOG(INFO) << "audio frame";
-            }
+            this->queue->blockingWrite(this->_frame);
         }
     }
 

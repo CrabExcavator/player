@@ -19,9 +19,13 @@ namespace audio::driver {
 
         virtual void init(ao_sptr ao) = 0;
 
-        virtual void playSound(ao_sptr ao) = 0;
+        virtual void play(ao_sptr ao) = 0;
+
+        virtual void stop(ao_sptr ao) = 0;
 
         virtual void reConfig(ao_sptr ao) = 0;
+
+        virtual misc::vector_sptr<std::string> getDevices(ao_sptr ao) = 0;
     };
 
 }

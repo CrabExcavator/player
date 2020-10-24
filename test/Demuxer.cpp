@@ -7,7 +7,6 @@
 
 #include "demux/Demuxer.h"
 #include "core/PlayList.h"
-#include "misc/util.h"
 
 TEST(DEMUXER, INIT) {
     int num_of_entries = 1000;
@@ -16,7 +15,7 @@ TEST(DEMUXER, INIT) {
         play_list->addLast(std::make_shared<core::PlayEntry>(core::entry_type::file, "small_bunny_1080p_60fps.mp4", 0))
                 ->addLast(std::make_shared<core::PlayEntry>(core::entry_type::file, "small_bunny_1080p_60fps.mp4", 0));
     }
-    auto demuxer = std::make_shared<demux::Demuxer>(play_list->current());
+    auto demuxer = std::make_shared<demux::Demuxer>();
 //    demuxer->init();
 //    for (int i = 0 ; i < 100 ; i++) {
 //        demuxer->epoch();

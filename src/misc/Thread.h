@@ -29,7 +29,9 @@ namespace misc {
         explicit Thread(std::string thread_name): _thread_name(std::move(thread_name)) {
             //LOG(INFO) << MISC_THREAD_TT << "create";
         }
-        ~Thread() = default;
+        ~Thread() {
+            //LOG(INFO) << MISC_THREAD_TT << "deCreate";
+        };
 
         template<typename Fp, typename ...Args>
         void run(Fp&& callable, Args&&... args) {

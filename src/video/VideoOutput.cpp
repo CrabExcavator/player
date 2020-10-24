@@ -50,8 +50,8 @@ namespace video {
 
                 this->_frame = nullptr;
             } else if (this->queue->read(this->_frame)) {
-                if (this->_frame->imgfmt != this->imgfmt) {
-                    this->imgfmt = this->_frame->imgfmt;
+                if (this->_frame->img_fmt != this->imgfmt) {
+                    this->imgfmt = this->_frame->img_fmt;
                     this->_driver->reConfig(shared_from_this());
                 }
                 if (this->_frame->height != this->img_height || this->_frame->pitch != this->img_pitch) {

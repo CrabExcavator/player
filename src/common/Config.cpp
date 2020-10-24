@@ -16,7 +16,7 @@ namespace common {
         LOG(INFO) << "load config";
     }
 
-    Config::Config(): _dic(std::make_unique<std::unordered_map<std::string, std::string>>()), _lock("config") {
+    Config::Config(): _dic(std::make_unique<std::unordered_map<std::string, std::string>>()) {
 
     }
 

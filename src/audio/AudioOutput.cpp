@@ -36,14 +36,12 @@ namespace audio {
                 this->need_reConfig = false;
             }
             if (this->_frame != nullptr) {
-                auto playing_time = (this->_frame->pts - this->_last_pts) * this->_time_base + this->_last_tick;
-                std::this_thread::sleep_until(playing_time);
                 this->_last_tick = std::chrono::steady_clock::now();
                 this->_last_pts = this->_frame->pts;
 
                 // playing
                 this->frame_playing = this->_frame;
-                this->_driver->playSound(shared_from_this());
+                this->_driver->play(shared_from_this());
                 this->frame_playing = nullptr;
 
                 this->_frame = nullptr;

@@ -7,8 +7,12 @@
 
 #include <memory>
 #include <vector>
+#include <array>
 
 namespace misc {
+    template <typename T, size_t Size>
+    using array_sptr = std::shared_ptr<std::array<T, Size>>;
+
     template <typename T>
     using vector_sptr = std::shared_ptr<std::vector<T>>;
 

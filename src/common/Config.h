@@ -9,8 +9,6 @@
 #include <unordered_map>
 
 #include "misc/Pocket.h"
-#include "misc/LockGuard.h"
-#include "misc/Lock.h"
 #include "common/DefaultConfig.h"
 
 namespace common {
@@ -33,7 +31,7 @@ namespace common {
 
         template<typename T>
         T get(const misc::Pocket<T>& pocket) {
-            misc::LockGuard lock_guard(this->_lock);
+            std::lock_guard _(this->_mutex);
             const auto& key = pocket.getKey();
             // todo add additional type support
 //            if (this->_dic->contains(key)) {
@@ -46,7 +44,7 @@ namespace common {
         Config();
 
     private:
-        misc::Lock _lock;
+        std::mutex _mutex;
         dic_uptr _dic;
     };
 

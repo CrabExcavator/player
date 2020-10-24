@@ -10,7 +10,7 @@ namespace demux::filter {
     misc::vector_sptr<frame_sptr> Blit::filter(const misc::vector_sptr<frame_sptr>& in) {
         for (auto& frame : *in) {
             auto raw_frame = frame->raw();
-            switch (frame->imgfmt) {
+            switch (frame->img_fmt) {
                 case video::image_format::yuv420p: {
                     int ySize = raw_frame->height * raw_frame->linesize[0];
                     int uvSize = ((raw_frame->height + 1) / 2) * ((raw_frame->linesize[0] + 1) / 2);

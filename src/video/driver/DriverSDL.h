@@ -24,6 +24,7 @@ namespace video::driver {
         // reconfig objects:
         // 1. texture
         void reConfig(vo_sptr vo) override;
+
     private:
         using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;
         using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer*)>>;

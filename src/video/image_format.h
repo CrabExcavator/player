@@ -7,8 +7,8 @@
 
 namespace video {
     enum class image_format {
-        yuv420p,
         unknown,
+        yuv420p,
         numOfImgFmt,
     };
 }

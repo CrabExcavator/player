@@ -11,6 +11,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 };
 
+#include "audio/sample_format.h"
 #include "video/image_format.h"
 #include "misc/typeptr.h"
 
@@ -28,7 +29,8 @@ namespace demux {
         AVFrame* raw() {return this->_frame;}
 
     public:
-        video::image_format imgfmt = video::image_format::unknown;
+        audio::sample_format sample_fmt = audio::sample_format::unknown;
+        video::image_format img_fmt = video::image_format::unknown;
         uint8_t* pixels = nullptr;
         int pitch = 0;
         int height = 0;
