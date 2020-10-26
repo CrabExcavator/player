@@ -13,6 +13,7 @@ namespace demux::filter {
     class ReSample: public FrameFilterBase {
     public:
         ReSample() = default;
+        void init();
         misc::vector_sptr<frame_sptr> filter(const misc::vector_sptr<frame_sptr>& in) override;
         misc::vector_sptr<frame_sptr> flush(const misc::vector_sptr<frame_sptr>& in) override;
         void close() override;

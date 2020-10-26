@@ -17,7 +17,7 @@ pkg_search_module(avformat REQUIRED libavformat)
 pkg_search_module(swscale REQUIRED libswscale)
 pkg_search_module(avfilter REQUIRED libavfilter)
 pkg_search_module(swresample REQUIRED libswresample)
-pkg_search_module(portaudio REQUIRED libportaudiocpp)
+pkg_search_module(portaudio REQUIRED portaudiocpp)
 
 include_directories(./src)
 include_directories(./test)

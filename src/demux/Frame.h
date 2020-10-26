@@ -29,17 +29,29 @@ namespace demux {
         AVFrame* raw() {return this->_frame;}
 
     public:
-        audio::sample_format sample_fmt = audio::sample_format::unknown;
-        video::image_format img_fmt = video::image_format::unknown;
-        uint8_t* pixels = nullptr;
-        int pitch = 0;
-        int height = 0;
         // is it the first of frame of a stream
         bool first = false;
+
+        // sample format in audio frame
+        audio::sample_format sample_fmt = audio::sample_format::unknown;
+
+        // image format in image frame
+        video::image_format img_fmt = video::image_format::unknown;
+
+        // packed formats that can be direct used in driver
+        uint8_t* pixels = nullptr;
+
+        int pitch = 0;
+        int height = 0;
+
+        //
         std::chrono::steady_clock::duration time_base{};
+
+
         int64_t pts = 0;
 
     private:
+        // raw frame in ffmpeg
         AVFrame* _frame;
     };
 

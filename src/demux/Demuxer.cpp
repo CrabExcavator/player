@@ -64,9 +64,9 @@ namespace demux {
     int Demuxer::epoch() {
         int ret = av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get());
         if (ret >= 0) {
-            //if (this->_av_packet->stream_index == 0) {
+            if (this->_av_packet->stream_index == 0) {
                 this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
-            //}
+            }
             av_packet_unref(this->_av_packet.get());
         }
         return ret;

@@ -48,4 +48,8 @@ namespace demux::filter {
 
     }
 
+    void ReSample::init() {
+
+    }
+
 }
