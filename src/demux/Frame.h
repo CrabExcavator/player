@@ -34,6 +34,16 @@ namespace demux {
 
         // sample format in audio frame
         audio::sample_format sample_fmt = audio::sample_format::unknown;
+        int sample_size = 0;
+
+        // num of channel
+        int num_of_channel = 0;
+
+        // num of sample
+        int num_of_sample = 0;
+
+        // sample rate
+        int sample_rate = 0;
 
         // image format in image frame
         video::image_format img_fmt = video::image_format::unknown;
@@ -44,9 +54,7 @@ namespace demux {
         int pitch = 0;
         int height = 0;
 
-        //
         std::chrono::steady_clock::duration time_base{};
-
 
         int64_t pts = 0;
 

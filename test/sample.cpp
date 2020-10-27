@@ -120,3 +120,10 @@ TEST(SAMPLE, BUFFER) {
     buffer.close();
     thread.join();
 }
+
+TEST(SAMPLE, DEFER) {
+    DEFER([](){
+        std::cout << "Hello World" << std::endl;
+    });
+    std::cout << "HEHE" << std::endl;
+}

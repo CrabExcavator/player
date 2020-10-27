@@ -4,6 +4,7 @@
 
 #include "Blit.h"
 #include "video/image_format.h"
+#include "audio/sample_format.h"
 
 namespace demux::filter {
 

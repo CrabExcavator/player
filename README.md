@@ -12,7 +12,6 @@ It's free media player that aiming at supporting Iot device or embedded in other
     + dynamic load module
 
 + ~~audio ouput demo~~
-+ dynamic load module
 + video sync with audio
 + serializer
 + config

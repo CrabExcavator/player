@@ -43,12 +43,7 @@ namespace demux {
         if (success) {
             for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
                 auto stream = std::make_shared<Stream>();
-                auto codec_type = this->_av_format_ctx->streams[stream_index]->codecpar->codec_type;
-                if (codec_type == AVMEDIA_TYPE_VIDEO) {
-                    stream->init(this->_av_format_ctx, stream_index, demux_ctx);
-                } else if (codec_type == AVMEDIA_TYPE_AUDIO) {
-                    stream->init(this->_av_format_ctx, stream_index, demux_ctx);
-                }
+                stream->init(this->_av_format_ctx, stream_index, demux_ctx);
                 this->_streams.emplace_back(stream);
             }
         }

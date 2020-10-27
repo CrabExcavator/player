@@ -2,13 +2,20 @@
 // Created by weihan on 2020/10/21.
 //
 
+#include <map>
+
 #include "DriverPortAudio.h"
 #include "audio/AudioOutput.h"
 #include "demux/Frame.h"
+#include "audio/sample_format.h"
 
 static const int length = 1000000000;
 
 namespace audio::driver {
+
+    static std::map<sample_format, PaSampleFormat> sampleMap = {
+            {sample_format::FLTP, paFloat32}
+    };
 
     DriverPortAudio::~DriverPortAudio() {
         Pa_StopStream(this->_stream);
@@ -20,17 +27,17 @@ namespace audio::driver {
         Pa_Initialize();
         PaStreamParameters outputParameters;
         outputParameters.device = Pa_GetDefaultOutputDevice();
-        // todo error handle
-        outputParameters.channelCount = 2;
-        outputParameters.sampleFormat = paFloat32;
-        outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
+        auto device = Pa_GetDeviceInfo(outputParameters.device);
+        outputParameters.channelCount = std::min(ao->num_of_channel, device->maxOutputChannels); ao->num_of_channel = outputParameters.channelCount;
+        outputParameters.sampleFormat = sampleMap.at(ao->sampleFormat);
+        outputParameters.suggestedLatency = device->defaultLowOutputLatency;
         outputParameters.hostApiSpecificStreamInfo = nullptr;
 
         auto err = Pa_OpenStream(
                 &this->_stream,
                 nullptr,
                 &outputParameters,
-                44100,
+                ao->sample_rate,
                 paFramesPerBufferUnspecified,
                 paClipOff,
                 &DriverPortAudio::paCallback,
@@ -49,16 +56,25 @@ namespace audio::driver {
 
     void DriverPortAudio::play(ao_sptr ao) {
         if (ao->frame_playing != nullptr) {
-            auto cur1 = 0; auto cur2 = 0;
-            for (int i = 0 ; i < ao->frame_playing->raw()->nb_samples ; i++) {
-                this->_buffer.put(ao->frame_playing->raw()->data[0], cur1, 4);
-                cur1 += 4;
-                this->_buffer.put(ao->frame_playing->raw()->data[1], cur2, 4);
-                cur2 += 4;
+            switch (ao->sampleFormat) {
+                case sample_format::FLTP: {
+                    int cur = 0;
+                    for (int sample = 0; sample < ao->frame_playing->num_of_sample; sample++) {
+                        for (int channel = 0; channel < ao->num_of_channel; channel++) {
+                            this->_buffer.put(ao->frame_playing->raw()->data[channel], cur,
+                                              ao->size_of_sample);
+                        }
+                        cur += ao->size_of_sample;
+                    }
+                    break;
+                }
+                default: {
+                    break;
+                }
             }
-        }
-        if (Pa_IsStreamStopped(this->_stream)) {
-            Pa_StartStream(this->_stream);
+            if (Pa_IsStreamStopped(this->_stream)) {
+                Pa_StartStream(this->_stream);
+            }
         }
     }
 

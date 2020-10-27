@@ -17,7 +17,6 @@ namespace audio {
     void AudioOutput::init(const core::player_ctx_sptr &player_ctx) {
         this->queue = player_ctx->ao_queue;
         this->_driver = driver::DriverFactory::create(GET_CONFIG(ao_driver));
-        this->_driver->init(shared_from_this());
         this->_running = true;
         this->_thread.run([&](){
            do{} while(this->loop());
@@ -46,11 +45,14 @@ namespace audio {
 
                 this->_frame = nullptr;
             } else if (this->queue->read(this->_frame)) {
-                // todo check sound fmt
-                // todo check sound cfg
                 if (this->_frame->first) {
                     this->_last_tick = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     this->_last_pts = 0;
+                    this->sampleFormat = this->_frame->sample_fmt;
+                    this->num_of_channel = this->_frame->num_of_channel;
+                    this->size_of_sample = this->_frame->sample_size;
+                    this->sample_rate = this->_frame->sample_rate;
+                    this->_driver->init(shared_from_this());
                 }
                 this->_time_base = this->_frame->time_base;
             }

@@ -14,7 +14,11 @@ namespace demux::filter {
     };
 
     static std::map<AVSampleFormat, audio::sample_format> sample_formats = {
-            {AV_SAMPLE_FMT_FLT, audio::sample_format::FLT}
+            {AV_SAMPLE_FMT_FLTP, audio::sample_format::FLTP}
+    };
+
+    static std::map<audio::sample_format, int> sample_format_size = {
+            {audio::sample_format::FLTP, 4}
     };
 
     static video::image_format getVideoFormat(AVPixelFormat av_pixel_format) {
@@ -29,6 +33,11 @@ namespace demux::filter {
             return audio::sample_format::unknown;
         }
         return sample_formats.at(av_sample_format);
+    }
+
+    static int getSampleSize(audio::sample_format fmt) {
+        assert(fmt != audio::sample_format::unknown);
+        return sample_format_size.at(fmt);
     }
 
     Fill::Fill(const stream_sptr& stream) {
@@ -50,6 +59,10 @@ namespace demux::filter {
                 frame->img_fmt = getVideoFormat(static_cast<AVPixelFormat>(raw_frame->format));
             } else if (stream->av_codec_ctx->codec_type == AVMEDIA_TYPE_AUDIO) {
                 frame->sample_fmt = getAudioFormat(static_cast<AVSampleFormat>(raw_frame->format));
+                frame->sample_size = getSampleSize(frame->sample_fmt);
+                frame->num_of_channel = raw_frame->channels;
+                frame->num_of_sample = raw_frame->nb_samples;
+                frame->sample_rate = raw_frame->sample_rate;
             }
         }
         return in;

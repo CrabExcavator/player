@@ -9,6 +9,7 @@
 #include <chrono>
 #include <folly/MPMCQueue.h>
 
+#include "sample_format.h"
 #include "audio/driver/AudioDriver.h"
 #include "misc/typeptr.h"
 #include "misc/Thread.h"
@@ -30,6 +31,10 @@ namespace audio {
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
         demux::frame_sptr frame_playing = nullptr;
         bool need_reConfig = false;
+        sample_format sampleFormat = sample_format::unknown;
+        int num_of_channel = 0;
+        int size_of_sample = 0;
+        int sample_rate = 0;
 
     private:
         bool loop();

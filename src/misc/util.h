@@ -6,9 +6,24 @@
 #define PLAYER_MISC_H
 
 #include <string>
+#include <memory>
 #include <sstream>
 
 namespace misc {
+
+    class Defer {
+    public:
+        using defer_sptr = std::shared_ptr<Defer>;
+        Defer() = delete;
+        template<typename Func, typename... Args>
+        explicit Defer(Func&& func, Args&&... args): _defer(nullptr, [&](Defer* _){
+            func(std::forward<Args>(args)...);
+        }) {}
+    private:
+        [[maybe_unused]] defer_sptr _defer;
+    };
+
+#define DEFER(func, args...) misc::Defer _(func, ##args);
 
     template <typename T>
     inline std::string to_string(T&& head) {

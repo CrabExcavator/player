@@ -33,6 +33,7 @@ namespace demux {
             this->queue = demux_ctx->ao_queue;
             this->_frame_filter_chain
             ->addLast(std::make_shared<filter::Fill>(shared_from_this()))
+            ->addLast(std::make_shared<filter::Blit>())
             //->addLast(std::make_shared<filter::ReSample>())
             ;
         } else {

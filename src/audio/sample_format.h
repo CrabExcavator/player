@@ -9,7 +9,7 @@ namespace audio {
 
     enum class sample_format {
         unknown,
-        FLT,
+        FLTP,
         numOfSampleFmt
     };
 
