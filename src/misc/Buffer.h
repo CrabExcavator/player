@@ -11,6 +11,7 @@
 #include <condition_variable>
 #include <chrono>
 
+#include "misc/util.h"
 #include "typeptr.h"
 
 namespace misc {
@@ -36,11 +37,14 @@ namespace misc {
         void put(const T* src, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
-                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
-                    return numOfEle + this->_buffered_ele <= Size;
-                });
+                auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_put_cond(numOfEle);});
                 if (this->_close) return;
-                if (lock.owns_lock()) break;
+                if (flag) {
+                    break;
+                } else {
+                    LOG(INFO) << "put continue";
+                    continue;
+                }
             }
             int nxt_tail = this->_tail + numOfEle;
             for (int i = 0 ; i < numOfEle ; i++) {
@@ -56,11 +60,13 @@ namespace misc {
         void put(const std::array<T, oSize>& src, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
-                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
-                    return numOfEle + this->_buffered_ele <= Size;
-                });
+                auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_put_cond(numOfEle);});
                 if (this->_close) return;
-                if (lock.owns_lock()) break;
+                if (flag) {
+                    break;
+                } else {
+                    continue;
+                }
             }
             int nxt_tail = this->_tail + numOfEle;
             for (int i = 0 ; i < numOfEle ; i++) {
@@ -75,11 +81,13 @@ namespace misc {
         void get(T* dst, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
-                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
-                    return this->_buffered_ele >= numOfEle;
-                });
+                auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_get_cond(numOfEle);});
                 if (this->_close) return;
-                if (lock.owns_lock()) break;
+                if (flag) {
+                    break;
+                } else {
+                    continue;
+                }
             }
             int nxt_head = this->_head + numOfEle;
             for (int i = 0 ; i < numOfEle ; i++) {
@@ -95,11 +103,13 @@ namespace misc {
         void get(std::array<T, oSize>& dst, int beginOfEle, int numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
-                this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() {
-                    return this->_buffered_ele >= numOfEle;
-                });
+                auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_get_cond(numOfEle);});
                 if (this->_close) return;
-                if (lock.owns_lock()) break;
+                if (flag) {
+                    break;
+                } else {
+                    continue;
+                }
             }
             int nxt_head = this->_head + numOfEle;
             for (int i = 0 ; i < numOfEle ; i++) {
@@ -118,6 +128,16 @@ namespace misc {
         int size() {
             return this->_buffered_ele;
         }
+
+    private:
+        inline bool _get_cond(int numOfEle) {
+            return this->_buffered_ele >= numOfEle;
+        }
+
+        inline bool _put_cond(int numOfEle) {
+            return numOfEle + this->_buffered_ele <= Size;
+        }
+
     private:
         std::atomic<bool> _close = false;
         std::mutex _mutex;

@@ -10,6 +10,8 @@
 
 namespace audio {
 
+    static std::shared_ptr<common::Sync> _sync = nullptr;
+
     AudioOutput::AudioOutput(): _thread("ao") {
 
     }
@@ -18,6 +20,7 @@ namespace audio {
         this->queue = player_ctx->ao_queue;
         this->_driver = driver::DriverFactory::create(GET_CONFIG(ao_driver));
         this->_running = true;
+        _sync = player_ctx->sync;
         this->_thread.run([&](){
            do{} while(this->loop());
         });
@@ -39,6 +42,7 @@ namespace audio {
                 this->_last_pts = this->_frame->pts;
 
                 // playing
+                _sync->wait();
                 this->frame_playing = this->_frame;
                 this->_driver->play(shared_from_this());
                 this->frame_playing = nullptr;

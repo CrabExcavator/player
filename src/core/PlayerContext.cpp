@@ -13,14 +13,19 @@
 
 namespace core {
 
+    static std::string audio_sample = "sample.mp3";
+    static std::string video_sample = "small_bunny_1080p_60fps.mp4";
+
     void PlayerContext::init() {
         auto queue_size = GET_CONFIG(default_queue_size);
         this->vo_queue = std::make_shared<folly::MPMCQueue<demux::frame_sptr>>(queue_size);
         this->ao_queue = std::make_shared<folly::MPMCQueue<demux::frame_sptr>>(queue_size);
+        this->sync = std::make_shared<common::Sync>();
+        this->sync->init(2);
 
         this->play_list = std::make_shared<PlayList>();
         this->play_list->addLast(std::make_shared<core::PlayEntry>
-                                         (core::entry_type::file, "sample.mp3", 0));
+                                         (core::entry_type::file, video_sample, 0));
         this->input_ctx = std::make_shared<input::InputContext>();
         this->_ao = std::make_shared<audio::AudioOutput>();
         this->_ao->init(shared_from_this());

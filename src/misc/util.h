@@ -23,7 +23,7 @@ namespace misc {
         [[maybe_unused]] defer_sptr _defer;
     };
 
-#define DEFER(func, args...) misc::Defer _(func, ##args);
+#define DEFER(func, args...) misc::Defer _(func, ##args)
 
     template <typename T>
     inline std::string to_string(T&& head) {

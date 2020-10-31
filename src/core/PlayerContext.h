@@ -9,6 +9,7 @@
 #include <folly/MPMCQueue.h>
 
 #include "misc/typeptr.h"
+#include "common/Sync.h"
 
 namespace core {
 
@@ -28,6 +29,7 @@ namespace core {
         // todo support multiple vo & ao
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> vo_queue;
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> ao_queue;
+        std::shared_ptr<common::Sync> sync;
 
     private:
         video::vo_sptr _vo;

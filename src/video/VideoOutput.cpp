@@ -10,6 +10,8 @@
 
 namespace video {
 
+    static std::shared_ptr<common::Sync> _sync = nullptr;
+
     VideoOutput::VideoOutput(): _thread("vo") {
 
     }
@@ -22,6 +24,7 @@ namespace video {
         this->_driver = driver::DriverFactory::create(GET_CONFIG(vo_driver));
         this->_driver->init(shared_from_this());
         this->_running = true;
+        _sync = player_ctx->sync;
         this->_thread.run([&](){
             do{} while(this->loop());
         });
@@ -44,6 +47,7 @@ namespace video {
                 this->_last_pts = this->_frame->pts;
 
                 // rendering
+                _sync->wait();
                 this->frame_rendering = this->_frame;
                 this->_driver->drawImage(shared_from_this());
                 this->frame_rendering = nullptr;

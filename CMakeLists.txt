@@ -40,6 +40,7 @@ set(
         COMMON_SOURCE
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
+        src/common/Sync.cpp
         src/core/PlayerContext.cpp
         src/core/PlayList.cpp
         src/core/PlayEntry.cpp

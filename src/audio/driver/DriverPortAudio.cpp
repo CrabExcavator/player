@@ -18,9 +18,9 @@ namespace audio::driver {
     };
 
     DriverPortAudio::~DriverPortAudio() {
+        this->_buffer.close();
         Pa_StopStream(this->_stream);
         Pa_Terminate();
-        this->_buffer.close();
     }
 
     void DriverPortAudio::init(ao_sptr ao) {
