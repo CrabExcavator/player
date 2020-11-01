@@ -6,12 +6,8 @@ It's free media player that aiming at supporting Iot device or embedded in other
 
 ## Todo
 
-+ module support
-    + abstract class in core directory
-    + some impl
-    + dynamic load module
-
 + ~~audio ouput demo~~
++ doc support(use doxygen)
 + refactor
     + some logic code in driver should put in VideoOutput && AudioOutput
     + concrete operation with frame should put in filter
@@ -29,14 +25,53 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + cache
 + p2p support?
 
-
 ## Bugs
 
 + audio mixed with next entry
     + CAUSE: Buffer(for ) is read with fixed size but bytes in Buffer is not enough
     + HOW TO FIX: at last frame we should make up audio callback buffer
 
-## Thinking
+## TEST
+
+### Unit Test
+
++ correction of function
++ correction of context
+
+### Integration Test
+
++ multiple driver
++ multiple hardware
+
+## Source Code Overview
+
+the source files are organized by different usage in different folder and designed
+by traditional OOP that the src code that impl one feature should not cross 
+too many files, the dst code can though. Anyway, we should consider where to put
+the src code and to fix it in.
+
+### The Folder
+
++ audio: audio output and audio driver
++ common: some high level data structure like Config that is used by other module
++ core: what make player different from demuxer
++ demux: split stream from container
++ exception: define err code
++ input: define input code and the
++ misc: some low level help util and function
++ osal: operating system abstraction layer
++ video: video output and video driver
+
+### Name
+
+you can guess what it is aimed for when you see name in src code first time
+
+#### class
+
++ xxxContext: it mean that it can be accessed by many other class, it must always
+be in the right state 
+
+## EXPR
 
 + how to support different demuxer
     + WHY: because we should support a lot of format in the future

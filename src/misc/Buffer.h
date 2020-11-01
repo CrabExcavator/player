@@ -1,5 +1,6 @@
 //
-// Created by weihan on 2020/10/24.
+// Created by CrabExcavator on 2020/11/1.
+// Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
 #ifndef PLAYER_BUFFER_H
@@ -16,7 +17,6 @@
 
 namespace misc {
 
-    // todo stream buffer
     template<typename T, size_t Size>
     class Buffer {
     public:
@@ -42,7 +42,6 @@ namespace misc {
                 if (flag) {
                     break;
                 } else {
-                    LOG(INFO) << "put continue";
                     continue;
                 }
             }

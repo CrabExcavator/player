@@ -1,5 +1,6 @@
 //
-// Created by weihan on 2020/10/7.
+// Created by CrabExcavator on 2020/11/1.
+// Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
 #include <SDL2/SDL.h>
@@ -64,7 +65,6 @@ namespace video::driver {
         SDL_RenderClear(this->_renderer.get());
         SDL_SetTextureBlendMode(this->_texture.get(), SDL_BLENDMODE_NONE);
         if (vo->frame_rendering != nullptr) {
-            auto frame = vo->frame_rendering->raw();
             void* pixels = nullptr;
             int pitch = 0;
             SDL_LockTexture(this->_texture.get(), nullptr, &pixels, &pitch);
