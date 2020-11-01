@@ -6,7 +6,7 @@
 
 #include "Config.h"
 
-namespace common {
+namespace core {
     config_sptr Config::getInstance() {
         static config_sptr _config(new Config);
         return _config;

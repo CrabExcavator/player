@@ -30,6 +30,8 @@ namespace demux {
         ~Demuxer();
         int epoch();
         int flush();
+        int close();
+        int nbStreams() const;
 
     private:
         int64_t _base_pts{};

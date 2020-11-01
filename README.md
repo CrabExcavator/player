@@ -12,10 +12,16 @@ It's free media player that aiming at supporting Iot device or embedded in other
     + dynamic load module
 
 + ~~audio ouput demo~~
++ refactor
+    + some logic code in driver should put in VideoOutput && AudioOutput
+    + concrete operation with frame should put in filter
+    + Output && Stream should both have chain
++ error code
 + video sync with audio
 + serializer
 + config
 + ao & vo reconfig
++ play list
 + REPL
 + osd
 + seek
@@ -23,9 +29,19 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + cache
 + p2p support?
 
+
+## Bugs
+
++ audio mixed with next entry
+    + CAUSE: Buffer(for ) is read with fixed size but bytes in Buffer is not enough
+    + HOW TO FIX: at last frame we should make up audio callback buffer
+
 ## Thinking
 
 + how to support different demuxer
+    + WHY: because we should support a lot of format in the future
+    + HOW: the first sight is to use default ffmpeg demuxer by default but allow user to override their own. 
+    user should define their own codec though.
 
 ## Reference
 

@@ -7,6 +7,7 @@
 
 #include <exception>
 
+// todo C++ exception is fxxking stupid, we should use traditional return err code && Init shouldn't throw exception
 namespace exception {
 
     struct InitException : public std::exception {};

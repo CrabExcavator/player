@@ -10,6 +10,7 @@
 #include "audio/AudioOutput.h"
 #include "video/VideoOutput.h"
 #include "demux/DemuxContext.h"
+#include "Sync.h"
 
 namespace core {
 
@@ -20,19 +21,18 @@ namespace core {
         auto queue_size = GET_CONFIG(default_queue_size);
         this->vo_queue = std::make_shared<folly::MPMCQueue<demux::frame_sptr>>(queue_size);
         this->ao_queue = std::make_shared<folly::MPMCQueue<demux::frame_sptr>>(queue_size);
-        this->sync = std::make_shared<common::Sync>();
-        this->sync->init(2);
 
         this->play_list = std::make_shared<PlayList>();
         this->play_list->addLast(std::make_shared<core::PlayEntry>
                                          (core::entry_type::file, video_sample, 0));
+        this->sync_ = std::make_shared<Sync>();
         this->input_ctx = std::make_shared<input::InputContext>();
+        this->_demux_ctx = std::make_shared<demux::DemuxContext>();
+        this->_demux_ctx->init(shared_from_this());
         this->_ao = std::make_shared<audio::AudioOutput>();
         this->_ao->init(shared_from_this());
         this->_vo = std::make_shared<video::VideoOutput>();
         this->_vo->init(shared_from_this());
-        this->_demux_ctx = std::make_shared<demux::DemuxContext>();
-        this->_demux_ctx->init(shared_from_this());
     }
 
     void PlayerContext::run() {

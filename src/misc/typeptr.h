@@ -36,6 +36,9 @@ namespace core {
 
     class PlayList;
     using play_list_sptr = std::shared_ptr<PlayList>;
+
+    class Sync;
+    using sync_sptr = std::shared_ptr<Sync>;
 }
 
 namespace demux {

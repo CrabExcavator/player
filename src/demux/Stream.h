@@ -26,9 +26,13 @@ namespace demux {
         Stream(Stream&& rhs) = default;
         Stream& operator = (const Stream& rhs) = delete;
         Stream& operator = (Stream&& rhs) = default;
+
         void feed(const av_packet_sptr& packet);
+
         // return timeBase of stream in nanoseconds
         std::chrono::nanoseconds timeBase() const;
+
+        void close();
 
     public:
         using av_codec_ctx_uptr = std::unique_ptr<AVCodecContext, std::function<void(AVCodecContext*)>>;

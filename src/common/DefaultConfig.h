@@ -11,7 +11,7 @@
 #include "misc/Pocket.h"
 #include "core/PlayList.h"
 
-namespace common {
+namespace core {
 
     // todo serializer clazz
     class DefaultConfig {

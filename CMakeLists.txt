@@ -38,9 +38,10 @@ link_directories(${portaudio_LIBRARY_DIRS})
 
 set(
         COMMON_SOURCE
+        src/misc/Buffer.h
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
-        src/common/Sync.cpp
+        src/core/Sync.cpp
         src/core/PlayerContext.cpp
         src/core/PlayList.cpp
         src/core/PlayEntry.cpp

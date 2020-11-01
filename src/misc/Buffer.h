@@ -121,6 +121,15 @@ namespace misc {
             this->_cond.notify_one();
         }
 
+        void clear() {
+            this->_mutex.lock();
+            DEFER([&](){this->_mutex.unlock();});
+            this->_close = false;
+            this->_head = 0;
+            this->_tail = 0;
+            this->_buffered_ele = 0;
+        }
+
         void close() {
             this->_close = true;
         }

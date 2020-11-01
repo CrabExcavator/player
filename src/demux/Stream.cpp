@@ -7,7 +7,6 @@
 
 #include "Stream.h"
 #include "filter/Blit.h"
-#include "filter/ReSample.h"
 #include "exception/InitException.h"
 #include "demux/DemuxContext.h"
 
@@ -73,6 +72,12 @@ namespace demux {
             this->_frame = this->_frame_filter_chain->filter(in)->at(0);
             this->queue->blockingWrite(this->_frame);
         }
+    }
+
+    void Stream::close() {
+        this->_frame = std::make_shared<Frame>();
+        this->_frame->last = true;
+        this->queue->blockingWrite(this->_frame);
     }
 
     std::chrono::nanoseconds Stream::timeBase() const {

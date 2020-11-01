@@ -101,6 +101,7 @@ namespace audio::driver {
 
     int DriverPortAudio::paCallbackMethod(const void *inputBuffer, void *outputBuffer, unsigned long samplesPerBuffer,
                                           const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags) {
+        // todo this could lost sample at tail
         this->_buffer.get(static_cast<uint8_t*>(outputBuffer), 0, 2 * 4 * samplesPerBuffer);
         return paContinue;
     }

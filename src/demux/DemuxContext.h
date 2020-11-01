@@ -25,6 +25,7 @@ namespace demux {
     public:
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> vo_queue;
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> ao_queue;
+        core::sync_sptr sync_;
 
     private:
         demuxer_sptr _demuxer;

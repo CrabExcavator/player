@@ -7,15 +7,17 @@
 
 #include <mutex>
 
-namespace common {
+namespace core {
 
     class Sync {
     public:
         Sync();
         void init(int size);
         void wait();
+        void close();
 
     private:
+        bool _close;
         int _size;
         int _cnt;
         std::mutex _mutex;

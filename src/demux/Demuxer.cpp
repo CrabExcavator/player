@@ -2,12 +2,11 @@
 // Created by weihan on 2020/10/9.
 //
 
-#include <core/PlayEntry.h>
-
 #include "Stream.h"
 #include "Demuxer.h"
 #include "exception/InitException.h"
 #include "DemuxContext.h"
+#include "core/PlayEntry.h"
 
 namespace demux {
 
@@ -59,9 +58,7 @@ namespace demux {
     int Demuxer::epoch() {
         int ret = av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get());
         if (ret >= 0) {
-            //if (this->_av_packet->stream_index == 1) {
-                this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
-            //}
+            this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
             av_packet_unref(this->_av_packet.get());
         }
         return ret;
@@ -73,6 +70,17 @@ namespace demux {
             av_packet_unref(this->_av_packet.get());
             this->_av_packet.get()->stream_index = stream_index++;
             stream->feed(this->_av_packet);
+        }
+        return 0;
+    }
+
+    int Demuxer::nbStreams() const {
+        return static_cast<int>(this->_av_format_ctx->nb_streams);
+    }
+
+    int Demuxer::close() {
+        for (auto& stream : this->_streams) {
+            stream->close();
         }
         return 0;
     }

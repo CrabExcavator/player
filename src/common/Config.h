@@ -12,7 +12,7 @@
 #include "misc/Pocket.h"
 #include "common/DefaultConfig.h"
 
-namespace common {
+namespace core {
 
     class Config;
     using config_sptr = std::shared_ptr<Config>;
@@ -49,7 +49,7 @@ namespace common {
         dic_uptr _dic;
     };
 
-#define GET_CONFIG(entry) common::Config::getInstance()->get(common::DefaultConfig::entry)
+#define GET_CONFIG(entry) core::Config::getInstance()->get(core::DefaultConfig::entry)
 
 }
 

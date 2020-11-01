@@ -4,10 +4,12 @@
 
 #include "DemuxContext.h"
 #include "core/PlayerContext.h"
+#include "core/Sync.h"
 
 void demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
     this->vo_queue = player_ctx->vo_queue;
     this->ao_queue = player_ctx->ao_queue;
+    this->sync_ = player_ctx->sync_;
 
     this->_play_list = player_ctx->play_list;
     this->_running = true;
@@ -22,11 +24,18 @@ bool demux::DemuxContext::loop() {
         if (entry == nullptr) return false;
         this->_demuxer = std::make_shared<Demuxer>();
         this->_demuxer->init(entry, shared_from_this());
+        if (this->sync_ != nullptr) {
+            this->sync_->close();
+            // todo current only have ao + vo
+            this->sync_->init(std::min(2, this->_demuxer->nbStreams()));
+        }
     }
     int ret = this->_demuxer->epoch();
     if (ret < 0) {
         this->_demuxer->flush();
+        this->_demuxer->close();
         this->_demuxer = nullptr;
+        // todo wait playback end
         this->_play_list->next();
     }
     return _running;

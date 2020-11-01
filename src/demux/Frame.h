@@ -29,8 +29,11 @@ namespace demux {
         AVFrame* raw() {return this->_frame;}
 
     public:
-        // is it the first of frame of a stream
+        // is it the first frame of a stream
         bool first = false;
+
+        // is it the last frame of a stream
+        bool last = false;
 
         // sample format in audio frame
         audio::sample_format sample_fmt = audio::sample_format::unknown;
