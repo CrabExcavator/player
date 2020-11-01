@@ -7,7 +7,7 @@
 #include "core/PlayerContext.h"
 #include "core/Sync.h"
 
-void demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
+common::error demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
     this->vo_queue = player_ctx->vo_queue;
     this->ao_queue = player_ctx->ao_queue;
     this->sync_ = player_ctx->sync_;
@@ -17,6 +17,7 @@ void demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
     this->_thread.run([&](){
         do{} while(this->loop());
     });
+    return common::error::success;
 }
 
 bool demux::DemuxContext::loop() {
@@ -31,8 +32,8 @@ bool demux::DemuxContext::loop() {
             this->sync_->init(std::min(2, this->_demuxer->nbStreams()));
         }
     }
-    int ret = this->_demuxer->epoch();
-    if (ret < 0) {
+    auto ret = this->_demuxer->epoch();
+    if (ret == common::error::eof) {
         this->_demuxer->flush();
         this->_demuxer->close();
         this->_demuxer = nullptr;
@@ -42,7 +43,8 @@ bool demux::DemuxContext::loop() {
     return _running;
 }
 
-void demux::DemuxContext::stopRunning() {
+common::error demux::DemuxContext::stopRunning() {
     this->_running = false;
     this->_thread.join();
+    return common::error::success;
 }

@@ -27,7 +27,7 @@ namespace demux {
 
     }
 
-    void Demuxer::init(const core::play_entry_sptr& entry, const demux_ctx_sptr& demux_ctx) {
+    common::error Demuxer::init(const core::play_entry_sptr& entry, const demux_ctx_sptr& demux_ctx) {
         this->_entry = entry;
         this->_base_pts = entry->last_pts;
         this->_av_format_ctx.reset(avformat_alloc_context(), avformat_close_input_wrapper);
@@ -54,36 +54,37 @@ namespace demux {
         if (!success) {
             throw exception::DemuxerInitException();
         }
+        return common::error::success;
     }
 
-    int Demuxer::epoch() {
+    common::error Demuxer::epoch() {
         int ret = av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get());
         if (ret >= 0) {
             this->_streams.at(this->_av_packet->stream_index)->feed(this->_av_packet);
             av_packet_unref(this->_av_packet.get());
         }
-        return ret;
+        return ret < 0 ? common::error::eof : common::error::success;
     }
 
-    int Demuxer::flush() {
+    common::error Demuxer::flush() {
         int stream_index = 0;
         for (auto& stream : this->_streams) {
             av_packet_unref(this->_av_packet.get());
             this->_av_packet.get()->stream_index = stream_index++;
             stream->feed(this->_av_packet);
         }
-        return 0;
+        return common::error::success;
     }
 
     int Demuxer::nbStreams() const {
         return static_cast<int>(this->_av_format_ctx->nb_streams);
     }
 
-    int Demuxer::close() {
+    common::error Demuxer::close() {
         for (auto& stream : this->_streams) {
             stream->close();
         }
-        return 0;
+        return common::error::success;
     }
 
 }

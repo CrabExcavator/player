@@ -18,6 +18,10 @@
 
 namespace demux {
 
+    /**
+     * @brief process kinds of packet
+     * @todo an abstract class of Stream
+     */
     class Stream: public std::enable_shared_from_this<Stream> {
     public:
         friend class filter::Fill;

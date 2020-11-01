@@ -11,6 +11,9 @@
 
 namespace demux::filter {
 
+    /**
+     * @brief resample audio that device not support
+     */
     class ReSample: public FrameFilterBase {
     public:
         ReSample() = default;

@@ -9,11 +9,12 @@
 namespace common {
 
     /**
-     * @brief error code used by player
+     * @brief error code used by player, error lt 0 is exception
      */
     enum class error {
-        success,
-        unknown,
+        unknown = -1000,
+        success = 0,
+        eof,
     };
 
 }

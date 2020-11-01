@@ -13,6 +13,9 @@
 
 namespace demux::filter {
 
+    /**
+     * @brief init var in frame
+     */
     class Fill: public FrameFilterBase {
     public:
         Fill() = delete;

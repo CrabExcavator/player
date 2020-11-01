@@ -11,6 +11,9 @@
 
 namespace demux::filter {
 
+    /**
+     * @brief transfer data in raw frame to data that can be used directly
+     */
     class Blit: public FrameFilterBase {
     public:
         misc::vector_sptr<frame_sptr> filter(const misc::vector_sptr<frame_sptr>& in) override;

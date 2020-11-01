@@ -13,10 +13,28 @@
 
 namespace demux::filter {
 
+    /**
+     * @brief abstract class to filter frame
+     */
     class FrameFilterBase: public misc::ChainNode<frame_sptr> {
     public:
+        /**
+         * @brief filter frame
+         * @param [in] in
+         * @return list of frame
+         */
         misc::vector_sptr<frame_sptr> filter(const misc::vector_sptr<frame_sptr>& in) override = 0;
+
+        /**
+         * @brief flush frame
+         * @param [in] in
+         * @return list of frame
+         */
         misc::vector_sptr<frame_sptr> flush(const misc::vector_sptr<frame_sptr>& in) override = 0;
+
+        /**
+         * @brief close frame filter
+         */
         void close() override = 0;
     };
 

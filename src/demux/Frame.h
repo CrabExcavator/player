@@ -18,52 +18,124 @@ extern "C" {
 
 namespace demux {
 
+    /**
+     * @brief frame is basic unit of meaningful for data struct for player
+     */
     class Frame {
     public:
+        /**
+         * @brief allocate raw frame
+         */
         Frame();
+
+        /**
+         * @brief default
+         */
         ~Frame();
+
+        /**
+         * @brief delete
+         * @param rhs
+         */
         Frame(const Frame& rhs) = delete;
+
+        /**
+         * @brief delete
+         * @param rhs
+         */
         Frame(Frame&& rhs) = delete;
+
+        /**
+         * @brief delete
+         * @param rhs
+         * @return
+         */
         Frame& operator = (const Frame& rhs) = delete;
+
+        /**
+         * @brief delete
+         * @param rhs
+         * @return
+         */
         Frame& operator = (Frame&& rhs) = delete;
-        // todo return raw pointer have safety problem here, fixit
+
+        /**
+         * @brief get raw pointer
+         * @return raw pointer
+         * @todo hide raw pointer from player
+         */
         AVFrame* raw() {return this->_frame;}
 
     public:
-        // is it the first frame of a stream
+        /**
+         * @brief is it the first frame of a stream
+         */
         bool first = false;
 
-        // is it the last frame of a stream
+        /**
+         * @brief is it the last frame of a stream
+         */
         bool last = false;
 
-        // sample format in audio frame
+        /**
+         * @brief sample format in audio frame
+         */
         audio::sample_format sample_fmt = audio::sample_format::unknown;
+
+        /**
+         * @brief sample size in audio frame
+         */
         int sample_size = 0;
 
-        // num of channel
+        /**
+         * @brief number of channel
+         */
         int num_of_channel = 0;
 
-        // num of sample
+        /**
+         * @brief number of sample
+         */
         int num_of_sample = 0;
 
-        // sample rate
+        /**
+         * @brief sample rate
+         */
         int sample_rate = 0;
 
-        // image format in image frame
+        /**
+         * @brief image format in image frame
+         */
         video::image_format img_fmt = video::image_format::unknown;
 
-        // packed formats that can be direct used in driver
+        /**
+         * @brief transformed data
+         */
         uint8_t* pixels = nullptr;
 
+        /**
+         * @brief pitch could be considered as the width of pic
+         */
         int pitch = 0;
+
+        /**
+         * @brief height of pic
+         */
         int height = 0;
 
+        /**
+         * @brief time base of frame
+         */
         std::chrono::steady_clock::duration time_base{};
 
+        /**
+         * @brief pts of frame
+         */
         int64_t pts = 0;
 
     private:
-        // raw frame in ffmpeg
+        /**
+         * @brief raw frame in ffmpeg
+         */
         AVFrame* _frame;
     };
 

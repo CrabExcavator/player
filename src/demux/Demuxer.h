@@ -17,32 +17,85 @@ extern "C" {
 
 #include "core/PlayEntry.h"
 #include "misc/typeptr.h"
+#include "common/error.h"
 
 namespace demux {
 
     using av_packet_sptr = std::shared_ptr<AVPacket>;
 
-    class Stream;
-
+    /**
+     * @brief demuxer used for entry
+     */
     class Demuxer: public std::enable_shared_from_this<Demuxer> {
     public:
+        /**
+         * @brief default
+         */
         Demuxer();
-        void init(const core::play_entry_sptr& entry, const demux_ctx_sptr& demux_ctx);
+
+        /**
+         * @brief init
+         * @param [in] entry the entry to demux
+         * @param [in] demux_ctx demux context is used to pass input queue to stream
+         * @return error code
+         */
+        common::error init(const core::play_entry_sptr& entry, const demux_ctx_sptr& demux_ctx);
+
+        /**
+         * @brief default
+         */
         ~Demuxer();
-        int epoch();
-        int flush();
-        int close();
+
+        /**
+         * @brief handle next packet
+         * @return error code
+         */
+        common::error epoch();
+
+        /**
+         * @brief some stream should feed empty packet to flush
+         * @return error code
+         */
+        common::error flush();
+
+        /**
+         * @brief close demuxer
+         * @return error code
+         */
+        common::error close();
+
+        /**
+         * @brief get number of stream
+         * @return number of stream
+         */
         int nbStreams() const;
 
     private:
+        /**
+         * @brief no use
+         */
         int64_t _base_pts{};
+
+        /**
+         * @brief weak pointer to entry, no use for now
+         */
         std::weak_ptr<core::PlayEntry> _entry;
+
+        /**
+         * @brief format context
+         */
         std::shared_ptr<AVFormatContext> _av_format_ctx;
-        std::vector<std::shared_ptr<Stream>> _streams;
+
+        /**
+         * @brief list of stream
+         */
+        std::vector<stream_sptr> _streams;
+
+        /**
+         * @brief packet to fill
+         */
         av_packet_sptr _av_packet;
     };
-
-    using demuxer_sptr = std::shared_ptr<Demuxer>;
 
 }
 
