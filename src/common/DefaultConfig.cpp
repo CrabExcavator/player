@@ -5,7 +5,7 @@
 
 #include "DefaultConfig.h"
 
-namespace core {
+namespace common {
 
 #define DEFINE_POCKET(type, key, value) misc::Pocket<type> DefaultConfig::key(#key, value)
 

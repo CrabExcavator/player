@@ -18,7 +18,7 @@ namespace audio {
 
     }
 
-    void AudioOutput::init(const core::player_ctx_sptr &player_ctx) {
+    common::error AudioOutput::init(const core::player_ctx_sptr &player_ctx) {
         this->queue = player_ctx->ao_queue;
         this->_driver = driver::DriverFactory::create(GET_CONFIG(ao_driver));
         this->_running = true;
@@ -26,11 +26,13 @@ namespace audio {
         this->_thread.run([&](){
            do{} while(this->loop());
         });
+        return common::error::success;
     }
 
-    void AudioOutput::stopRunning() {
+    common::error AudioOutput::stopRunning() {
         this->_running = false;
         this->_thread.join();
+        return common::error::success;
     }
 
     bool AudioOutput::loop() {

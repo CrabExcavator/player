@@ -12,22 +12,44 @@
 #include "misc/Pocket.h"
 #include "core/PlayList.h"
 
-namespace core {
+namespace common {
 
-    // todo serializer clazz
+    /**
+     * @brief default config
+     * if user defined class should support config, operator << & >>
+     * should be impl
+     */
     class DefaultConfig {
     public:
 
-        // core config
+        /**
+         * @brief play_method of play_list
+         */
         static misc::Pocket<core::play_method> default_play_method;
 
-        // ao config
+        /**
+         * @brief window_width of audio output
+         */
         static misc::Pocket<int> window_width;
+
+        /**
+         * @brief window_height of audio output
+         */
         static misc::Pocket<int> window_height;
+
+        /**
+         * @brief driver name of audio output
+         */
         static misc::Pocket<std::string> ao_driver;
 
-        // vo config
+        /**
+         * @brief driver name of video driver
+         */
         static misc::Pocket<std::string> vo_driver;
+
+        /**
+         * @brief default queue size of concurrent queue
+         */
         static misc::Pocket<int> default_queue_size;
 
     };

@@ -10,10 +10,11 @@
 #include "demux/Frame.h"
 #include "audio/sample_format.h"
 
-static const int length = 1000000000;
-
 namespace audio::driver {
 
+    /**
+     * @brief map from player sample format to PortAudio sample format
+     */
     static std::map<sample_format, PaSampleFormat> sampleMap = {
             {sample_format::FLTP, paFloat32}
     };
@@ -102,7 +103,7 @@ namespace audio::driver {
 
     int DriverPortAudio::paCallbackMethod(const void *inputBuffer, void *outputBuffer, unsigned long samplesPerBuffer,
                                           const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags) {
-        // todo this could lost sample at tail
+        // todo add static driver config
         this->_buffer.get(static_cast<uint8_t*>(outputBuffer), 0, 2 * 4 * samplesPerBuffer);
         return paContinue;
     }

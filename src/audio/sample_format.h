@@ -8,6 +8,9 @@
 
 namespace audio {
 
+    /**
+     * @brief sample format of player
+     */
     enum class sample_format {
         unknown,
         FLTP,

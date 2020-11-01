@@ -17,28 +17,86 @@ namespace demux {
 
 namespace core {
 
+    /**
+     * @brief supported entry type
+     */
     enum class entry_type {
         file,
         numOfEntryType
     };
 
+    /**
+     * @brief play entry
+     */
     class PlayEntry {
     public:
+        /**
+         * @brief delete
+         */
         PlayEntry() = delete;
+
+        /**
+         * @brief init play entry
+         * @param [in] type entry type
+         * @param [in] uri resource path
+         * @param [in] last_pts no use yet
+         */
         PlayEntry(entry_type type, std::string uri, int64_t last_pts);
+
+        /**
+         * @brief default
+         * @param rhs
+         */
         PlayEntry(const PlayEntry& rhs) = default;
+
+        /**
+         * @brief default
+         * @param rhs
+         */
         PlayEntry(PlayEntry&& rhs) = default;
+
+        /**
+         * @brief default
+         * @param rhs
+         * @return
+         */
         PlayEntry& operator = (const PlayEntry& rhs) = default;
+
+        /**
+         * @brief default
+         * @param rhs
+         * @return
+         */
         PlayEntry& operator = (PlayEntry&& rhs) = default;
+
+        /**
+         * @brief default
+         */
         ~PlayEntry() = default;
+
+        /**
+         * @brief cmp operator
+         * @param rhs
+         * @return
+         */
         bool operator < (const PlayEntry&rhs) const {
             return (this->type < rhs.type) || (this->type == rhs.type && this->uri < rhs.uri);
         }
 
     public:
+        /**
+         * @brief entry type
+         */
         entry_type type;
+
+        /**
+         * @brief resource path
+         */
         std::string uri;
-        // this is last pts played
+
+        /**
+         * @brief pts last play
+         */
         int64_t last_pts;
     };
 

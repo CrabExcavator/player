@@ -13,6 +13,9 @@
 
 namespace core {
 
+    /**
+     * @brief player context
+     */
     class PlayerContext: public std::enable_shared_from_this<PlayerContext> {
     public:
         PlayerContext() = default;

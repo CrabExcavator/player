@@ -10,6 +10,11 @@
 #include <vector>
 #include <array>
 
+namespace common {
+    class Config;
+    using config_sptr = std::shared_ptr<Config>;
+}
+
 namespace misc {
     template <typename T, size_t Size>
     using array_sptr = std::shared_ptr<std::array<T, Size>>;
