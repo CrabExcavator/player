@@ -17,7 +17,7 @@ namespace demux {
         avcodec_free_context(&ctx);
     }
 
-    void Stream::init(const std::shared_ptr<AVFormatContext>& av_fmt_ctx_, int index, const demux_ctx_sptr& demux_ctx) {
+    common::error Stream::init(const std::shared_ptr<AVFormatContext>& av_fmt_ctx_, int index, const demux_ctx_sptr& demux_ctx) {
         bool success = true;
         this->_index = index;
         this->_av_fmt_ctx = av_fmt_ctx_;
@@ -55,9 +55,10 @@ namespace demux {
         }
         this->_first = true;
         this->av_codec_ctx->channel_layout = av_get_default_channel_layout(this->av_codec_ctx->channels);
+        return common::error::success;
     }
 
-    void Stream::feed(const av_packet_sptr &packet) {
+    common::error Stream::feed(const av_packet_sptr &packet) {
         int ret = (avcodec_send_packet(this->av_codec_ctx.get(), packet.get()) >= 0);
         while (ret >= 0) {
             this->_frame = std::make_shared<Frame>();
@@ -73,12 +74,14 @@ namespace demux {
             this->_frame = this->_frame_filter_chain->filter(in)->at(0);
             this->queue->blockingWrite(this->_frame);
         }
+        return common::error::success;
     }
 
-    void Stream::close() {
+    common::error Stream::close() {
         this->_frame = std::make_shared<Frame>();
         this->_frame->last = true;
         this->queue->blockingWrite(this->_frame);
+        return common::error::success;
     }
 
     std::chrono::nanoseconds Stream::timeBase() const {

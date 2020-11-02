@@ -1,0 +1,145 @@
+\hypertarget{classaudio_1_1driver_1_1_audio_driver}{}\doxysection{audio\+::driver\+::Audio\+Driver Class Reference}
+\label{classaudio_1_1driver_1_1_audio_driver}\index{audio::driver::AudioDriver@{audio::driver::AudioDriver}}
+
+
+abstract class of audio driver  
+
+
+
+
+{\ttfamily \#include $<$Audio\+Driver.\+h$>$}
+
+Inheritance diagram for audio\+::driver\+::Audio\+Driver\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classaudio_1_1driver_1_1_audio_driver}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classaudio_1_1driver_1_1_audio_driver_ad678b17b4291fc32be05ee2d8b2b2867}\label{classaudio_1_1driver_1_1_audio_driver_ad678b17b4291fc32be05ee2d8b2b2867}} 
+\mbox{\hyperlink{classaudio_1_1driver_1_1_audio_driver_ad678b17b4291fc32be05ee2d8b2b2867}{Audio\+Driver}} ()=default
+\begin{DoxyCompactList}\small\item\em default constructor \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classaudio_1_1driver_1_1_audio_driver_a5868709668b91ecb2452a5474278942d}\label{classaudio_1_1driver_1_1_audio_driver_a5868709668b91ecb2452a5474278942d}} 
+virtual \mbox{\hyperlink{classaudio_1_1driver_1_1_audio_driver_a5868709668b91ecb2452a5474278942d}{$\sim$\+Audio\+Driver}} ()=default
+\begin{DoxyCompactList}\small\item\em default de\+Constructor \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classaudio_1_1driver_1_1_audio_driver_ae3e1f3a23ae5f3c2206a949c7be337ca}{init}} (ao\+\_\+sptr ao)=0
+\begin{DoxyCompactList}\small\item\em init \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classaudio_1_1driver_1_1_audio_driver_a4c172e9f69753cd23f36d2cf70775b52}{play}} (ao\+\_\+sptr ao)=0
+\begin{DoxyCompactList}\small\item\em playback one frame \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classaudio_1_1driver_1_1_audio_driver_a03cc1b3d3a9fa6454204dfd7f447acfd}{stop}} (ao\+\_\+sptr ao)=0
+\begin{DoxyCompactList}\small\item\em stop playback \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classaudio_1_1driver_1_1_audio_driver_ab246b84fd8de1f88ef00264164fb1b93}{re\+Config}} (ao\+\_\+sptr ao)=0
+\begin{DoxyCompactList}\small\item\em re\+Config \end{DoxyCompactList}\item 
+virtual misc\+::vector\+\_\+sptr$<$ std\+::string $>$ \mbox{\hyperlink{classaudio_1_1driver_1_1_audio_driver_a0d7a06c64fa27883b98f83481224b031}{get\+Devices}} (ao\+\_\+sptr ao)=0
+\begin{DoxyCompactList}\small\item\em get device \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+abstract class of audio driver 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classaudio_1_1driver_1_1_audio_driver_a0d7a06c64fa27883b98f83481224b031}\label{classaudio_1_1driver_1_1_audio_driver_a0d7a06c64fa27883b98f83481224b031}} 
+\index{audio::driver::AudioDriver@{audio::driver::AudioDriver}!getDevices@{getDevices}}
+\index{getDevices@{getDevices}!audio::driver::AudioDriver@{audio::driver::AudioDriver}}
+\doxysubsubsection{\texorpdfstring{getDevices()}{getDevices()}}
+{\footnotesize\ttfamily virtual misc\+::vector\+\_\+sptr$<$std\+::string$>$ audio\+::driver\+::\+Audio\+Driver\+::get\+Devices (\begin{DoxyParamCaption}\item[{ao\+\_\+sptr}]{ao }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+get device 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ao} & audio output \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list of device name 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classaudio_1_1driver_1_1_driver_port_audio_ab0cbf552a70d653d62fded2f7d53f1a2}{audio\+::driver\+::\+Driver\+Port\+Audio}}.
+
+\mbox{\Hypertarget{classaudio_1_1driver_1_1_audio_driver_ae3e1f3a23ae5f3c2206a949c7be337ca}\label{classaudio_1_1driver_1_1_audio_driver_ae3e1f3a23ae5f3c2206a949c7be337ca}} 
+\index{audio::driver::AudioDriver@{audio::driver::AudioDriver}!init@{init}}
+\index{init@{init}!audio::driver::AudioDriver@{audio::driver::AudioDriver}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily virtual void audio\+::driver\+::\+Audio\+Driver\+::init (\begin{DoxyParamCaption}\item[{ao\+\_\+sptr}]{ao }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+init 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ao} & audio output \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classaudio_1_1driver_1_1_driver_port_audio_a971fa5c09772ad4516759045f874aba6}{audio\+::driver\+::\+Driver\+Port\+Audio}}.
+
+\mbox{\Hypertarget{classaudio_1_1driver_1_1_audio_driver_a4c172e9f69753cd23f36d2cf70775b52}\label{classaudio_1_1driver_1_1_audio_driver_a4c172e9f69753cd23f36d2cf70775b52}} 
+\index{audio::driver::AudioDriver@{audio::driver::AudioDriver}!play@{play}}
+\index{play@{play}!audio::driver::AudioDriver@{audio::driver::AudioDriver}}
+\doxysubsubsection{\texorpdfstring{play()}{play()}}
+{\footnotesize\ttfamily virtual void audio\+::driver\+::\+Audio\+Driver\+::play (\begin{DoxyParamCaption}\item[{ao\+\_\+sptr}]{ao }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+playback one frame 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ao} & audio output \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classaudio_1_1driver_1_1_driver_port_audio_afd959c3640475a54417fc25973fdf9aa}{audio\+::driver\+::\+Driver\+Port\+Audio}}.
+
+\mbox{\Hypertarget{classaudio_1_1driver_1_1_audio_driver_ab246b84fd8de1f88ef00264164fb1b93}\label{classaudio_1_1driver_1_1_audio_driver_ab246b84fd8de1f88ef00264164fb1b93}} 
+\index{audio::driver::AudioDriver@{audio::driver::AudioDriver}!reConfig@{reConfig}}
+\index{reConfig@{reConfig}!audio::driver::AudioDriver@{audio::driver::AudioDriver}}
+\doxysubsubsection{\texorpdfstring{reConfig()}{reConfig()}}
+{\footnotesize\ttfamily virtual void audio\+::driver\+::\+Audio\+Driver\+::re\+Config (\begin{DoxyParamCaption}\item[{ao\+\_\+sptr}]{ao }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+re\+Config 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ao} & audio output \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classaudio_1_1driver_1_1_driver_port_audio_aa28ad65d44df05d922d2acf6e10170fe}{audio\+::driver\+::\+Driver\+Port\+Audio}}.
+
+\mbox{\Hypertarget{classaudio_1_1driver_1_1_audio_driver_a03cc1b3d3a9fa6454204dfd7f447acfd}\label{classaudio_1_1driver_1_1_audio_driver_a03cc1b3d3a9fa6454204dfd7f447acfd}} 
+\index{audio::driver::AudioDriver@{audio::driver::AudioDriver}!stop@{stop}}
+\index{stop@{stop}!audio::driver::AudioDriver@{audio::driver::AudioDriver}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily virtual void audio\+::driver\+::\+Audio\+Driver\+::stop (\begin{DoxyParamCaption}\item[{ao\+\_\+sptr}]{ao }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+stop playback 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ao} & audio output \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classaudio_1_1driver_1_1_driver_port_audio_ab58efb83b3e3599ff476a90571060281}{audio\+::driver\+::\+Driver\+Port\+Audio}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/audio/driver/Audio\+Driver.\+h\end{DoxyCompactItemize}

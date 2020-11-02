@@ -12,8 +12,16 @@
 
 namespace video::driver {
 
+    /**
+     * @brief video driver factory
+     */
     class DriverFactory {
     public:
+        /**
+         * @brief create video driver
+         * @param driver_name video driver name
+         * @return video driver
+         */
         static video_driver_uptr create(const std::string& driver_name);
     };
 

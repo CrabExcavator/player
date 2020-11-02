@@ -1,0 +1,304 @@
+\hypertarget{classcore_1_1_play_list}{}\doxysection{core\+::Play\+List Class Reference}
+\label{classcore_1_1_play_list}\index{core::PlayList@{core::PlayList}}
+
+
+play list  
+
+
+
+
+{\ttfamily \#include $<$Play\+List.\+h$>$}
+
+Inheritance diagram for core\+::Play\+List\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1_play_list}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcore_1_1_play_list_aab2abea24f9d33e64daa487718285c52}\label{classcore_1_1_play_list_aab2abea24f9d33e64daa487718285c52}} 
+\mbox{\hyperlink{classcore_1_1_play_list_aab2abea24f9d33e64daa487718285c52}{Play\+List}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_play_list_a852de591b307c3d5f3feb41b51f30797}{Play\+List}} (const \mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&rhs)=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_play_list_a25bd7942ac296aa6d5bddf661c336065}{Play\+List}} (\mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&\&rhs) noexcept=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \& \mbox{\hyperlink{classcore_1_1_play_list_aee18640ddbd72d3c8472449e3c82470e}{operator=}} (const \mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&rhs)=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \& \mbox{\hyperlink{classcore_1_1_play_list_a42f3738c27ee2e40f27a4879b782f89d}{operator=}} (\mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&\&rhs) noexcept=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcore_1_1_play_list_a164090f82fbd3c5e7c6ac74ea67121ee}\label{classcore_1_1_play_list_a164090f82fbd3c5e7c6ac74ea67121ee}} 
+\mbox{\hyperlink{classcore_1_1_play_list_a164090f82fbd3c5e7c6ac74ea67121ee}{$\sim$\+Play\+List}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+play\+\_\+list\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_aa7dfe26270ee941d0e0dca394b3c5720}{add\+Last}} (play\+\_\+entry\+\_\+sptr entry)
+\begin{DoxyCompactList}\small\item\em add entry to last \end{DoxyCompactList}\item 
+play\+\_\+list\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_a5ee7064237f13c7f722dd73283bd3eba}{add\+First}} (play\+\_\+entry\+\_\+sptr entry)
+\begin{DoxyCompactList}\small\item\em add entry to first \end{DoxyCompactList}\item 
+play\+\_\+list\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_aeb32c83d28aa3e6588f3607167fe557c}{add\+Index}} (int index, play\+\_\+entry\+\_\+sptr entry)
+\begin{DoxyCompactList}\small\item\em add entry to specified index \end{DoxyCompactList}\item 
+play\+\_\+list\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_aaf7886cc6a59444958fed062134a2eb7}{remove\+Last}} ()
+\begin{DoxyCompactList}\small\item\em remove last entry \end{DoxyCompactList}\item 
+play\+\_\+list\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_a2a6d3f5dafa5bec8e77538e08d4928d0}{remove\+First}} ()
+\begin{DoxyCompactList}\small\item\em remove first entry \end{DoxyCompactList}\item 
+play\+\_\+list\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_aabfe261b34e2c645cf861f4420971403}{remove\+Index}} (int index)
+\begin{DoxyCompactList}\small\item\em remove specified entry \end{DoxyCompactList}\item 
+play\+\_\+list\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_a3902bc198f7b04b94f58208488d58dd5}{clear}} ()
+\begin{DoxyCompactList}\small\item\em clear play list \end{DoxyCompactList}\item 
+play\+\_\+entry\+\_\+sptr \mbox{\hyperlink{classcore_1_1_play_list_abaa44f6af595d96742cbd93ca212a0f0}{current}} ()
+\begin{DoxyCompactList}\small\item\em current entry \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcore_1_1_play_list_a0fc629e16a0ad5f0af42b0db0f02c6af}\label{classcore_1_1_play_list_a0fc629e16a0ad5f0af42b0db0f02c6af}} 
+void \mbox{\hyperlink{classcore_1_1_play_list_a0fc629e16a0ad5f0af42b0db0f02c6af}{next}} ()
+\begin{DoxyCompactList}\small\item\em move to next entry \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classcore_1_1_play_list_a015594ca45d1e0ac1297a2dc11cb4923}{size}} ()
+\begin{DoxyCompactList}\small\item\em number of play list \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_play_list_a1009ee4dd48e2023b83487ba72bc6d23}{set\+Play\+Method}} (play\+\_\+method method)
+\begin{DoxyCompactList}\small\item\em set play method \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcore_1_1_play_list_a1c8695ba0373d5a39fe2f8c14b52ebfd}\label{classcore_1_1_play_list_a1c8695ba0373d5a39fe2f8c14b52ebfd}} 
+class {\bfseries Play\+Method}
+\item 
+\mbox{\Hypertarget{classcore_1_1_play_list_a6869dbc66c1a3e4934a279733bdaec75}\label{classcore_1_1_play_list_a6869dbc66c1a3e4934a279733bdaec75}} 
+class {\bfseries Play\+Method\+Entry\+End}
+\item 
+\mbox{\Hypertarget{classcore_1_1_play_list_a00548ad0888bbc9431ce58ee188d10b1}\label{classcore_1_1_play_list_a00548ad0888bbc9431ce58ee188d10b1}} 
+class {\bfseries Play\+Method\+List\+Loop}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+play list 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcore_1_1_play_list_a852de591b307c3d5f3feb41b51f30797}\label{classcore_1_1_play_list_a852de591b307c3d5f3feb41b51f30797}} 
+\index{core::PlayList@{core::PlayList}!PlayList@{PlayList}}
+\index{PlayList@{PlayList}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{PlayList()}{PlayList()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily core\+::\+Play\+List\+::\+Play\+List (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcore_1_1_play_list_a25bd7942ac296aa6d5bddf661c336065}\label{classcore_1_1_play_list_a25bd7942ac296aa6d5bddf661c336065}} 
+\index{core::PlayList@{core::PlayList}!PlayList@{PlayList}}
+\index{PlayList@{PlayList}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{PlayList()}{PlayList()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily core\+::\+Play\+List\+::\+Play\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcore_1_1_play_list_a5ee7064237f13c7f722dd73283bd3eba}\label{classcore_1_1_play_list_a5ee7064237f13c7f722dd73283bd3eba}} 
+\index{core::PlayList@{core::PlayList}!addFirst@{addFirst}}
+\index{addFirst@{addFirst}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{addFirst()}{addFirst()}}
+{\footnotesize\ttfamily play\+\_\+list\+\_\+sptr core\+::\+Play\+List\+::add\+First (\begin{DoxyParamCaption}\item[{play\+\_\+entry\+\_\+sptr}]{entry }\end{DoxyParamCaption})}
+
+
+
+add entry to first 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em entry} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_aeb32c83d28aa3e6588f3607167fe557c}\label{classcore_1_1_play_list_aeb32c83d28aa3e6588f3607167fe557c}} 
+\index{core::PlayList@{core::PlayList}!addIndex@{addIndex}}
+\index{addIndex@{addIndex}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{addIndex()}{addIndex()}}
+{\footnotesize\ttfamily play\+\_\+list\+\_\+sptr core\+::\+Play\+List\+::add\+Index (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{play\+\_\+entry\+\_\+sptr}]{entry }\end{DoxyParamCaption})}
+
+
+
+add entry to specified index 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & \\
+\hline
+\mbox{\texttt{ in}}  & {\em entry} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_aa7dfe26270ee941d0e0dca394b3c5720}\label{classcore_1_1_play_list_aa7dfe26270ee941d0e0dca394b3c5720}} 
+\index{core::PlayList@{core::PlayList}!addLast@{addLast}}
+\index{addLast@{addLast}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{addLast()}{addLast()}}
+{\footnotesize\ttfamily play\+\_\+list\+\_\+sptr core\+::\+Play\+List\+::add\+Last (\begin{DoxyParamCaption}\item[{play\+\_\+entry\+\_\+sptr}]{entry }\end{DoxyParamCaption})}
+
+
+
+add entry to last 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em entry} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_a3902bc198f7b04b94f58208488d58dd5}\label{classcore_1_1_play_list_a3902bc198f7b04b94f58208488d58dd5}} 
+\index{core::PlayList@{core::PlayList}!clear@{clear}}
+\index{clear@{clear}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily play\+\_\+list\+\_\+sptr core\+::\+Play\+List\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+clear play list 
+
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_abaa44f6af595d96742cbd93ca212a0f0}\label{classcore_1_1_play_list_abaa44f6af595d96742cbd93ca212a0f0}} 
+\index{core::PlayList@{core::PlayList}!current@{current}}
+\index{current@{current}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{current()}{current()}}
+{\footnotesize\ttfamily play\+\_\+entry\+\_\+sptr core\+::\+Play\+List\+::current (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+current entry 
+
+\begin{DoxyReturn}{Returns}
+current entry 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_aee18640ddbd72d3c8472449e3c82470e}\label{classcore_1_1_play_list_aee18640ddbd72d3c8472449e3c82470e}} 
+\index{core::PlayList@{core::PlayList}!operator=@{operator=}}
+\index{operator=@{operator=}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}}\& core\+::\+Play\+List\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_a42f3738c27ee2e40f27a4879b782f89d}\label{classcore_1_1_play_list_a42f3738c27ee2e40f27a4879b782f89d}} 
+\index{core::PlayList@{core::PlayList}!operator=@{operator=}}
+\index{operator=@{operator=}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}}\& core\+::\+Play\+List\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_play_list}{Play\+List}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_a2a6d3f5dafa5bec8e77538e08d4928d0}\label{classcore_1_1_play_list_a2a6d3f5dafa5bec8e77538e08d4928d0}} 
+\index{core::PlayList@{core::PlayList}!removeFirst@{removeFirst}}
+\index{removeFirst@{removeFirst}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{removeFirst()}{removeFirst()}}
+{\footnotesize\ttfamily play\+\_\+list\+\_\+sptr core\+::\+Play\+List\+::remove\+First (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+remove first entry 
+
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_aabfe261b34e2c645cf861f4420971403}\label{classcore_1_1_play_list_aabfe261b34e2c645cf861f4420971403}} 
+\index{core::PlayList@{core::PlayList}!removeIndex@{removeIndex}}
+\index{removeIndex@{removeIndex}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{removeIndex()}{removeIndex()}}
+{\footnotesize\ttfamily play\+\_\+list\+\_\+sptr core\+::\+Play\+List\+::remove\+Index (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+remove specified entry 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_aaf7886cc6a59444958fed062134a2eb7}\label{classcore_1_1_play_list_aaf7886cc6a59444958fed062134a2eb7}} 
+\index{core::PlayList@{core::PlayList}!removeLast@{removeLast}}
+\index{removeLast@{removeLast}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{removeLast()}{removeLast()}}
+{\footnotesize\ttfamily play\+\_\+list\+\_\+sptr core\+::\+Play\+List\+::remove\+Last (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+remove last entry 
+
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcore_1_1_play_list_a1009ee4dd48e2023b83487ba72bc6d23}\label{classcore_1_1_play_list_a1009ee4dd48e2023b83487ba72bc6d23}} 
+\index{core::PlayList@{core::PlayList}!setPlayMethod@{setPlayMethod}}
+\index{setPlayMethod@{setPlayMethod}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{setPlayMethod()}{setPlayMethod()}}
+{\footnotesize\ttfamily void core\+::\+Play\+List\+::set\+Play\+Method (\begin{DoxyParamCaption}\item[{play\+\_\+method}]{method }\end{DoxyParamCaption})}
+
+
+
+set play method 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em method} & play method \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcore_1_1_play_list_a015594ca45d1e0ac1297a2dc11cb4923}\label{classcore_1_1_play_list_a015594ca45d1e0ac1297a2dc11cb4923}} 
+\index{core::PlayList@{core::PlayList}!size@{size}}
+\index{size@{size}!core::PlayList@{core::PlayList}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t core\+::\+Play\+List\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+number of play list 
+
+\begin{DoxyReturn}{Returns}
+number of play list 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/core/Play\+List.\+h\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/core/Play\+List.\+cpp\end{DoxyCompactItemize}

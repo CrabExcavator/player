@@ -1,0 +1,243 @@
+\hypertarget{classmisc_1_1_buffer}{}\doxysection{misc\+::Buffer$<$ T, Size $>$ Class Template Reference}
+\label{classmisc_1_1_buffer}\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+
+
+a templated data structure to buffer data  
+
+
+
+
+{\ttfamily \#include $<$Buffer.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmisc_1_1_buffer_acd4d845a68c5a2340b223d847bd52908}\label{classmisc_1_1_buffer_acd4d845a68c5a2340b223d847bd52908}} 
+\mbox{\hyperlink{classmisc_1_1_buffer_acd4d845a68c5a2340b223d847bd52908}{Buffer}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_buffer_aaafb7574b963ef262c9de17f79b94de2}{Buffer}} (const \mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \&rhs)
+\begin{DoxyCompactList}\small\item\em copy array \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_buffer_a12a69c18aadfb6cfcc598096ea26fdbc}{Buffer}} (\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \&\&rhs) noexcept
+\begin{DoxyCompactList}\small\item\em move array \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \& \mbox{\hyperlink{classmisc_1_1_buffer_aa8a8c288cf957da1faa20b0ec7897b5d}{operator=}} (const \mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \&rhs)
+\begin{DoxyCompactList}\small\item\em copy array \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \& \mbox{\hyperlink{classmisc_1_1_buffer_a01dab4a865728710bdec90256065d274}{operator=}} (\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \&\&rhs) noexcept
+\begin{DoxyCompactList}\small\item\em move array \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmisc_1_1_buffer_a3f75bc13214875ee628b92f23bd04133}{put}} (const T $\ast$src, int begin\+Of\+Ele, int num\+Of\+Ele)
+\begin{DoxyCompactList}\small\item\em put ele in array with copy fashion \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t o\+Size$>$ }\\void \mbox{\hyperlink{classmisc_1_1_buffer_a93ba53c4af8aca08265ba6bf73ee535c}{put}} (const std\+::array$<$ T, o\+Size $>$ \&src, int begin\+Of\+Ele, int num\+Of\+Ele)
+\begin{DoxyCompactList}\small\item\em put ele in array with copy fashion \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmisc_1_1_buffer_a39ce4418c1d64760b1d8df30ec3861b1}{get}} (T $\ast$dst, int begin\+Of\+Ele, int num\+Of\+Ele)
+\begin{DoxyCompactList}\small\item\em get ele from array to dst \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t o\+Size$>$ }\\void \mbox{\hyperlink{classmisc_1_1_buffer_a1abe569da91c9b5450cfcba8775824e0}{get}} (std\+::array$<$ T, o\+Size $>$ \&dst, int begin\+Of\+Ele, int num\+Of\+Ele)
+\begin{DoxyCompactList}\small\item\em get ele from array to dst \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmisc_1_1_buffer_ace3ff09f5fa1b71ca4a3ca321ffa42a2}\label{classmisc_1_1_buffer_ace3ff09f5fa1b71ca4a3ca321ffa42a2}} 
+void \mbox{\hyperlink{classmisc_1_1_buffer_ace3ff09f5fa1b71ca4a3ca321ffa42a2}{clear}} ()
+\begin{DoxyCompactList}\small\item\em clear all ele \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmisc_1_1_buffer_a875e31c153e2fe54a60876a781bde757}\label{classmisc_1_1_buffer_a875e31c153e2fe54a60876a781bde757}} 
+void \mbox{\hyperlink{classmisc_1_1_buffer_a875e31c153e2fe54a60876a781bde757}{close}} ()
+\begin{DoxyCompactList}\small\item\em close buffer and release all choke thread \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classmisc_1_1_buffer_a1be672b84ade2fd991623a782bea8446}{size}} ()
+\begin{DoxyCompactList}\small\item\em size of buffer \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T, size\+\_\+t Size$>$\newline
+class misc\+::\+Buffer$<$ T, Size $>$}
+
+a templated data structure to buffer data 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & element of \mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \\
+\hline
+{\em Size} & size of \mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmisc_1_1_buffer_aaafb7574b963ef262c9de17f79b94de2}\label{classmisc_1_1_buffer_aaafb7574b963ef262c9de17f79b94de2}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!Buffer@{Buffer}}
+\index{Buffer@{Buffer}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{Buffer()}{Buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+\mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}}$<$ T, Size $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+copy array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_buffer_a12a69c18aadfb6cfcc598096ea26fdbc}\label{classmisc_1_1_buffer_a12a69c18aadfb6cfcc598096ea26fdbc}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!Buffer@{Buffer}}
+\index{Buffer@{Buffer}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{Buffer()}{Buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+\mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}}$<$ T, Size $>$ \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+move array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmisc_1_1_buffer_a1abe569da91c9b5450cfcba8775824e0}\label{classmisc_1_1_buffer_a1abe569da91c9b5450cfcba8775824e0}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!get@{get}}
+\index{get@{get}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+template$<$size\+\_\+t o\+Size$>$ \\
+void \mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::get (\begin{DoxyParamCaption}\item[{std\+::array$<$ T, o\+Size $>$ \&}]{dst,  }\item[{int}]{begin\+Of\+Ele,  }\item[{int}]{num\+Of\+Ele }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get ele from array to dst 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em o\+Size} & size of dst array \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em dst} & pointer to dst \\
+\hline
+\mbox{\texttt{ in}}  & {\em begin\+Of\+Ele} & begin of ele to put \\
+\hline
+\mbox{\texttt{ in}}  & {\em num\+Of\+Ele} & number of ele to put \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_buffer_a39ce4418c1d64760b1d8df30ec3861b1}\label{classmisc_1_1_buffer_a39ce4418c1d64760b1d8df30ec3861b1}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!get@{get}}
+\index{get@{get}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+void \mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::get (\begin{DoxyParamCaption}\item[{T $\ast$}]{dst,  }\item[{int}]{begin\+Of\+Ele,  }\item[{int}]{num\+Of\+Ele }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get ele from array to dst 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em dst} & pointer to dst \\
+\hline
+\mbox{\texttt{ in}}  & {\em begin\+Of\+Ele} & begin of ele to put \\
+\hline
+\mbox{\texttt{ in}}  & {\em num\+Of\+Ele} & number of ele to put \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_buffer_a01dab4a865728710bdec90256065d274}\label{classmisc_1_1_buffer_a01dab4a865728710bdec90256065d274}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}}\& \mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}}$<$ T, Size $>$ \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+move array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_buffer_aa8a8c288cf957da1faa20b0ec7897b5d}\label{classmisc_1_1_buffer_aa8a8c288cf957da1faa20b0ec7897b5d}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+\mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}}\& \mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmisc_1_1_buffer}{Buffer}}$<$ T, Size $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+copy array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_buffer_a93ba53c4af8aca08265ba6bf73ee535c}\label{classmisc_1_1_buffer_a93ba53c4af8aca08265ba6bf73ee535c}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!put@{put}}
+\index{put@{put}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+template$<$size\+\_\+t o\+Size$>$ \\
+void \mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::put (\begin{DoxyParamCaption}\item[{const std\+::array$<$ T, o\+Size $>$ \&}]{src,  }\item[{int}]{begin\+Of\+Ele,  }\item[{int}]{num\+Of\+Ele }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+put ele in array with copy fashion 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em o\+Size} & the size of src array \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em src} & src array to copy \\
+\hline
+\mbox{\texttt{ in}}  & {\em begin\+Of\+Ele} & begin of ele to copy \\
+\hline
+\mbox{\texttt{ in}}  & {\em num\+Of\+Ele} & number of ele to copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_buffer_a3f75bc13214875ee628b92f23bd04133}\label{classmisc_1_1_buffer_a3f75bc13214875ee628b92f23bd04133}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!put@{put}}
+\index{put@{put}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+void \mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::put (\begin{DoxyParamCaption}\item[{const T $\ast$}]{src,  }\item[{int}]{begin\+Of\+Ele,  }\item[{int}]{num\+Of\+Ele }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+put ele in array with copy fashion 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em src} & head of src \\
+\hline
+\mbox{\texttt{ in}}  & {\em begin\+Of\+Ele} & begin of ele to copy \\
+\hline
+\mbox{\texttt{ in}}  & {\em num\+Of\+Ele} & number of ele to copy \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_buffer_a1be672b84ade2fd991623a782bea8446}\label{classmisc_1_1_buffer_a1be672b84ade2fd991623a782bea8446}} 
+\index{misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}!size@{size}}
+\index{size@{size}!misc::Buffer$<$ T, Size $>$@{misc::Buffer$<$ T, Size $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size$>$ \\
+int \mbox{\hyperlink{classmisc_1_1_buffer}{misc\+::\+Buffer}}$<$ T, Size $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+size of buffer 
+
+\begin{DoxyReturn}{Returns}
+size of buffer 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/misc/Buffer.\+h\end{DoxyCompactItemize}

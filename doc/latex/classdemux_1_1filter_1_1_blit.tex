@@ -1,0 +1,83 @@
+\hypertarget{classdemux_1_1filter_1_1_blit}{}\doxysection{demux\+::filter\+::Blit Class Reference}
+\label{classdemux_1_1filter_1_1_blit}\index{demux::filter::Blit@{demux::filter::Blit}}
+
+
+transfer data in raw frame to data that can be used directly  
+
+
+
+
+{\ttfamily \#include $<$Blit.\+h$>$}
+
+Inheritance diagram for demux\+::filter\+::Blit\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classdemux_1_1filter_1_1_blit}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ \mbox{\hyperlink{classdemux_1_1filter_1_1_blit_abbc5ec560311249c3b1b4ec3e2cb492d}{filter}} (const misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ \&in) override
+\begin{DoxyCompactList}\small\item\em filter frame \end{DoxyCompactList}\item 
+misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ \mbox{\hyperlink{classdemux_1_1filter_1_1_blit_a6bedb779e7834a965dbb531643194089}{flush}} (const misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ \&in) override
+\begin{DoxyCompactList}\small\item\em flush frame \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdemux_1_1filter_1_1_blit_a584e58c89aa7024df0ce87141237a4b8}\label{classdemux_1_1filter_1_1_blit_a584e58c89aa7024df0ce87141237a4b8}} 
+void \mbox{\hyperlink{classdemux_1_1filter_1_1_blit_a584e58c89aa7024df0ce87141237a4b8}{close}} () override
+\begin{DoxyCompactList}\small\item\em close frame filter \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+transfer data in raw frame to data that can be used directly 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdemux_1_1filter_1_1_blit_abbc5ec560311249c3b1b4ec3e2cb492d}\label{classdemux_1_1filter_1_1_blit_abbc5ec560311249c3b1b4ec3e2cb492d}} 
+\index{demux::filter::Blit@{demux::filter::Blit}!filter@{filter}}
+\index{filter@{filter}!demux::filter::Blit@{demux::filter::Blit}}
+\doxysubsubsection{\texorpdfstring{filter()}{filter()}}
+{\footnotesize\ttfamily misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ demux\+::filter\+::\+Blit\+::filter (\begin{DoxyParamCaption}\item[{const misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ \&}]{in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+filter frame 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list of frame 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classdemux_1_1filter_1_1_frame_filter_base_a1c55a8e78709889f78a20326889d94ad}{demux\+::filter\+::\+Frame\+Filter\+Base}}.
+
+\mbox{\Hypertarget{classdemux_1_1filter_1_1_blit_a6bedb779e7834a965dbb531643194089}\label{classdemux_1_1filter_1_1_blit_a6bedb779e7834a965dbb531643194089}} 
+\index{demux::filter::Blit@{demux::filter::Blit}!flush@{flush}}
+\index{flush@{flush}!demux::filter::Blit@{demux::filter::Blit}}
+\doxysubsubsection{\texorpdfstring{flush()}{flush()}}
+{\footnotesize\ttfamily misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ demux\+::filter\+::\+Blit\+::flush (\begin{DoxyParamCaption}\item[{const misc\+::vector\+\_\+sptr$<$ frame\+\_\+sptr $>$ \&}]{in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+flush frame 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list of frame 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classdemux_1_1filter_1_1_frame_filter_base_aa740629ab2d3a7b774625022d27c2c34}{demux\+::filter\+::\+Frame\+Filter\+Base}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/demux/filter/Blit.\+h\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/demux/filter/Blit.\+cpp\end{DoxyCompactItemize}

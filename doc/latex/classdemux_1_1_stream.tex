@@ -1,0 +1,211 @@
+\hypertarget{classdemux_1_1_stream}{}\doxysection{demux\+::Stream Class Reference}
+\label{classdemux_1_1_stream}\index{demux::Stream@{demux::Stream}}
+
+
+process kinds of packet  
+
+
+
+
+{\ttfamily \#include $<$Stream.\+h$>$}
+
+Inheritance diagram for demux\+::Stream\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classdemux_1_1_stream}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdemux_1_1_stream_a75be47e9260fe4992b3da3e197b1c99a}\label{classdemux_1_1_stream_a75be47e9260fe4992b3da3e197b1c99a}} 
+using {\bfseries av\+\_\+codec\+\_\+ctx\+\_\+uptr} = std\+::unique\+\_\+ptr$<$ A\+V\+Codec\+Context, std\+::function$<$ void(A\+V\+Codec\+Context $\ast$)$>$ $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdemux_1_1_stream_a411ef66e5ee53ffd12d54e4cafd5efa3}\label{classdemux_1_1_stream_a411ef66e5ee53ffd12d54e4cafd5efa3}} 
+\mbox{\hyperlink{classdemux_1_1_stream_a411ef66e5ee53ffd12d54e4cafd5efa3}{Stream}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+common\+::error \mbox{\hyperlink{classdemux_1_1_stream_a5a1a2b83a07de47da7abf92aa8b4361a}{init}} (const std\+::shared\+\_\+ptr$<$ A\+V\+Format\+Context $>$ \&av\+\_\+fmt\+\_\+ctx\+\_\+, int index, const demux\+\_\+ctx\+\_\+sptr \&demux\+\_\+ctx)
+\begin{DoxyCompactList}\small\item\em init stream \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdemux_1_1_stream_ab3a2d4a08bd1665210e4569826715bcb}{Stream}} (const \mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&rhs)=delete
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdemux_1_1_stream_aa1659e8c24cf64390e52b3814d102d44}{Stream}} (\mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&\&rhs)=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \& \mbox{\hyperlink{classdemux_1_1_stream_a74e728f9d29ff81cd740a690e124be30}{operator=}} (const \mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&rhs)=delete
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \& \mbox{\hyperlink{classdemux_1_1_stream_a2c39c81e984ebc6e0f41e5a246f167de}{operator=}} (\mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&\&rhs)=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+common\+::error \mbox{\hyperlink{classdemux_1_1_stream_ad395383524adcdfddda8cce29dabe18d}{feed}} (const av\+\_\+packet\+\_\+sptr \&packet)
+\begin{DoxyCompactList}\small\item\em feed packet \end{DoxyCompactList}\item 
+std\+::chrono\+::nanoseconds \mbox{\hyperlink{classdemux_1_1_stream_a674b23297124c16d62fe65e7646860d9}{time\+Base}} () const
+\begin{DoxyCompactList}\small\item\em time base of stream \end{DoxyCompactList}\item 
+common\+::error \mbox{\hyperlink{classdemux_1_1_stream_a7ebc15b35edafc60cb3ee263e7844f89}{close}} ()
+\begin{DoxyCompactList}\small\item\em close stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdemux_1_1_stream_a8024f6d5787b08618316980a3cfe7074}\label{classdemux_1_1_stream_a8024f6d5787b08618316980a3cfe7074}} 
+av\+\_\+codec\+\_\+ctx\+\_\+uptr \mbox{\hyperlink{classdemux_1_1_stream_a8024f6d5787b08618316980a3cfe7074}{av\+\_\+codec\+\_\+ctx}}
+\begin{DoxyCompactList}\small\item\em av codec \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdemux_1_1_stream_aba7a41708a9866ad6add44a4d7d37101}\label{classdemux_1_1_stream_aba7a41708a9866ad6add44a4d7d37101}} 
+std\+::shared\+\_\+ptr$<$ folly\+::\+M\+P\+M\+C\+Queue$<$ demux\+::frame\+\_\+sptr $>$ $>$ \mbox{\hyperlink{classdemux_1_1_stream_aba7a41708a9866ad6add44a4d7d37101}{queue}}
+\begin{DoxyCompactList}\small\item\em output queue \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdemux_1_1_stream_a1283109cab24e911eb2f164d0af2aeb4}\label{classdemux_1_1_stream_a1283109cab24e911eb2f164d0af2aeb4}} 
+class {\bfseries filter\+::\+Fill}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+process kinds of packet 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]an abstract class of \mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \end{DoxyRefDesc}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classdemux_1_1_stream_ab3a2d4a08bd1665210e4569826715bcb}\label{classdemux_1_1_stream_ab3a2d4a08bd1665210e4569826715bcb}} 
+\index{demux::Stream@{demux::Stream}!Stream@{Stream}}
+\index{Stream@{Stream}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{Stream()}{Stream()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily demux\+::\+Stream\+::\+Stream (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdemux_1_1_stream_aa1659e8c24cf64390e52b3814d102d44}\label{classdemux_1_1_stream_aa1659e8c24cf64390e52b3814d102d44}} 
+\index{demux::Stream@{demux::Stream}!Stream@{Stream}}
+\index{Stream@{Stream}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{Stream()}{Stream()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily demux\+::\+Stream\+::\+Stream (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdemux_1_1_stream_a7ebc15b35edafc60cb3ee263e7844f89}\label{classdemux_1_1_stream_a7ebc15b35edafc60cb3ee263e7844f89}} 
+\index{demux::Stream@{demux::Stream}!close@{close}}
+\index{close@{close}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily common\+::error demux\+::\+Stream\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+close stream 
+
+\begin{DoxyReturn}{Returns}
+error code 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdemux_1_1_stream_ad395383524adcdfddda8cce29dabe18d}\label{classdemux_1_1_stream_ad395383524adcdfddda8cce29dabe18d}} 
+\index{demux::Stream@{demux::Stream}!feed@{feed}}
+\index{feed@{feed}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{feed()}{feed()}}
+{\footnotesize\ttfamily common\+::error demux\+::\+Stream\+::feed (\begin{DoxyParamCaption}\item[{const av\+\_\+packet\+\_\+sptr \&}]{packet }\end{DoxyParamCaption})}
+
+
+
+feed packet 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & the packet to feed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+error code 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdemux_1_1_stream_a5a1a2b83a07de47da7abf92aa8b4361a}\label{classdemux_1_1_stream_a5a1a2b83a07de47da7abf92aa8b4361a}} 
+\index{demux::Stream@{demux::Stream}!init@{init}}
+\index{init@{init}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily common\+::error demux\+::\+Stream\+::init (\begin{DoxyParamCaption}\item[{const std\+::shared\+\_\+ptr$<$ A\+V\+Format\+Context $>$ \&}]{av\+\_\+fmt\+\_\+ctx\+\_\+,  }\item[{int}]{index,  }\item[{const demux\+\_\+ctx\+\_\+sptr \&}]{demux\+\_\+ctx }\end{DoxyParamCaption})}
+
+
+
+init stream 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em av\+\_\+fmt\+\_\+ctx\+\_\+} & \\
+\hline
+\mbox{\texttt{ in}}  & {\em index} & index of stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em demux\+\_\+ctx} & pass output queue \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+error code 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdemux_1_1_stream_a74e728f9d29ff81cd740a690e124be30}\label{classdemux_1_1_stream_a74e728f9d29ff81cd740a690e124be30}} 
+\index{demux::Stream@{demux::Stream}!operator=@{operator=}}
+\index{operator=@{operator=}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classdemux_1_1_stream}{Stream}}\& demux\+::\+Stream\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdemux_1_1_stream_a2c39c81e984ebc6e0f41e5a246f167de}\label{classdemux_1_1_stream_a2c39c81e984ebc6e0f41e5a246f167de}} 
+\index{demux::Stream@{demux::Stream}!operator=@{operator=}}
+\index{operator=@{operator=}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classdemux_1_1_stream}{Stream}}\& demux\+::\+Stream\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdemux_1_1_stream}{Stream}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdemux_1_1_stream_a674b23297124c16d62fe65e7646860d9}\label{classdemux_1_1_stream_a674b23297124c16d62fe65e7646860d9}} 
+\index{demux::Stream@{demux::Stream}!timeBase@{timeBase}}
+\index{timeBase@{timeBase}!demux::Stream@{demux::Stream}}
+\doxysubsubsection{\texorpdfstring{timeBase()}{timeBase()}}
+{\footnotesize\ttfamily std\+::chrono\+::nanoseconds demux\+::\+Stream\+::time\+Base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+time base of stream 
+
+\begin{DoxyReturn}{Returns}
+time base in nanoseconds 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/demux/Stream.\+h\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/demux/Stream.\+cpp\end{DoxyCompactItemize}

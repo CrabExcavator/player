@@ -1,0 +1,167 @@
+\hypertarget{classcommon_1_1_config}{}\doxysection{common\+::Config Class Reference}
+\label{classcommon_1_1_config}\index{common::Config@{common::Config}}
+
+
+config  
+
+
+
+
+{\ttfamily \#include $<$Config.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcommon_1_1_config_af6b5b4f2d19f5c777c7ad723019a6afa}{Config}} (const \mbox{\hyperlink{classcommon_1_1_config}{Config}} \&rhs)=delete
+\begin{DoxyCompactList}\small\item\em delete \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcommon_1_1_config_ae690f0057a8a7489492cc0a298dae515}{Config}} (\mbox{\hyperlink{classcommon_1_1_config}{Config}} \&\&rhs)=delete
+\begin{DoxyCompactList}\small\item\em delete \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcommon_1_1_config}{Config}} \& \mbox{\hyperlink{classcommon_1_1_config_a62e8e5b3678aada55851ea51bc3841d7}{operator=}} (const \mbox{\hyperlink{classcommon_1_1_config}{Config}} \&rhs)=delete
+\begin{DoxyCompactList}\small\item\em delete \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcommon_1_1_config}{Config}} \& \mbox{\hyperlink{classcommon_1_1_config_a0a94ea41e784e3a2c1bae7bbdd272dc5}{operator=}} (\mbox{\hyperlink{classcommon_1_1_config}{Config}} \&\&rhs)=delete
+\begin{DoxyCompactList}\small\item\em delete \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcommon_1_1_config_a838f94868d581a6b46db263efeb62a81}\label{classcommon_1_1_config_a838f94868d581a6b46db263efeb62a81}} 
+\mbox{\hyperlink{classcommon_1_1_config_a838f94868d581a6b46db263efeb62a81}{$\sim$\+Config}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{classcommon_1_1_config_a2190a6597c43eacc73fd3eaea3c03ac1}{get}} (const \mbox{\hyperlink{classmisc_1_1_pocket}{misc\+::\+Pocket}}$<$ T $>$ \&pocket)
+\begin{DoxyCompactList}\small\item\em key of config key-\/value pair \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static config\+\_\+sptr \mbox{\hyperlink{classcommon_1_1_config_a066ffc0b74f2ddc85ee495b2b145bb7c}{get\+Instance}} ()
+\begin{DoxyCompactList}\small\item\em get config singleton \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classcommon_1_1_config_a8161691039d83052678423930edcc5e4}{load\+Config}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em load config from local filesystem \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+config 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcommon_1_1_config_af6b5b4f2d19f5c777c7ad723019a6afa}\label{classcommon_1_1_config_af6b5b4f2d19f5c777c7ad723019a6afa}} 
+\index{common::Config@{common::Config}!Config@{Config}}
+\index{Config@{Config}!common::Config@{common::Config}}
+\doxysubsubsection{\texorpdfstring{Config()}{Config()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily common\+::\+Config\+::\+Config (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcommon_1_1_config}{Config}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+delete 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcommon_1_1_config_ae690f0057a8a7489492cc0a298dae515}\label{classcommon_1_1_config_ae690f0057a8a7489492cc0a298dae515}} 
+\index{common::Config@{common::Config}!Config@{Config}}
+\index{Config@{Config}!common::Config@{common::Config}}
+\doxysubsubsection{\texorpdfstring{Config()}{Config()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily common\+::\+Config\+::\+Config (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcommon_1_1_config}{Config}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+delete 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcommon_1_1_config_a2190a6597c43eacc73fd3eaea3c03ac1}\label{classcommon_1_1_config_a2190a6597c43eacc73fd3eaea3c03ac1}} 
+\index{common::Config@{common::Config}!get@{get}}
+\index{get@{get}!common::Config@{common::Config}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T common\+::\+Config\+::get (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmisc_1_1_pocket}{misc\+::\+Pocket}}$<$ T $>$ \&}]{pocket }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+key of config key-\/value pair 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type of value \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pocket} & wrapper of key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcommon_1_1_config_a066ffc0b74f2ddc85ee495b2b145bb7c}\label{classcommon_1_1_config_a066ffc0b74f2ddc85ee495b2b145bb7c}} 
+\index{common::Config@{common::Config}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!common::Config@{common::Config}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily config\+\_\+sptr common\+::\+Config\+::get\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+get config singleton 
+
+\begin{DoxyReturn}{Returns}
+config singleton 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcommon_1_1_config_a8161691039d83052678423930edcc5e4}\label{classcommon_1_1_config_a8161691039d83052678423930edcc5e4}} 
+\index{common::Config@{common::Config}!loadConfig@{loadConfig}}
+\index{loadConfig@{loadConfig}!common::Config@{common::Config}}
+\doxysubsubsection{\texorpdfstring{loadConfig()}{loadConfig()}}
+{\footnotesize\ttfamily void common\+::\+Config\+::load\+Config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+load config from local filesystem 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em path} & path of config file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcommon_1_1_config_a0a94ea41e784e3a2c1bae7bbdd272dc5}\label{classcommon_1_1_config_a0a94ea41e784e3a2c1bae7bbdd272dc5}} 
+\index{common::Config@{common::Config}!operator=@{operator=}}
+\index{operator=@{operator=}!common::Config@{common::Config}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcommon_1_1_config}{Config}}\& common\+::\+Config\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcommon_1_1_config}{Config}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+delete 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcommon_1_1_config_a62e8e5b3678aada55851ea51bc3841d7}\label{classcommon_1_1_config_a62e8e5b3678aada55851ea51bc3841d7}} 
+\index{common::Config@{common::Config}!operator=@{operator=}}
+\index{operator=@{operator=}!common::Config@{common::Config}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcommon_1_1_config}{Config}}\& common\+::\+Config\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcommon_1_1_config}{Config}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+delete 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/common/Config.\+h\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/common/Config.\+cpp\end{DoxyCompactItemize}

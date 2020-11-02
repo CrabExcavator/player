@@ -8,6 +8,9 @@
 
 namespace input {
 
+    /**
+     * @brief event or input code used by player
+     */
     enum class event {
         exit,
         key_up,

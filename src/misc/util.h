@@ -12,6 +12,9 @@
 
 namespace misc {
 
+    /**
+     * @brief defer in go
+     */
     class Defer {
     public:
         using defer_sptr = std::shared_ptr<Defer>;
@@ -26,6 +29,12 @@ namespace misc {
 
 #define DEFER(func, args...) misc::Defer _(func, ##args)
 
+    /**
+     * @brief cast one ele to string
+     * @tparam T
+     * @param head
+     * @return
+     */
     template <typename T>
     inline std::string to_string(T&& head) {
         std::stringstream ss;
@@ -33,6 +42,14 @@ namespace misc {
         return ss.str();
     }
 
+    /**
+     * @brief cast many ele to string
+     * @tparam T
+     * @tparam Args
+     * @param head
+     * @param args
+     * @return
+     */
     template <typename T, typename... Args>
     inline std::string to_string(T&& head, Args&&... args) {
         return to_string(std::forward<T>(head)) + to_string(std::forward<Args>(args)...);

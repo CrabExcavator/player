@@ -18,7 +18,7 @@ namespace video {
 
     }
 
-    void VideoOutput::init(const core::player_ctx_sptr& player_ctx) {
+    common::error VideoOutput::init(const core::player_ctx_sptr& player_ctx) {
         this->queue = player_ctx->vo_queue;
         this->_input_ctx = player_ctx->input_ctx;
         this->window_width = GET_CONFIG(window_width);
@@ -30,6 +30,7 @@ namespace video {
         this->_thread.run([&](){
             do{} while(this->loop());
         });
+        return common::error::success;
     }
 
     input::input_ctx_sptr VideoOutput::getInputCtx() {
@@ -94,13 +95,15 @@ namespace video {
         return this->_running;
     }
 
-    void VideoOutput::loopInMainThread() {
+    common::error VideoOutput::loopInMainThread() {
         this->_driver->waitEvents(shared_from_this());
+        return common::error::success;
     }
 
-    void VideoOutput::stopRunning() {
+    common::error VideoOutput::stopRunning() {
         this->_running = false;
         this->_thread.join();
+        return common::error::success;
     }
 
 }

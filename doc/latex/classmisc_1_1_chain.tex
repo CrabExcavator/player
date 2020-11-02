@@ -1,0 +1,209 @@
+\hypertarget{classmisc_1_1_chain}{}\doxysection{misc\+::Chain$<$ T $>$ Class Template Reference}
+\label{classmisc_1_1_chain}\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+
+
+templated responsibility chain  
+
+
+
+
+{\ttfamily \#include $<$Chain.\+h$>$}
+
+Inheritance diagram for misc\+::Chain$<$ T $>$\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmisc_1_1_chain}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmisc_1_1_chain_afe46523c1f0eaaa4d0e3be7124ff0e01}\label{classmisc_1_1_chain_afe46523c1f0eaaa4d0e3be7124ff0e01}} 
+\mbox{\hyperlink{classmisc_1_1_chain_afe46523c1f0eaaa4d0e3be7124ff0e01}{Chain}} ()
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_chain_aa30b2fdd9e21eb730d135fb95e1f4211}{Chain}} (const \mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&rhs)=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_chain_a55660dd9cffd8b207704fc792f10e3ac}{Chain}} (\mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&\&rhs) noexcept=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_chain}{Chain}} \& \mbox{\hyperlink{classmisc_1_1_chain_a46f6488da856710721be22c831f83659}{operator=}} (const \mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&rhs)=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_chain}{Chain}} \& \mbox{\hyperlink{classmisc_1_1_chain_a8b8dcc26804a6a37fb8e09359941b64b}{operator=}} (\mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&\&rhs) noexcept=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+chain\+\_\+sptr$<$ T $>$ \mbox{\hyperlink{classmisc_1_1_chain_a25f4eec28c915b63f71e753d4bbcabd0}{add\+Last}} (chain\+\_\+node\+\_\+sptr$<$ T $>$ node)
+\begin{DoxyCompactList}\small\item\em add chain node last \end{DoxyCompactList}\item 
+chain\+\_\+sptr$<$ T $>$ \mbox{\hyperlink{classmisc_1_1_chain_a12e00b6d07b6d98070587971c4b43da0}{add\+First}} (chain\+\_\+node\+\_\+sptr$<$ T $>$ node)
+\begin{DoxyCompactList}\small\item\em add chain node first \end{DoxyCompactList}\item 
+vector\+\_\+sptr$<$ T $>$ \mbox{\hyperlink{classmisc_1_1_chain_a0141603ee46bfc5fbd990cdafc46b5e3}{filter}} (vector\+\_\+sptr$<$ T $>$ in)
+\begin{DoxyCompactList}\small\item\em filter list of typename T with list of chain node \end{DoxyCompactList}\item 
+vector\+\_\+sptr$<$ T $>$ \mbox{\hyperlink{classmisc_1_1_chain_a6d31947714a114d68020af09abd5daa5}{flush}} ()
+\begin{DoxyCompactList}\small\item\em flush list of typename T in list of chain node \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmisc_1_1_chain_a6738dea2b342bf42e9d3a27ecc1ad6d5}\label{classmisc_1_1_chain_a6738dea2b342bf42e9d3a27ecc1ad6d5}} 
+void \mbox{\hyperlink{classmisc_1_1_chain_a6738dea2b342bf42e9d3a27ecc1ad6d5}{close}} ()
+\begin{DoxyCompactList}\small\item\em close chain \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class misc\+::\+Chain$<$ T $>$}
+
+templated responsibility chain 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000003}{Todo}}]add error code in filter \end{DoxyRefDesc}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type to filter \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmisc_1_1_chain_aa30b2fdd9e21eb730d135fb95e1f4211}\label{classmisc_1_1_chain_aa30b2fdd9e21eb730d135fb95e1f4211}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!Chain@{Chain}}
+\index{Chain@{Chain}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Chain()}{Chain()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::\mbox{\hyperlink{classmisc_1_1_chain}{Chain}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_chain_a55660dd9cffd8b207704fc792f10e3ac}\label{classmisc_1_1_chain_a55660dd9cffd8b207704fc792f10e3ac}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!Chain@{Chain}}
+\index{Chain@{Chain}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Chain()}{Chain()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::\mbox{\hyperlink{classmisc_1_1_chain}{Chain}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmisc_1_1_chain_a12e00b6d07b6d98070587971c4b43da0}\label{classmisc_1_1_chain_a12e00b6d07b6d98070587971c4b43da0}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!addFirst@{addFirst}}
+\index{addFirst@{addFirst}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addFirst()}{addFirst()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+chain\+\_\+sptr$<$T$>$ \mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::add\+First (\begin{DoxyParamCaption}\item[{chain\+\_\+node\+\_\+sptr$<$ T $>$}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+add chain node first 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em node} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_chain_a25f4eec28c915b63f71e753d4bbcabd0}\label{classmisc_1_1_chain_a25f4eec28c915b63f71e753d4bbcabd0}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!addLast@{addLast}}
+\index{addLast@{addLast}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{addLast()}{addLast()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+chain\+\_\+sptr$<$T$>$ \mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::add\+Last (\begin{DoxyParamCaption}\item[{chain\+\_\+node\+\_\+sptr$<$ T $>$}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+add chain node last 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em node} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_chain_a0141603ee46bfc5fbd990cdafc46b5e3}\label{classmisc_1_1_chain_a0141603ee46bfc5fbd990cdafc46b5e3}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!filter@{filter}}
+\index{filter@{filter}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{filter()}{filter()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector\+\_\+sptr$<$T$>$ \mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::filter (\begin{DoxyParamCaption}\item[{vector\+\_\+sptr$<$ T $>$}]{in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+filter list of typename T with list of chain node 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & list of typename T \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_chain_a6d31947714a114d68020af09abd5daa5}\label{classmisc_1_1_chain_a6d31947714a114d68020af09abd5daa5}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!flush@{flush}}
+\index{flush@{flush}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{flush()}{flush()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+vector\+\_\+sptr$<$T$>$ \mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::flush (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+flush list of typename T in list of chain node 
+
+\begin{DoxyReturn}{Returns}
+list of typename T 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_chain_a8b8dcc26804a6a37fb8e09359941b64b}\label{classmisc_1_1_chain_a8b8dcc26804a6a37fb8e09359941b64b}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classmisc_1_1_chain}{Chain}}\& \mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_chain_a46f6488da856710721be22c831f83659}\label{classmisc_1_1_chain_a46f6488da856710721be22c831f83659}} 
+\index{misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!misc::Chain$<$ T $>$@{misc::Chain$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classmisc_1_1_chain}{Chain}}\& \mbox{\hyperlink{classmisc_1_1_chain}{misc\+::\+Chain}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmisc_1_1_chain}{Chain}}$<$ T $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/misc/Chain.\+h\end{DoxyCompactItemize}

@@ -7,6 +7,10 @@
 #define PLAYER_IMAGE_FORMAT_H
 
 namespace video {
+
+    /**
+     * @brief image format
+     */
     enum class image_format {
         unknown,
         yuv420p,

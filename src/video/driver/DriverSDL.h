@@ -15,23 +15,65 @@
 
 namespace video::driver {
 
+    /**
+     * @brief video driver of sdl
+     */
     class DriverSDL: public VideoDriver {
     public:
+        /**
+         * @brief default
+         */
         DriverSDL() = default;
+
+        /**
+         * @brief clear SDL
+         */
         ~DriverSDL() override;
+
+        /**
+         * @brief init SDL && create window && create texture
+         * @param [in] vo
+         */
         void init(vo_sptr vo) override;
+
+        /**
+         * @brief draw one image in each call
+         * @param [in] vo
+         */
         void drawImage(vo_sptr vo) override;
+
+        /**
+         * @brief listen for event, should called in main thread
+         * @param [in] vo
+         */
         void waitEvents(vo_sptr vo) override;
-        // reconfig objects:
-        // 1. texture
+
+        /**
+         * @brief 1. reConfig texture
+         * @param [in] vo
+         */
         void reConfig(vo_sptr vo) override;
 
     private:
         using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;
+
         using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer*)>>;
+
         using texture_uptr = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture*)>>;
+
+        /**
+         * @brief pointer to window
+         */
         window_uptr _window;
+
+        /**
+         * @brief pointer to renderer
+         */
         renderer_uptr _renderer;
+
+        /**
+         * @brief pointer to texture
+         */
         texture_uptr _texture;
     };
 

@@ -12,7 +12,7 @@
 namespace core {
 
     /**
-     * @brief sync different output
+     * @brief keep different thread with proper tick rate
      */
     class Sync {
     public:

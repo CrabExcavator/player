@@ -1,0 +1,121 @@
+\hypertarget{classvideo_1_1driver_1_1_video_driver}{}\doxysection{video\+::driver\+::Video\+Driver Class Reference}
+\label{classvideo_1_1driver_1_1_video_driver}\index{video::driver::VideoDriver@{video::driver::VideoDriver}}
+
+
+video driver  
+
+
+
+
+{\ttfamily \#include $<$Video\+Driver.\+h$>$}
+
+Inheritance diagram for video\+::driver\+::Video\+Driver\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classvideo_1_1driver_1_1_video_driver}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classvideo_1_1driver_1_1_video_driver_a2406e76fb488b8baa1e7f2c3286d4368}\label{classvideo_1_1driver_1_1_video_driver_a2406e76fb488b8baa1e7f2c3286d4368}} 
+\mbox{\hyperlink{classvideo_1_1driver_1_1_video_driver_a2406e76fb488b8baa1e7f2c3286d4368}{Video\+Driver}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classvideo_1_1driver_1_1_video_driver_ada06d910f30994620a51da0fd5a30dbf}\label{classvideo_1_1driver_1_1_video_driver_ada06d910f30994620a51da0fd5a30dbf}} 
+virtual \mbox{\hyperlink{classvideo_1_1driver_1_1_video_driver_ada06d910f30994620a51da0fd5a30dbf}{$\sim$\+Video\+Driver}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classvideo_1_1driver_1_1_video_driver_ad338e877062409c9477236c956f8555d}{init}} (vo\+\_\+sptr vo)=0
+\begin{DoxyCompactList}\small\item\em init \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classvideo_1_1driver_1_1_video_driver_a95a63fa72f2d690dff05a60f1d7e6c1d}{draw\+Image}} (vo\+\_\+sptr vo)=0
+\begin{DoxyCompactList}\small\item\em draw image \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classvideo_1_1driver_1_1_video_driver_af28847e2eb45cb51fc5d1af6ff16820c}{wait\+Events}} (vo\+\_\+sptr vo)=0
+\begin{DoxyCompactList}\small\item\em wait events \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classvideo_1_1driver_1_1_video_driver_add1ba965bdc7e45bcd76c8684775ae48}{re\+Config}} (vo\+\_\+sptr vo)=0
+\begin{DoxyCompactList}\small\item\em re\+Config \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+video driver 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classvideo_1_1driver_1_1_video_driver_a95a63fa72f2d690dff05a60f1d7e6c1d}\label{classvideo_1_1driver_1_1_video_driver_a95a63fa72f2d690dff05a60f1d7e6c1d}} 
+\index{video::driver::VideoDriver@{video::driver::VideoDriver}!drawImage@{drawImage}}
+\index{drawImage@{drawImage}!video::driver::VideoDriver@{video::driver::VideoDriver}}
+\doxysubsubsection{\texorpdfstring{drawImage()}{drawImage()}}
+{\footnotesize\ttfamily virtual void video\+::driver\+::\+Video\+Driver\+::draw\+Image (\begin{DoxyParamCaption}\item[{vo\+\_\+sptr}]{vo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+draw image 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em } & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classvideo_1_1driver_1_1_driver_s_d_l_a086f8678611c59175001adbac4cebbac}{video\+::driver\+::\+Driver\+S\+DL}}.
+
+\mbox{\Hypertarget{classvideo_1_1driver_1_1_video_driver_ad338e877062409c9477236c956f8555d}\label{classvideo_1_1driver_1_1_video_driver_ad338e877062409c9477236c956f8555d}} 
+\index{video::driver::VideoDriver@{video::driver::VideoDriver}!init@{init}}
+\index{init@{init}!video::driver::VideoDriver@{video::driver::VideoDriver}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily virtual void video\+::driver\+::\+Video\+Driver\+::init (\begin{DoxyParamCaption}\item[{vo\+\_\+sptr}]{vo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+init 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vo} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classvideo_1_1driver_1_1_driver_s_d_l_a849bf940ad93ede85a163965c213d38d}{video\+::driver\+::\+Driver\+S\+DL}}.
+
+\mbox{\Hypertarget{classvideo_1_1driver_1_1_video_driver_add1ba965bdc7e45bcd76c8684775ae48}\label{classvideo_1_1driver_1_1_video_driver_add1ba965bdc7e45bcd76c8684775ae48}} 
+\index{video::driver::VideoDriver@{video::driver::VideoDriver}!reConfig@{reConfig}}
+\index{reConfig@{reConfig}!video::driver::VideoDriver@{video::driver::VideoDriver}}
+\doxysubsubsection{\texorpdfstring{reConfig()}{reConfig()}}
+{\footnotesize\ttfamily virtual void video\+::driver\+::\+Video\+Driver\+::re\+Config (\begin{DoxyParamCaption}\item[{vo\+\_\+sptr}]{vo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+re\+Config 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vo} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classvideo_1_1driver_1_1_driver_s_d_l_a87d813da08c1db9f503ca53507f21212}{video\+::driver\+::\+Driver\+S\+DL}}.
+
+\mbox{\Hypertarget{classvideo_1_1driver_1_1_video_driver_af28847e2eb45cb51fc5d1af6ff16820c}\label{classvideo_1_1driver_1_1_video_driver_af28847e2eb45cb51fc5d1af6ff16820c}} 
+\index{video::driver::VideoDriver@{video::driver::VideoDriver}!waitEvents@{waitEvents}}
+\index{waitEvents@{waitEvents}!video::driver::VideoDriver@{video::driver::VideoDriver}}
+\doxysubsubsection{\texorpdfstring{waitEvents()}{waitEvents()}}
+{\footnotesize\ttfamily virtual void video\+::driver\+::\+Video\+Driver\+::wait\+Events (\begin{DoxyParamCaption}\item[{vo\+\_\+sptr}]{vo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+wait events 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vo} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classvideo_1_1driver_1_1_driver_s_d_l_ae527bf5126b4a7d28ccd5a73801e187e}{video\+::driver\+::\+Driver\+S\+DL}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/video/driver/Video\+Driver.\+h\end{DoxyCompactItemize}

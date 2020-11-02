@@ -1,0 +1,97 @@
+\hypertarget{classdemux_1_1_demux_context}{}\doxysection{demux\+::Demux\+Context Class Reference}
+\label{classdemux_1_1_demux_context}\index{demux::DemuxContext@{demux::DemuxContext}}
+
+
+runtime demux  
+
+
+
+
+{\ttfamily \#include $<$Demux\+Context.\+h$>$}
+
+Inheritance diagram for demux\+::Demux\+Context\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classdemux_1_1_demux_context}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdemux_1_1_demux_context_aab82702132cf19959712575ac25ae7c1}\label{classdemux_1_1_demux_context_aab82702132cf19959712575ac25ae7c1}} 
+\mbox{\hyperlink{classdemux_1_1_demux_context_aab82702132cf19959712575ac25ae7c1}{Demux\+Context}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+common\+::error \mbox{\hyperlink{classdemux_1_1_demux_context_a29bb16ba34f45ffb02b7b0c5324b9ef7}{init}} (const core\+::player\+\_\+ctx\+\_\+sptr \&player\+\_\+ctx)
+\begin{DoxyCompactList}\small\item\em init \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classdemux_1_1_demux_context_a42a40a15634387e2ddc11b0012f59f39}{loop}} ()
+\begin{DoxyCompactList}\small\item\em one tick \end{DoxyCompactList}\item 
+common\+::error \mbox{\hyperlink{classdemux_1_1_demux_context_acef839620b2ee0c8964daa5990f0a8b6}{stop\+Running}} ()
+\begin{DoxyCompactList}\small\item\em stop demux thread \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdemux_1_1_demux_context_a4bae4326f13b949f8c66abf1c53cf5fb}\label{classdemux_1_1_demux_context_a4bae4326f13b949f8c66abf1c53cf5fb}} 
+std\+::shared\+\_\+ptr$<$ folly\+::\+M\+P\+M\+C\+Queue$<$ demux\+::frame\+\_\+sptr $>$ $>$ \mbox{\hyperlink{classdemux_1_1_demux_context_a4bae4326f13b949f8c66abf1c53cf5fb}{vo\+\_\+queue}}
+\begin{DoxyCompactList}\small\item\em frame input queue for video output \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdemux_1_1_demux_context_ad6c20639cbcc73484b0b2a94864b8e36}\label{classdemux_1_1_demux_context_ad6c20639cbcc73484b0b2a94864b8e36}} 
+std\+::shared\+\_\+ptr$<$ folly\+::\+M\+P\+M\+C\+Queue$<$ demux\+::frame\+\_\+sptr $>$ $>$ \mbox{\hyperlink{classdemux_1_1_demux_context_ad6c20639cbcc73484b0b2a94864b8e36}{ao\+\_\+queue}}
+\begin{DoxyCompactList}\small\item\em frame input queue for audio output \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdemux_1_1_demux_context_a52676ed07a233e8bda27ea444ba7cd61}\label{classdemux_1_1_demux_context_a52676ed07a233e8bda27ea444ba7cd61}} 
+core\+::sync\+\_\+sptr \mbox{\hyperlink{classdemux_1_1_demux_context_a52676ed07a233e8bda27ea444ba7cd61}{sync\+\_\+}}
+\begin{DoxyCompactList}\small\item\em sync should init in demuxer, because demuxer know the number of stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+runtime demux 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdemux_1_1_demux_context_a29bb16ba34f45ffb02b7b0c5324b9ef7}\label{classdemux_1_1_demux_context_a29bb16ba34f45ffb02b7b0c5324b9ef7}} 
+\index{demux::DemuxContext@{demux::DemuxContext}!init@{init}}
+\index{init@{init}!demux::DemuxContext@{demux::DemuxContext}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily common\+::error demux\+::\+Demux\+Context\+::init (\begin{DoxyParamCaption}\item[{const core\+::player\+\_\+ctx\+\_\+sptr \&}]{player\+\_\+ctx }\end{DoxyParamCaption})}
+
+
+
+init 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em player\+\_\+ctx} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+error code 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdemux_1_1_demux_context_a42a40a15634387e2ddc11b0012f59f39}\label{classdemux_1_1_demux_context_a42a40a15634387e2ddc11b0012f59f39}} 
+\index{demux::DemuxContext@{demux::DemuxContext}!loop@{loop}}
+\index{loop@{loop}!demux::DemuxContext@{demux::DemuxContext}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily bool demux\+::\+Demux\+Context\+::loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+one tick 
+
+\begin{DoxyReturn}{Returns}
+false if end 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdemux_1_1_demux_context_acef839620b2ee0c8964daa5990f0a8b6}\label{classdemux_1_1_demux_context_acef839620b2ee0c8964daa5990f0a8b6}} 
+\index{demux::DemuxContext@{demux::DemuxContext}!stopRunning@{stopRunning}}
+\index{stopRunning@{stopRunning}!demux::DemuxContext@{demux::DemuxContext}}
+\doxysubsubsection{\texorpdfstring{stopRunning()}{stopRunning()}}
+{\footnotesize\ttfamily common\+::error demux\+::\+Demux\+Context\+::stop\+Running (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+stop demux thread 
+
+\begin{DoxyReturn}{Returns}
+error code 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/demux/Demux\+Context.\+h\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/demux/Demux\+Context.\+cpp\end{DoxyCompactItemize}

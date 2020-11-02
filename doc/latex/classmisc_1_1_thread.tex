@@ -1,0 +1,155 @@
+\hypertarget{classmisc_1_1_thread}{}\doxysection{misc\+::Thread Class Reference}
+\label{classmisc_1_1_thread}\index{misc::Thread@{misc::Thread}}
+
+
+\mbox{\hyperlink{classmisc_1_1_thread}{Thread}}.  
+
+
+
+
+{\ttfamily \#include $<$Thread.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classmisc_1_1_thread_a12373145c3234b01a682f583cd97b87a}\label{classmisc_1_1_thread_a12373145c3234b01a682f583cd97b87a}} 
+\mbox{\hyperlink{classmisc_1_1_thread_a12373145c3234b01a682f583cd97b87a}{Thread}} ()=default
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_thread_a0cd4786219f9129f86f56e8f4833ab34}{Thread}} (const \mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&rhs)=delete
+\begin{DoxyCompactList}\small\item\em delete \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_thread_abcaf92df59928c81e8dc8a91f6c87935}{Thread}} (\mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&\&rhs) noexcept
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \& \mbox{\hyperlink{classmisc_1_1_thread_af0f6b72a5b4cc0961de18029195f85a6}{operator=}} (const \mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&rhs)=delete
+\begin{DoxyCompactList}\small\item\em delete \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \& \mbox{\hyperlink{classmisc_1_1_thread_a9d4bb1a951f9b7136402647ed4003915}{operator=}} (\mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&\&rhs)=delete
+\begin{DoxyCompactList}\small\item\em delete \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmisc_1_1_thread_a665a99e9123e7f3477eb3675515df0b7}{Thread}} (std\+::string thread\+\_\+name)
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmisc_1_1_thread_a0678988bbd3a59071561ce1e7712d55a}\label{classmisc_1_1_thread_a0678988bbd3a59071561ce1e7712d55a}} 
+\mbox{\hyperlink{classmisc_1_1_thread_a0678988bbd3a59071561ce1e7712d55a}{$\sim$\+Thread}} ()
+\begin{DoxyCompactList}\small\item\em default \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Fp , typename ... Args$>$ }\\void \mbox{\hyperlink{classmisc_1_1_thread_a7b37f919c4001606ab735a47605d641d}{run}} (Fp \&\&callable, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em start thread \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classmisc_1_1_thread_adeba92532c98839afb964b7de623360f}\label{classmisc_1_1_thread_adeba92532c98839afb964b7de623360f}} 
+void \mbox{\hyperlink{classmisc_1_1_thread_adeba92532c98839afb964b7de623360f}{join}} ()
+\begin{DoxyCompactList}\small\item\em join \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classmisc_1_1_thread}{Thread}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmisc_1_1_thread_a0cd4786219f9129f86f56e8f4833ab34}\label{classmisc_1_1_thread_a0cd4786219f9129f86f56e8f4833ab34}} 
+\index{misc::Thread@{misc::Thread}!Thread@{Thread}}
+\index{Thread@{Thread}!misc::Thread@{misc::Thread}}
+\doxysubsubsection{\texorpdfstring{Thread()}{Thread()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily misc\+::\+Thread\+::\+Thread (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+delete 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_thread_abcaf92df59928c81e8dc8a91f6c87935}\label{classmisc_1_1_thread_abcaf92df59928c81e8dc8a91f6c87935}} 
+\index{misc::Thread@{misc::Thread}!Thread@{Thread}}
+\index{Thread@{Thread}!misc::Thread@{misc::Thread}}
+\doxysubsubsection{\texorpdfstring{Thread()}{Thread()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily misc\+::\+Thread\+::\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmisc_1_1_thread_a665a99e9123e7f3477eb3675515df0b7}\label{classmisc_1_1_thread_a665a99e9123e7f3477eb3675515df0b7}} 
+\index{misc::Thread@{misc::Thread}!Thread@{Thread}}
+\index{Thread@{Thread}!misc::Thread@{misc::Thread}}
+\doxysubsubsection{\texorpdfstring{Thread()}{Thread()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily misc\+::\+Thread\+::\+Thread (\begin{DoxyParamCaption}\item[{std\+::string}]{thread\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+default 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thread\+\_\+name} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmisc_1_1_thread_af0f6b72a5b4cc0961de18029195f85a6}\label{classmisc_1_1_thread_af0f6b72a5b4cc0961de18029195f85a6}} 
+\index{misc::Thread@{misc::Thread}!operator=@{operator=}}
+\index{operator=@{operator=}!misc::Thread@{misc::Thread}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmisc_1_1_thread}{Thread}}\& misc\+::\+Thread\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+delete 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_thread_a9d4bb1a951f9b7136402647ed4003915}\label{classmisc_1_1_thread_a9d4bb1a951f9b7136402647ed4003915}} 
+\index{misc::Thread@{misc::Thread}!operator=@{operator=}}
+\index{operator=@{operator=}!misc::Thread@{misc::Thread}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classmisc_1_1_thread}{Thread}}\& misc\+::\+Thread\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmisc_1_1_thread}{Thread}} \&\&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+delete 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classmisc_1_1_thread_a7b37f919c4001606ab735a47605d641d}\label{classmisc_1_1_thread_a7b37f919c4001606ab735a47605d641d}} 
+\index{misc::Thread@{misc::Thread}!run@{run}}
+\index{run@{run}!misc::Thread@{misc::Thread}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily template$<$typename Fp , typename ... Args$>$ \\
+void misc\+::\+Thread\+::run (\begin{DoxyParamCaption}\item[{Fp \&\&}]{callable,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+start thread 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Fp} & fun to exec \\
+\hline
+{\em Args} & args to fun \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em callable} & \\
+\hline
+{\em args} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/weihan/\+C\+Lion\+Projects/player/src/misc/Thread.\+h\end{DoxyCompactItemize}
