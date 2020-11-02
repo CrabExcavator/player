@@ -7,6 +7,7 @@
 #define PLAYER_SYNC_H
 
 #include <mutex>
+#include <condition_variable>
 
 namespace core {
 
@@ -61,7 +62,7 @@ namespace core {
         /**
          * @brief cond
          */
-        std::condition_variable _cond;
+        std::condition_variable _cond{};
     };
 
 }

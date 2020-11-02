@@ -21,7 +21,7 @@ namespace misc {
             func(std::forward<Args>(args)...);
         }) {}
     private:
-        [[maybe_unused]] defer_sptr _defer;
+        defer_sptr _defer;
     };
 
 #define DEFER(func, args...) misc::Defer _(func, ##args)
