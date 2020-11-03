@@ -39,34 +39,39 @@ namespace video {
 
     bool VideoOutput::loop() {
         if (this->_running) {
-            /* force reConfig */
+            /// force reConfig
             if (this->need_reConfig) {
                 this->_driver->reConfig(shared_from_this());
                 this->need_reConfig = false;
             }
 
             if (this->_frame != nullptr) {
-                /* we can not just dive into playback code with sync reason */
-                /* sync with system clock */
+                /**
+                 * we can not just dive into playback code with sync reason
+                 * sync with system clock
+                 */
                 auto rendering_time = (this->_frame->pts - this->_last_pts) * this->_time_base + this->_last_tick;
                 std::this_thread::sleep_until(rendering_time);
                 this->_last_tick = std::chrono::steady_clock::now();
                 this->_last_pts = this->_frame->pts;
 
-                /* we can not just dive into playback code with sync reason */
-                /* sync with other output */
+                /**
+                 * we can not just dive into playback code with sync reason
+                 * sync with other output
+                 */
                 _sync->wait();
 
-                /* we can measure this is the true playback code for simplicity */
-                /******************** playback ********************/
+                /// playback
                 this->frame_rendering = this->_frame;
                 this->_driver->drawImage(shared_from_this());
                 this->frame_rendering = nullptr;
-                /******************** playback ********************/
+                /// playback
 
                 this->_frame = nullptr;
             } else if (this->queue->read(this->_frame)) {
-                /* init driver if some args not match, idk is it ok putting in first frame */
+                /**
+                 * init driver if some args not match, idk is it ok putting in first frame
+                 */
                 if (this->_frame->img_fmt != this->imgfmt) {
                     this->imgfmt = this->_frame->img_fmt;
                     this->_driver->reConfig(shared_from_this());
@@ -77,18 +82,22 @@ namespace video {
                     this->_driver->reConfig(shared_from_this());
                 }
 
-                /* we should do something for first frame */
-                /* ATT: the first frame always carry data */
+                /**
+                 * we should do something for first frame
+                 * @attention the first frame always carry data
+                 */
                 if (this->_frame->first) {
                     this->_last_tick = std::chrono::steady_clock::now() + std::chrono::seconds(1);
                     this->_last_pts = 0;
                     this->_time_base = this->_frame->time_base;
                 }
 
-                /* we should do something for last frame */
-                /* ATT: the last frame never carry data */
+                /**
+                 * we should do something for last frame
+                 * @attention the last frame never carry data
+                 */
                 if (this->_frame->last) {
-                    // do something
+                    /// @todo do something
                 }
             }
         }

@@ -74,36 +74,63 @@ namespace misc {
 
         /**
          * @brief filter list of typename T with list of chain node
+         * @attention out pass in should always be nullptr
          * @param [in] in list of typename T
-         * @return
+         * @param [out] out list of typename T
+         * @return error code
          */
-        vector_sptr<T> filter(vector_sptr<T> in) {
-            auto param = in;
+        common::error filter(vector_sptr<T> in, vector_sptr<T>& out) {
+            assert(out == nullptr);
+            auto err = common::error::success;
+            auto current = in;
+            auto next = out;
             for (auto& node : this->_queue) {
-                param = node->filter(param);
+                 err = node->filter(current, next);
+                 if (err != common::error::success) {
+                     return err;
+                 }
+                 current = next;
+                 next = nullptr;
+                 out = current;
             }
-            return param;
+            return err;
         }
 
         /**
          * @brief flush list of typename T in list of chain node
-         * @return list of typename T
+         * @attention out pass in should always be nullptr
+         * @param [out] out list of typename T
+         * @return error code
          */
-        vector_sptr<T> flush() {
-            vector_sptr<T> param{};
+        common::error flush(vector_sptr<T>& out) {
+            assert(out == nullptr);
+            auto err = common::error::success;
+            vector_sptr<T> current = nullptr;
+            auto next = out;
             for (auto& node : this->_queue) {
-                param = node->flush(param);
+                err = node->flush(current, next);
+                if (err != common::error::success) {
+                    return err;
+                }
+                current = next;
+                next = nullptr;
+                out = current;
             }
-            return param;
+            return err;
         }
 
         /**
          * @brief close chain
+         * @return error code
          */
-        void close() {
+        common::error close() {
+            auto err = common::error::success;
             for (auto& node : this->_queue) {
-                node->close();
+                if (err != common::error::success) {
+                    err = node->close();
+                }
             }
+            return err;
         }
 
     private:

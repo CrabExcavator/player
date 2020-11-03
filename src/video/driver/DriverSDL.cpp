@@ -16,52 +16,50 @@
 
 namespace video::driver {
 
+    static const std::map<video::image_format, SDL_PixelFormatEnum> formats = {
+            {video::image_format::yuv420p, SDL_PIXELFORMAT_IYUV}
+    };
+
+    static SDL_PixelFormatEnum getFormat(video::image_format imgfmt) {
+        if (!formats.contains(imgfmt)) {
+            return SDL_PIXELFORMAT_UNKNOWN;
+        }
+        return formats.at(imgfmt);
+    }
+
     DriverSDL::~DriverSDL() {
         this->_renderer = nullptr;
         this->_window = nullptr;
         SDL_Quit();
     }
 
-    void DriverSDL::init(vo_sptr vo) {
-        bool success = true;
-        do {
-            if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-                LOG(WARNING) << "SDL could not initialize! SDL_Error: " << SDL_GetError();
-                success = false;
-                break;
-            } else {
-                window_uptr window{
-                        SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                         vo->window_width, vo->window_height,  SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN),
-                        SDL_DestroyWindow
-                };
-                if (window == nullptr) {
-                    LOG(WARNING) << "Window could not be created! SDL_Error: " << SDL_GetError();
-                    success = false;
-                    break;
-                } else {
-                    this->_window.swap(window);
-                    renderer_uptr renderer{
-                            SDL_CreateRenderer(this->_window.get(), -1,
-                                               SDL_RENDERER_ACCELERATED), // todo choose best driver
-                            SDL_DestroyRenderer
-                    };
-                    if (renderer == nullptr) {
-                        LOG(WARNING) << "Renderer could not be created! SDL_Error: " << SDL_GetError();
-                        success = false;
-                        break;
-                    }
-                    this->_renderer.swap(renderer);
-                    this->reConfig(vo);
-                }
-            }
-        } while(false);
-        if (!success) {
-            throw exception::SDLInitException();
+    common::error DriverSDL::init(vo_sptr vo) {
+        if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+            return common::error::videoDriverInitFail;
         }
+        window_uptr window{
+                SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                 vo->window_width, vo->window_height,  SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN),
+                SDL_DestroyWindow
+        };
+        if (window == nullptr) {
+            return common::error::videoDriverInitFail;
+        }
+        this->_window.swap(window);
+        renderer_uptr renderer{
+                SDL_CreateRenderer(this->_window.get(), -1,
+                                   SDL_RENDERER_ACCELERATED),
+                SDL_DestroyRenderer
+        };
+        if (renderer == nullptr) {
+            return common::error::videoDriverInitFail;
+        }
+        this->_renderer.swap(renderer);
+        this->reConfig(vo);
+        return common::error::success;
     }
 
-    void DriverSDL::drawImage(vo_sptr vo) {
+    common::error DriverSDL::drawImage(vo_sptr vo) {
         SDL_RenderClear(this->_renderer.get());
         SDL_SetTextureBlendMode(this->_texture.get(), SDL_BLENDMODE_NONE);
         if (vo->frame_rendering != nullptr) {
@@ -73,11 +71,12 @@ namespace video::driver {
             SDL_UnlockTexture(this->_texture.get());
 
             SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, nullptr);
+            SDL_RenderPresent(this->_renderer.get());
         }
-        SDL_RenderPresent(this->_renderer.get());
+        return common::error::success;
     }
 
-    void DriverSDL::waitEvents(vo_sptr vo) {
+    common::error DriverSDL::waitEvents(vo_sptr vo) {
         int timeout_ms = 100;
         SDL_Event ev;
         while (SDL_WaitEventTimeout(&ev, timeout_ms)) {
@@ -122,20 +121,10 @@ namespace video::driver {
                     break;
             }
         }
+        return common::error::success;
     }
 
-    static const std::map<video::image_format, SDL_PixelFormatEnum> formats = {
-            {video::image_format::yuv420p, SDL_PIXELFORMAT_IYUV}
-    };
-
-    static SDL_PixelFormatEnum getFormat(video::image_format imgfmt) {
-        if (!formats.contains(imgfmt)) {
-            return SDL_PIXELFORMAT_UNKNOWN;
-        }
-        return formats.at(imgfmt);
-    }
-
-    void DriverSDL::reConfig(vo_sptr vo) {
+    common::error DriverSDL::reConfig(vo_sptr vo) {
         auto texture_fmt = getFormat(vo->imgfmt);
         SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
         texture_uptr texture{
@@ -144,6 +133,7 @@ namespace video::driver {
                 SDL_DestroyTexture
         };
         this->_texture.swap(texture);
+        return common::error::success;
     }
 
 }

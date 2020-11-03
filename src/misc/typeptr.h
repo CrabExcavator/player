@@ -39,6 +39,7 @@ namespace core {
 
     class PlayerContext;
     using player_ctx_sptr = std::shared_ptr<PlayerContext>;
+    using player_ctx_wptr = std::weak_ptr<PlayerContext>;
 
     class PlayList;
     using play_list_sptr = std::shared_ptr<PlayList>;

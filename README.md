@@ -7,12 +7,9 @@ It's free media player that aiming at supporting Iot device or embedded in other
 ## Todo
 
 + ~~audio ouput demo~~
-+ doc support(use doxygen)
-+ refactor
-    + some logic code in driver should put in VideoOutput && AudioOutput
-    + concrete operation with frame should put in filter
-    + Output && Stream should both have chain
-+ error code
++ ~~doc support(use doxygen)~~
++ ~~error code~~
++ event handler
 + video sync with audio
 + serializer
 + config

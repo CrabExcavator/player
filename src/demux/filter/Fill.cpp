@@ -15,11 +15,11 @@ namespace demux::filter {
     };
 
     static std::map<AVSampleFormat, audio::sample_format> sample_formats = {
-            {AV_SAMPLE_FMT_FLTP, audio::sample_format::FLTP}
+            {AV_SAMPLE_FMT_FLTP, audio::sample_format::fltp}
     };
 
     static std::map<audio::sample_format, int> sample_format_size = {
-            {audio::sample_format::FLTP, 4}
+            {audio::sample_format::fltp, 4}
     };
 
     static video::image_format getVideoFormat(AVPixelFormat av_pixel_format) {
@@ -45,8 +45,11 @@ namespace demux::filter {
         this->_stream = stream;
     }
 
-    misc::vector_sptr<frame_sptr> Fill::filter(const misc::vector_sptr<frame_sptr> &in) {
+    common::error Fill::filter(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr>& out) {
         auto stream = this->_stream.lock();
+        if (stream == nullptr) {
+            return common::error::streamUnknownError;
+        }
         for (auto& frame : *in) {
             auto raw_frame = frame->raw();
             if (stream->_first) {
@@ -66,15 +69,16 @@ namespace demux::filter {
                 frame->sample_rate = raw_frame->sample_rate;
             }
         }
-        return in;
+        out = in;
+        return common::error::success;
     }
 
-    misc::vector_sptr<frame_sptr> Fill::flush(const misc::vector_sptr<frame_sptr> &in) {
-        return this->filter(in);
+    common::error Fill::flush(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr>& out) {
+        return this->filter(in, out);
     }
 
-    void Fill::close() {
-
+    common::error Fill::close() {
+        return common::error::success;
     }
 
 }

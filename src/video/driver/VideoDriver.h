@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "misc/typeptr.h"
+#include "common/error.h"
 
 namespace video::driver {
 
@@ -30,26 +31,30 @@ namespace video::driver {
         /**
          * @brief init
          * @param [in] vo
+         * @return error code
          */
-        virtual void init(vo_sptr vo) = 0;
+        virtual common::error init(vo_sptr vo) = 0;
 
         /**
          * @brief draw image
          * @param [in]vo
+         * @return error code
          */
-        virtual void drawImage(vo_sptr vo) = 0;
+        virtual common::error drawImage(vo_sptr vo) = 0;
 
         /**
          * @brief wait events
          * @param [in] vo
+         * @return error code
          */
-        virtual void waitEvents(vo_sptr vo) = 0;
+        virtual common::error waitEvents(vo_sptr vo) = 0;
 
         /**
          * @brief reConfig
          * @param [in] vo
+         * @return error code
          */
-        virtual void reConfig(vo_sptr vo) = 0;
+        virtual common::error reConfig(vo_sptr vo) = 0;
     };
 
 }

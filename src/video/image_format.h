@@ -9,12 +9,12 @@
 namespace video {
 
     /**
-     * @brief image format
+     * @brief image format supported by player
      */
-    enum class image_format {
-        unknown,
-        yuv420p,
-        numOfImgFmt,
+    enum class image_format : std::int64_t {
+        unknown = 0, /**< enum value 0 */
+        yuv420p, /**< enum value 1 */
+        numOfImgFmt, /**< enum value 2 */
     };
 }
 

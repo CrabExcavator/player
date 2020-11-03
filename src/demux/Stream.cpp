@@ -10,6 +10,7 @@
 #include "filter/Blit.h"
 #include "exception/InitException.h"
 #include "demux/DemuxContext.h"
+#include "misc/Chain.h"
 
 namespace demux {
 
@@ -34,7 +35,6 @@ namespace demux {
             this->_frame_filter_chain
             ->addLast(std::make_shared<filter::Fill>(shared_from_this()))
             ->addLast(std::make_shared<filter::Blit>())
-            //->addLast(std::make_shared<filter::ReSample>())
             ;
         } else {
             success = false;
@@ -59,22 +59,30 @@ namespace demux {
     }
 
     common::error Stream::feed(const av_packet_sptr &packet) {
-        int ret = (avcodec_send_packet(this->av_codec_ctx.get(), packet.get()) >= 0);
-        while (ret >= 0) {
+        auto err = common::error::success;
+        int avErr = (avcodec_send_packet(this->av_codec_ctx.get(), packet.get()) >= 0);
+        while (avErr >= 0) {
             this->_frame = std::make_shared<Frame>();
-            ret = avcodec_receive_frame(this->av_codec_ctx.get(), this->_frame->raw());
-            if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            avErr = avcodec_receive_frame(this->av_codec_ctx.get(), this->_frame->raw());
+            if (avErr == AVERROR(EAGAIN) || avErr == AVERROR_EOF) {
                 break;
-            }
-            if (ret < 0) {
-                break;
+            } else if (avErr < 0) {
+                return common::error::streamFeedPacketFail;
             }
             misc::vector_sptr<frame_sptr> in = std::make_shared<std::vector<frame_sptr>>();
+            misc::vector_sptr<frame_sptr> out{};
             in->emplace_back(this->_frame);
-            this->_frame = this->_frame_filter_chain->filter(in)->at(0);
+            if ((err = this->_frame_filter_chain->filter(in, out)) != common::error::success) {
+                return err;
+            }
+            if (out == nullptr || out->size() != 1) {
+                LOG(FATAL) << "unexpected filtered list of frame";
+                return common::error::streamFeedPacketFail;
+            }
+            this->_frame = out->at(0);
             this->queue->blockingWrite(this->_frame);
         }
-        return common::error::success;
+        return err;
     }
 
     common::error Stream::close() {

@@ -11,6 +11,9 @@
 #include <glog/logging.h>
 
 #include "event.h"
+#include "common/error.h"
+#include "misc/typeptr.h"
+#include "handler/EventHandlerBase.h"
 
 namespace input {
 
@@ -19,8 +22,9 @@ namespace input {
     /**
      * @brief input context
      */
-    class InputContext {
+    class InputContext : public std::enable_shared_from_this<InputContext> {
     public:
+        friend handler::EventHandlerBase;
         /**
          * @brief default
          */
@@ -58,6 +62,11 @@ namespace input {
         ~InputContext() = default;
 
         /**
+         * @brief init
+         */
+         common::error init(const core::player_ctx_sptr& player);
+
+        /**
          * @brief recv event
          * @param [in] ev event to set
          */
@@ -72,20 +81,41 @@ namespace input {
         /**
          * @brief judge input context have specified event
          * @param [in] ev event to judge
-         * @return
+         * @return if has event
          */
         bool hasEvent(event ev);
+
+        /**
+         * @brief clear event in event set
+         * @param [in] ev event to clear
+         */
+        void clearEvent(event ev);
 
         /**
          * @brief clear event set
          */
         void clear();
 
+        /**
+         * @brief handle event
+         */
+         common::error handleEvent();
+
     private:
         /**
          * @brief event set
          */
         event_set _slots;
+
+        /**
+         * @brief chain to handle event
+         */
+        handler::event_handler_chain_sptr _handler_chain;
+
+        /**
+         * @brief weak ptr to player context
+         */
+        core::player_ctx_wptr _player_ctx;
     };
     
 }

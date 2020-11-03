@@ -7,7 +7,6 @@
 #define PLAYER_FRAMEFILTERBASE_H
 
 #include "misc/ChainNode.h"
-#include "misc/Chain.h"
 #include "misc/typeptr.h"
 #include "demux/Frame.h"
 
@@ -21,21 +20,24 @@ namespace demux::filter {
         /**
          * @brief filter frame
          * @param [in] in
-         * @return list of frame
+         * @param [out] out
+         * @return error code
          */
-        misc::vector_sptr<frame_sptr> filter(const misc::vector_sptr<frame_sptr>& in) override = 0;
+        common::error filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override = 0;
 
         /**
          * @brief flush frame
          * @param [in] in
-         * @return list of frame
+         * @param [out] out
+         * @return error code
          */
-        misc::vector_sptr<frame_sptr> flush(const misc::vector_sptr<frame_sptr>& in) override = 0;
+        common::error flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override = 0;
 
         /**
          * @brief close frame filter
+         * @return error code
          */
-        void close() override = 0;
+        common::error close() override = 0;
     };
 
     using frame_filter_chain_sptr = misc::chain_sptr<frame_sptr>;

@@ -20,9 +20,9 @@ namespace demux::filter {
     public:
         Fill() = delete;
         explicit Fill(const stream_sptr& stream);
-        misc::vector_sptr<frame_sptr> filter(const misc::vector_sptr<frame_sptr>& in) override;
-        misc::vector_sptr<frame_sptr> flush(const misc::vector_sptr<frame_sptr>& in) override;
-        void close() override;
+        common::error filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+        common::error flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+        common::error close() override;
 
     private:
         stream_wptr _stream;

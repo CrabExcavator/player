@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "misc/typeptr.h"
+#include "common/error.h"
 
 namespace audio::driver {
 
@@ -30,33 +31,39 @@ namespace audio::driver {
         /**
          * @brief init
          * @param [in] ao audio output
+         * @return error code
          */
-        virtual void init(ao_sptr ao) = 0;
+        virtual common::error init(ao_sptr ao) = 0;
 
         /**
          * @brief playback one frame
          * @param [in] ao audio output
+         * @return error code
          */
-        virtual void play(ao_sptr ao) = 0;
+        virtual common::error play(ao_sptr ao) = 0;
 
         /**
          * @brief stop playback
          * @param [in] ao audio output
+         * @return error code
          */
-        virtual void stop(ao_sptr ao) = 0;
+        virtual common::error stop(ao_sptr ao) = 0;
 
         /**
          * @brief reConfig
          * @param [in] ao audio output
+         * @return error code
          */
-        virtual void reConfig(ao_sptr ao) = 0;
+        virtual common::error reConfig(ao_sptr ao) = 0;
 
         /**
          * @brief get device
          * @param [in] ao audio output
-         * @return list of device name
+         * @param [out] devices list of device name
+         * @return error code
          */
-        virtual misc::vector_sptr<std::string> getDevices(ao_sptr ao) = 0;
+        virtual common::error getDevices(ao_sptr ao,
+                                         misc::vector_sptr<std::string>& devices) = 0;
     };
 
 }

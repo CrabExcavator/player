@@ -8,6 +8,7 @@
 
 #include <vector>
 
+#include "common/error.h"
 #include "typeptr.h"
 
 namespace misc {
@@ -22,21 +23,24 @@ namespace misc {
         /**
          * @brief filter
          * @param [in] in list of typename T
-         * @return list of typename T
+         * @param [out] out list of typename T
+         * @return error code
          */
-        virtual vector_sptr<T> filter(const vector_sptr<T>& in) = 0;
+        virtual common::error filter(const vector_sptr<T>& in, vector_sptr<T>& out) = 0;
 
         /**
          * @brief flush
          * @param [in] in list of typename T
-         * @return list of typename T
+         * @param [out] out list of typename T
+         * @return error code
          */
-        virtual vector_sptr<T> flush(const vector_sptr<T>& in) = 0;
+        virtual common::error flush(const vector_sptr<T>& in, vector_sptr<T>& out) = 0;
 
         /**
          * @brief close
+         * @return error code
          */
-        virtual void close() = 0;
+        virtual common::error close() = 0;
     };
 
 }

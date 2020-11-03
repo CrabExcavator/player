@@ -29,7 +29,7 @@ bool demux::DemuxContext::loop() {
         if (this->sync_ != nullptr) {
             this->sync_->close();
             // todo current only have ao + vo
-            this->sync_->init(std::min(2, this->_demuxer->nbStreams()));
+            this->sync_->init(std::min(1, this->_demuxer->nbStreams()));
         }
     }
     auto ret = this->_demuxer->epoch();

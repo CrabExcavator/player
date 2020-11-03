@@ -32,34 +32,38 @@ namespace audio::driver {
         /**
          * @brief bind PortAudio playback callback & terminate callback
          * @param [in] ao audio output
+         * @return error code
          */
-        void init(ao_sptr ao) override;
+        common::error init(ao_sptr ao) override;
 
         /**
-         * @brief do nothing because PortAudio use callback method to
-         * playback audio
+         * @brief put a frame in buffer if possible
          * @param [in] ao audio output
+         * @return error code
          */
-        void play(ao_sptr ao) override;
+        common::error play(ao_sptr ao) override;
 
         /**
          * @brief stop audio playback
          * @param [in] ao audio output
+         * @return error code
          */
-        void stop(ao_sptr ao) override;
+        common::error stop(ao_sptr ao) override;
 
         /**
          * @brief do nothing for now
          * @param [in] ao audio output
+         * @return error code
          */
-        void reConfig(ao_sptr ao) override;
+        common::error reConfig(ao_sptr ao) override;
 
         /**
          * @brief [todo] return list of devices
          * @param [in] ao audio output
-         * @return list of devices
+         * @param [out] list of devices
+         * @return error code
          */
-        misc::vector_sptr<std::string> getDevices(ao_sptr ao) override;
+        common::error getDevices(ao_sptr ao, misc::vector_sptr<std::string>& devices) override;
 
     private:
         /**

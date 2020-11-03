@@ -52,6 +52,8 @@ set(
         src/audio/driver/DriverFactory.cpp
         src/audio/driver/DriverPortAudio.cpp
         src/input/InputContext.cpp
+        src/input/handler/EventHandlerBase.cpp
+        src/input/handler/Universal.cpp
         src/demux/Demuxer.cpp
         src/demux/Stream.cpp
         src/demux/Frame.cpp
@@ -59,7 +61,6 @@ set(
         src/demux/filter/FrameFilterBase.cpp
         src/demux/filter/Blit.cpp
         src/demux/filter/Fill.cpp
-        src/demux/filter/ReSample.cpp
 )
 set(
         COMMON_LIB

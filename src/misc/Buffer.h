@@ -71,7 +71,8 @@ namespace misc {
          * @param [in] beginOfEle begin of ele to copy
          * @param [in] numOfEle number of ele to copy
          */
-        void put(const T* src, int beginOfEle, int numOfEle) {
+        template<typename INT1, typename INT2>
+        void put(const T* src, INT1 beginOfEle, INT2 numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
                 auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_put_cond(numOfEle);});
@@ -99,8 +100,8 @@ namespace misc {
          * @param [in] beginOfEle begin of ele to copy
          * @param [in] numOfEle number of ele to copy
          */
-        template<size_t oSize>
-        void put(const std::array<T, oSize>& src, int beginOfEle, int numOfEle) {
+        template<typename INT1, typename INT2, size_t oSize>
+        void put(const std::array<T, oSize>& src, INT1 beginOfEle, INT2 numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
                 auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_put_cond(numOfEle);});
@@ -127,7 +128,8 @@ namespace misc {
          * @param [in] beginOfEle begin of ele to put
          * @param [in] numOfEle number of ele to put
          */
-        void get(T* dst, int beginOfEle, int numOfEle) {
+        template<typename INT1, typename INT2>
+        void get(T* dst, INT1 beginOfEle, INT2 numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
                 auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_get_cond(numOfEle);});
@@ -155,8 +157,8 @@ namespace misc {
          * @param [in] beginOfEle begin of ele to put
          * @param [in] numOfEle number of ele to put
          */
-        template<size_t oSize>
-        void get(std::array<T, oSize>& dst, int beginOfEle, int numOfEle) {
+        template<typename INT1, typename INT2, size_t oSize>
+        void get(std::array<T, oSize>& dst, INT1 beginOfEle, INT2 numOfEle) {
             std::unique_lock<std::mutex> lock(this->_mutex);
             while(!this->_close) {
                 auto flag = this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&](){return this->_get_cond(numOfEle);});

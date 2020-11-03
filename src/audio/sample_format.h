@@ -9,12 +9,12 @@
 namespace audio {
 
     /**
-     * @brief sample format of player
+     * @brief sample format supported by player
      */
-    enum class sample_format {
-        unknown,
-        FLTP,
-        numOfSampleFmt
+    enum class sample_format : std::int64_t {
+        unknown = 0, /**< enum value 0 */
+        fltp, /**< enum value 1 */
+        numOfSampleFmt /**< enum value 2 */
     };
 
 }

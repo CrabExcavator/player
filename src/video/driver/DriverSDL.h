@@ -33,26 +33,30 @@ namespace video::driver {
         /**
          * @brief init SDL && create window && create texture
          * @param [in] vo
+         * @return error code
          */
-        void init(vo_sptr vo) override;
+        common::error init(vo_sptr vo) override;
 
         /**
          * @brief draw one image in each call
          * @param [in] vo
+         * @return error code
          */
-        void drawImage(vo_sptr vo) override;
+        common::error drawImage(vo_sptr vo) override;
 
         /**
          * @brief listen for event, should called in main thread
          * @param [in] vo
+         * @return error code
          */
-        void waitEvents(vo_sptr vo) override;
+        common::error waitEvents(vo_sptr vo) override;
 
         /**
          * @brief 1. reConfig texture
          * @param [in] vo
+         * @return error code
          */
-        void reConfig(vo_sptr vo) override;
+        common::error reConfig(vo_sptr vo) override;
 
     private:
         using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;

@@ -5,11 +5,10 @@
 
 #include "Blit.h"
 #include "video/image_format.h"
-#include "audio/sample_format.h"
 
 namespace demux::filter {
 
-    misc::vector_sptr<frame_sptr> Blit::filter(const misc::vector_sptr<frame_sptr>& in) {
+    common::error Blit::filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) {
         for (auto& frame : *in) {
             auto raw_frame = frame->raw();
             switch (frame->img_fmt) {
@@ -33,15 +32,16 @@ namespace demux::filter {
                 }
             }
         }
-        return in;
+        out = in;
+        return common::error::success;
     }
 
-    misc::vector_sptr<frame_sptr> Blit::flush(const misc::vector_sptr<frame_sptr>& in) {
-        return this->filter(in);
+    common::error Blit::flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) {
+        return this->filter(in, out);
     }
 
-    void Blit::close() {
-
+    common::error Blit::close() {
+        return common::error::success;
     }
 
 }
