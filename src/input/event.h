@@ -6,19 +6,19 @@
 #ifndef PLAYER_EVENT_H
 #define PLAYER_EVENT_H
 
+#include <cstdint>
+
 namespace input {
 
     /**
      * @brief event or input code used by player
      */
-    enum class event {
-        exit,
-        key_up,
-        key_down,
-        key_left,
-        key_right,
-        window_resize,
-        numOfEvent,
+    enum class event : std::uint64_t {
+        /// internal
+        exit = 0x0000, /**< enum value 0 */
+
+        /// external
+        window_resize = 0x1000,
     };
 
 }

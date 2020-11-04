@@ -5,14 +5,15 @@
 
 #include "DemuxContext.h"
 #include "core/PlayerContext.h"
-#include "core/Sync.h"
+#include "core/SyncContext.h"
+#include "input/InputContext.h"
 
 common::error demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
     this->vo_queue = player_ctx->vo_queue;
     this->ao_queue = player_ctx->ao_queue;
     this->sync_ = player_ctx->sync_;
 
-    this->_play_list = player_ctx->play_list;
+    this->_input_context = player_ctx->input_ctx;
     this->_running = true;
     this->_thread.run([&](){
         do{} while(this->loop());
@@ -22,14 +23,13 @@ common::error demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx)
 
 bool demux::DemuxContext::loop() {
     if (this->_demuxer == nullptr) {
-        auto entry = this->_play_list->current();
-        if (entry == nullptr) return false;
+        core::play_entry_sptr entry = nullptr;
+        this->_input_context->getCurrent(entry);
+        if (entry == nullptr) return _running;
         this->_demuxer = std::make_shared<Demuxer>();
         this->_demuxer->init(entry, shared_from_this());
         if (this->sync_ != nullptr) {
             this->sync_->close();
-            // todo current only have ao + vo
-            this->sync_->init(std::min(1, this->_demuxer->nbStreams()));
         }
     }
     auto ret = this->_demuxer->epoch();
@@ -37,8 +37,6 @@ bool demux::DemuxContext::loop() {
         this->_demuxer->flush();
         this->_demuxer->close();
         this->_demuxer = nullptr;
-        // todo wait playback end
-        this->_play_list->next();
     }
     return _running;
 }

@@ -17,7 +17,7 @@ TEST(DEMUXER, INIT) {
                 ->addLast(std::make_shared<core::PlayEntry>(core::entry_type::file, "small_bunny_1080p_60fps.mp4", 0));
     }
     auto demuxer = std::make_shared<demux::Demuxer>();
-//    demuxer->init();
+//    demuxer->setNumOfStream();
 //    for (int i = 0 ; i < 100 ; i++) {
 //        demuxer->epoch();
 //    }

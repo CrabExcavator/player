@@ -34,7 +34,7 @@ namespace demux {
         Demuxer();
 
         /**
-         * @brief init
+         * @brief setNumOfStream
          * @param [in] entry the entry to demux
          * @param [in] demux_ctx demux context is used to pass input queue to stream
          * @return error code

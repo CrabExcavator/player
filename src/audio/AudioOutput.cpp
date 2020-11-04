@@ -7,12 +7,12 @@
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
 #include "core/PlayerContext.h"
-#include "core/Sync.h"
+#include "core/SyncContext.h"
 #include "demux/Frame.h"
 
 namespace audio {
 
-    static std::shared_ptr<core::Sync> _sync = nullptr;
+    static std::shared_ptr<core::SyncContext> _sync = nullptr;
 
     AudioOutput::AudioOutput(): _thread("ao") {
 
@@ -22,6 +22,7 @@ namespace audio {
         this->queue = player_ctx->ao_queue;
         this->_driver = driver::DriverFactory::create(GET_CONFIG(ao_driver));
         this->_running = true;
+        this->version = player_ctx->sync_->version;
         _sync = player_ctx->sync_;
         this->_thread.run([&](){
            do{} while(this->loop());
@@ -53,7 +54,7 @@ namespace audio {
                  * sync with other output
                  * @todo use audio clock for sync reason
                  */
-                _sync->wait();
+                //_sync->wait();
 
                 /// start playback
                 this->frame_playing = this->_frame;

@@ -50,7 +50,7 @@ namespace core {
         /**
          * @brief play list
          */
-        play_list_sptr  play_list;
+        play_list_sptr play_list;
 
         /**
          * @brief input context

@@ -8,7 +8,6 @@
 
 #include "Stream.h"
 #include "filter/Blit.h"
-#include "exception/InitException.h"
 #include "demux/DemuxContext.h"
 #include "misc/Chain.h"
 
@@ -51,7 +50,7 @@ namespace demux {
             this->av_codec_ctx.swap(av_codec_ctx_);
         }
         if (!success) {
-            throw exception::StreamInitException();
+            return common::error::streamInitFail;
         }
         this->_first = true;
         this->av_codec_ctx->channel_layout = av_get_default_channel_layout(this->av_codec_ctx->channels);

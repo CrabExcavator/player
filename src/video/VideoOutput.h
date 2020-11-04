@@ -15,13 +15,14 @@
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 #include "common/error.h"
+#include "core/Output.h"
 
 namespace video {
 
     /**
      * @brief video output
      */
-    class VideoOutput: public std::enable_shared_from_this<VideoOutput> {
+    class VideoOutput: public core::Output, public std::enable_shared_from_this<VideoOutput> {
     public:
         /**
          * @brief default
@@ -60,7 +61,7 @@ namespace video {
         ~VideoOutput() = default;
 
         /**
-         * @brief init video output
+         * @brief setNumOfStream video output
          * @param [in] player_ctx
          * @return error code
          */

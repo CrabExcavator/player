@@ -6,7 +6,7 @@
 #include "VideoOutput.h"
 #include "video/driver/DriverFactory.h"
 #include "common/Config.h"
-#include "core/Sync.h"
+#include "core/SyncContext.h"
 #include "core/PlayerContext.h"
 #include "demux/Frame.h"
 
@@ -27,6 +27,7 @@ namespace video {
         this->_driver->init(shared_from_this());
         _sync = player_ctx->sync_;
         this->_running = true;
+        this->version = player_ctx->sync_->version;
         this->_thread.run([&](){
             do{} while(this->loop());
         });
@@ -59,7 +60,7 @@ namespace video {
                  * we can not just dive into playback code with sync reason
                  * sync with other output
                  */
-                _sync->wait();
+                //_sync->wait();
 
                 /// playback
                 this->frame_rendering = this->_frame;
@@ -70,7 +71,7 @@ namespace video {
                 this->_frame = nullptr;
             } else if (this->queue->read(this->_frame)) {
                 /**
-                 * init driver if some args not match, idk is it ok putting in first frame
+                 * setNumOfStream driver if some args not match, idk is it ok putting in first frame
                  */
                 if (this->_frame->img_fmt != this->imgfmt) {
                     this->imgfmt = this->_frame->img_fmt;

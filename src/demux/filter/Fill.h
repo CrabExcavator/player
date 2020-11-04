@@ -14,7 +14,7 @@
 namespace demux::filter {
 
     /**
-     * @brief init var in frame
+     * @brief setNumOfStream var in frame
      */
     class Fill: public FrameFilterBase {
     public:

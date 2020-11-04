@@ -3,7 +3,7 @@ project(player)
 
 set(CMAKE_CXX_STANDARD 20)
 
-########## init ##########
+########## setNumOfStream ##########
 enable_testing()
 find_package(GTest REQUIRED)
 find_package(gflags REQUIRED)
@@ -41,7 +41,7 @@ set(
         src/misc/Buffer.h
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
-        src/core/Sync.cpp
+        src/core/SyncContext.cpp
         src/core/PlayerContext.cpp
         src/core/PlayList.cpp
         src/core/PlayEntry.cpp
@@ -103,7 +103,7 @@ set(
         GTest::GTest
         GTest::Main
 )
-########## init ##########
+########## setNumOfStream ##########
 
 ########## target ##########
 # release

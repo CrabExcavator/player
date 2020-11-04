@@ -15,13 +15,14 @@
 #include "misc/typeptr.h"
 #include "misc/Thread.h"
 #include "common/error.h"
+#include "core/Output.h"
 
 namespace audio {
 
     /**
      * @brief Audio output
      */
-    class AudioOutput: public std::enable_shared_from_this<AudioOutput> {
+    class AudioOutput: public core::Output, public std::enable_shared_from_this<AudioOutput> {
     public:
         /**
          * @brief constructor do nothing
@@ -60,7 +61,7 @@ namespace audio {
         ~AudioOutput() = default;
 
         /**
-         * @brief init audio output
+         * @brief setNumOfStream audio output
          * @param [in] player_ctx player context
          * @return error code
          */

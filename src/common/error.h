@@ -17,6 +17,7 @@ namespace common {
         /// error code of stream
         streamUnknownError = -4000, /**< enum value -4000 */
         streamFeedPacketFail, /**< enum value -3999 */
+        streamInitFail, /**< enum value -3998 */
 
         /// error code of video
         videoUnknownError = -3000, /**< enum value -3000 */

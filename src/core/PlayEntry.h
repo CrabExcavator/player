@@ -36,7 +36,7 @@ namespace core {
         PlayEntry() = delete;
 
         /**
-         * @brief init play entry
+         * @brief setNumOfStream play entry
          * @param [in] type entry type
          * @param [in] uri resource path
          * @param [in] last_pts no use yet

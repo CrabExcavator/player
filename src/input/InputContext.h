@@ -6,7 +6,7 @@
 #ifndef PLAYER_INPUTCONTEXT_H
 #define PLAYER_INPUTCONTEXT_H
 
-#include <bitset>
+#include <set>
 #include <memory>
 #include <glog/logging.h>
 
@@ -17,8 +17,6 @@
 
 namespace input {
 
-    using event_set = std::bitset<static_cast<size_t>(event::numOfEvent)>;
-
     /**
      * @brief input context
      */
@@ -28,7 +26,7 @@ namespace input {
         /**
          * @brief default
          */
-        InputContext();
+        InputContext() = default;
 
         /**
          * @brief delete
@@ -62,7 +60,7 @@ namespace input {
         ~InputContext() = default;
 
         /**
-         * @brief init
+         * @brief setNumOfStream
          */
          common::error init(const core::player_ctx_sptr& player);
 
@@ -70,13 +68,7 @@ namespace input {
          * @brief recv event
          * @param [in] ev event to set
          */
-        void receive(event ev);
-
-        /**
-         * @brief poll all event
-         * @return all event
-         */
-        event_set pollEvent();
+        void receiveEvent(event ev);
 
         /**
          * @brief judge input context have specified event
@@ -94,19 +86,27 @@ namespace input {
         /**
          * @brief clear event set
          */
-        void clear();
+        void clearAllEvent();
 
         /**
          * @brief handle event
          */
          common::error handleEvent();
 
-    private:
-        /**
-         * @brief event set
-         */
-        event_set _slots;
+         /**
+          * @brief next play entry, start play
+          * @return error code
+          */
+         common::error nextEntry();
 
+         /**
+          * @brief get current entry
+          * @param [out] entry
+          * @return error code
+          */
+         common::error getCurrent(core::play_entry_sptr& entry);
+
+    private:
         /**
          * @brief chain to handle event
          */
@@ -116,6 +116,22 @@ namespace input {
          * @brief weak ptr to player context
          */
         core::player_ctx_wptr _player_ctx;
+
+        /**
+         * @brief _player_list
+         */
+        core::play_list_sptr _player_list;
+
+        /**
+         * @brief entry to play
+         * @attention must only use in Demux Context
+         */
+        core::play_entry_sptr _play_entry;
+
+        /**
+         * @brief events
+         */
+        std::set<event> _events;
     };
     
 }

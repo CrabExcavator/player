@@ -33,7 +33,7 @@ namespace misc {
         }
 
         /**
-         * @brief init pocket with key and value
+         * @brief setNumOfStream pocket with key and value
          * @param [in] key
          * @param [in] value
          */

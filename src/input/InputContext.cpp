@@ -7,50 +7,42 @@
 #include "core/PlayerContext.h"
 #include "misc/Chain.h"
 #include "handler/Universal.h"
+#include "core/PlayList.h"
 
 namespace input {
 
-    InputContext::InputContext() {
-        this->_slots.reset();
-    }
-
-    InputContext::InputContext(InputContext &&rhs) noexcept: _slots(rhs._slots) {
+    InputContext::InputContext(InputContext &&rhs) noexcept: _events(std::move(rhs._events)) {
 
     }
 
     InputContext &InputContext::operator=(InputContext &&rhs) noexcept {
-        this->_slots = rhs._slots;
+        this->_events = rhs._events;
         return *this;
     }
 
     common::error InputContext::init(const core::player_ctx_sptr& player) {
         this->_player_ctx = player;
+        this->_player_list = player->play_list;
         this->_handler_chain = std::make_shared<misc::Chain<input_ctx_sptr>>();
         this->_handler_chain->addLast(std::make_shared<handler::Universal>())
         ;
         return common::error::success;
     }
 
-    void InputContext::receive(event ev) {
-        this->_slots[static_cast<int>(ev)] = true;
-    }
-
-    event_set InputContext::pollEvent() {
-        auto ret = this->_slots;
-        this->clear();
-        return ret;
+    void InputContext::receiveEvent(event ev) {
+        this->_events.insert(ev);
     }
 
     bool InputContext::hasEvent(event ev) {
-        return this->_slots[static_cast<int>(ev)];
+        return this->_events.contains(ev);
     }
 
     void InputContext::clearEvent(event ev) {
-        this->_slots[static_cast<int>(ev)] = false;
+       this->_events.erase(ev);
     }
 
-    void InputContext::clear() {
-        this->_slots.reset();
+    void InputContext::clearAllEvent() {
+        this->_events.clear();
     }
 
     common::error InputContext::handleEvent() {
@@ -58,6 +50,18 @@ namespace input {
         in->emplace_back(shared_from_this());
         misc::vector_sptr<input_ctx_sptr> out = nullptr;
         return this->_handler_chain->filter(in, out);
+    }
+
+    common::error InputContext::nextEntry() {
+        this->_play_entry = this->_player_list->current();
+        this->_player_list->next();
+        return common::error::success;
+    }
+
+    common::error InputContext::getCurrent(core::play_entry_sptr &entry) {
+        entry = this->_play_entry;
+        this->_play_entry = nullptr;
+        return common::error::success;
     }
 
 }

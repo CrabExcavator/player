@@ -14,11 +14,14 @@ namespace input::handler {
         assert(in->size() == 1);
         auto input_ctx = in->at(0);
         auto player_ctx = getPlayContext(input_ctx);
+        if (player_ctx == nullptr) {
+            return common::error::exit;
+        }
         if (input_ctx->hasEvent(input::event::exit)) {
             player_ctx->stopRunning();
             return common::error::exit;
         }
-        input_ctx->clear();
+        input_ctx->clearAllEvent();
         return common::error::success;
     }
 

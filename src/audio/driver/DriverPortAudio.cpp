@@ -45,7 +45,7 @@ namespace audio::driver {
             return common::error::audioDriverInitFail;
         }
 
-        /// init outputParameters
+        /// setNumOfStream outputParameters
         auto device = Pa_GetDefaultOutputDevice();
         auto deviceInfo = Pa_GetDeviceInfo(device);
         PaStreamParameters outputParameters;

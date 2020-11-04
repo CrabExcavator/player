@@ -29,7 +29,7 @@ namespace audio::driver {
         virtual ~AudioDriver() = default;
 
         /**
-         * @brief init
+         * @brief setNumOfStream
          * @param [in] ao audio output
          * @return error code
          */

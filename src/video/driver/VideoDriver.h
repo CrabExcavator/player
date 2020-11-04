@@ -29,7 +29,7 @@ namespace video::driver {
         virtual ~VideoDriver() = default;
 
         /**
-         * @brief init
+         * @brief setNumOfStream
          * @param [in] vo
          * @return error code
          */

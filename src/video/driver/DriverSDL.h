@@ -31,7 +31,7 @@ namespace video::driver {
         ~DriverSDL() override;
 
         /**
-         * @brief init SDL && create window && create texture
+         * @brief setNumOfStream SDL && create window && create texture
          * @param [in] vo
          * @return error code
          */

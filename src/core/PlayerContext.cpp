@@ -12,7 +12,7 @@
 #include "audio/AudioOutput.h"
 #include "video/VideoOutput.h"
 #include "demux/DemuxContext.h"
-#include "Sync.h"
+#include "SyncContext.h"
 
 namespace core {
 
@@ -27,26 +27,27 @@ namespace core {
         this->play_list = std::make_shared<PlayList>();
         this->play_list->addLast(std::make_shared<core::PlayEntry>
                                          (core::entry_type::file, audio_sample, 0));
-        this->sync_ = std::make_shared<Sync>();
+        this->sync_ = std::make_shared<SyncContext>();
         this->input_ctx = std::make_shared<input::InputContext>();
         this->_demux_ctx = std::make_shared<demux::DemuxContext>();
         this->_ao = std::make_shared<audio::AudioOutput>();
         this->_vo = std::make_shared<video::VideoOutput>();
 
-        common::error err;
+        auto err = common::error::success;
         if ((err = this->_demux_ctx->init(shared_from_this())) != common::error::success) {
-            LOG(ERROR) << "init demux context fail";
+            LOG(ERROR) << "setNumOfStream demux context fail";
             return err;
         } else if ((err = this->_ao->init(shared_from_this())) != common::error::success) {
-            LOG(ERROR) << "init ao fail";
+            LOG(ERROR) << "setNumOfStream ao fail";
             return err;
         } else if ((err = this->_vo->init(shared_from_this())) != common::error::success) {
-            LOG(ERROR) << "init vo fail";
+            LOG(ERROR) << "setNumOfStream vo fail";
             return err;
         } else if ((err = this->input_ctx->init(shared_from_this())) != common::error::success) {
-            LOG(ERROR) << "init input context fail";
+            LOG(ERROR) << "setNumOfStream input context fail";
             return err;
         }
+        this->input_ctx->nextEntry();
         return err;
     }
 
@@ -56,17 +57,6 @@ namespace core {
 
     bool PlayerContext::loop() {
         auto err = common::error::success;
-//        // handle events
-//        if (this->input_ctx->hasEvent(input::event::exit)) {
-//            // stop producer before consumer
-//            this->_demux_ctx->stopRunning();
-//            this->_ao->stopRunning();
-//            this->_vo->stopRunning();
-//            return false;
-//        } else if (this->input_ctx->hasEvent(input::event::window_resize)) {
-//            // todo handle window_resize event
-//        }
-//        this->input_ctx->clear();
         if ((err = this->input_ctx->handleEvent()) != common::error::success) {
             if (err != common::error::exit) {
                 LOG(WARNING) << "exit with err code " << static_cast<int64_t>(err);

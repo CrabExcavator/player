@@ -28,7 +28,7 @@ namespace demux {
         DemuxContext() = default;
 
         /**
-         * @brief init
+         * @brief setNumOfStream
          * @param [in] player_ctx
          * @return error code
          */
@@ -58,7 +58,7 @@ namespace demux {
         std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> ao_queue;
 
         /**
-         * @brief sync should init in demuxer, because demuxer know the number of stream
+         * @brief sync should setNumOfStream in demuxer, because demuxer know the number of stream
          */
         core::sync_sptr sync_;
 
@@ -69,9 +69,9 @@ namespace demux {
         demuxer_sptr _demuxer;
 
         /**
-         * @brief play list
+         * @brief input context
          */
-        core::play_list_sptr _play_list;
+        input::input_ctx_sptr _input_context;
 
         /**
          * @brief flag to mark is demux thread running

@@ -84,39 +84,8 @@ namespace video::driver {
             auto input_ctx = vo->getInputCtx();
             switch (ev.type) {
                 case SDL_QUIT:
-                    input_ctx->receive(input::event::exit);
+                    input_ctx->receiveEvent(input::event::exit);
                     break;
-                case SDL_KEYDOWN: {
-                    switch (ev.key.keysym.sym) {
-                        case SDLK_UP:
-                            input_ctx->receive(input::event::key_up);
-                            break;
-                        case SDLK_DOWN:
-                            input_ctx->receive(input::event::key_down);
-                            break;
-                        case SDLK_LEFT:
-                            input_ctx->receive(input::event::key_left);
-                            break;
-                        case SDLK_RIGHT:
-                            input_ctx->receive(input::event::key_right);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                case SDL_WINDOWEVENT: {
-                    switch (ev.window.event) {
-                        case SDL_WINDOWEVENT_SIZE_CHANGED:
-                            int w, h;
-                            SDL_GetWindowSize(this->_window.get(), &w, &h);
-                            vo->window_width = w;
-                            vo->window_height = h;
-                            input_ctx->receive(input::event::window_resize);
-                            break;
-                        default:
-                            break;
-                    }
-                }
                 default:
                     break;
             }
