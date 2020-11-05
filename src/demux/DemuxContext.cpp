@@ -21,7 +21,9 @@ common::error demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx)
 bool demux::DemuxContext::loop() {
     if (this->_demuxer == nullptr) {
         core::play_entry_sptr entry = nullptr;
-        this->_input_context->getCurrent(entry);
+        if (this->_input_context->pollEvent(input::event::entryAvailable)) {
+            this->_input_context->getCurrentEntry(entry);
+        }
         if (entry == nullptr) return _running;
         this->_demuxer = std::make_shared<Demuxer>();
         this->_demuxer->init(entry, shared_from_this());

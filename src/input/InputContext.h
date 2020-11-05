@@ -8,6 +8,7 @@
 
 #include <set>
 #include <memory>
+#include <mutex>
 #include <glog/logging.h>
 
 #include "event.h"
@@ -19,6 +20,7 @@ namespace input {
 
     /**
      * @brief input context
+     * @todo use concurrent bitset
      */
     class InputContext : public std::enable_shared_from_this<InputContext> {
     public:
@@ -78,6 +80,13 @@ namespace input {
         bool hasEvent(event ev);
 
         /**
+         * @brief if event exist, return true and clear it, or return false
+         * @param [in] ev
+         * @return if event exist
+         */
+        bool pollEvent(event ev);
+
+        /**
          * @brief clear event in event set
          * @param [in] ev event to clear
          */
@@ -104,7 +113,7 @@ namespace input {
           * @param [out] entry
           * @return error code
           */
-         common::error getCurrent(core::play_entry_sptr& entry);
+         common::error getCurrentEntry(core::play_entry_sptr& entry);
 
     private:
         /**
@@ -132,6 +141,8 @@ namespace input {
          * @brief events
          */
         std::set<event> _events;
+
+        std::mutex _mutex;
     };
     
 }

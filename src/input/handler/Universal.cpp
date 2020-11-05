@@ -23,8 +23,8 @@ namespace input::handler {
         }
         if (input_ctx->hasEvent(input::event::nextEntry)) {
             input_ctx->nextEntry();
+            input_ctx->clearEvent(input::event::nextEntry);
         }
-        input_ctx->clearAllEvent();
         return common::error::success;
     }
 

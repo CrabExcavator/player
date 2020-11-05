@@ -22,7 +22,7 @@ namespace core {
     common::error PlayerContext::init() {
         this->play_list = std::make_shared<PlayList>();
         this->play_list->addLast(std::make_shared<core::PlayEntry>
-                                         (core::entry_type::file, audio_sample, 0));
+                                         (core::entry_type::file, video_sample, 0));
         this->sync_ctx = std::make_shared<SyncContext>();
         this->input_ctx = std::make_shared<input::InputContext>();
         this->_demux_ctx = std::make_shared<demux::DemuxContext>();

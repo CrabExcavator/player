@@ -8,6 +8,7 @@
 #include "misc/Chain.h"
 #include "handler/Universal.h"
 #include "core/PlayList.h"
+#include "misc/util.h"
 
 namespace input {
 
@@ -30,18 +31,46 @@ namespace input {
     }
 
     void InputContext::receiveEvent(event ev) {
+        this->_mutex.lock();
+        DEFER([&](){
+           this->_mutex.unlock();
+        });
         this->_events.insert(ev);
     }
 
     bool InputContext::hasEvent(event ev) {
+        this->_mutex.lock();
+        DEFER([&](){
+            this->_mutex.unlock();
+        });
         return this->_events.contains(ev);
     }
 
+    bool InputContext::pollEvent(event ev) {
+        this->_mutex.lock();
+        DEFER([&](){
+            this->_mutex.unlock();
+        });
+        if (this->_events.contains(ev)) {
+            this->_events.erase(ev);
+            return true;
+        }
+        return false;
+    }
+
     void InputContext::clearEvent(event ev) {
+        this->_mutex.lock();
+        DEFER([&](){
+            this->_mutex.unlock();
+        });
        this->_events.erase(ev);
     }
 
     void InputContext::clearAllEvent() {
+        this->_mutex.lock();
+        DEFER([&](){
+            this->_mutex.unlock();
+        });
         this->_events.clear();
     }
 
@@ -55,10 +84,16 @@ namespace input {
     common::error InputContext::nextEntry() {
         this->_play_entry = this->_player_list->current();
         this->_player_list->next();
+        if (this->_play_entry != nullptr) {
+            this->receiveEvent(input::event::entryAvailable);
+        }
         return common::error::success;
     }
 
-    common::error InputContext::getCurrent(core::play_entry_sptr &entry) {
+    common::error InputContext::getCurrentEntry(core::play_entry_sptr &entry) {
+        if (this->_play_entry == nullptr) {
+            return common::error::unknownError;
+        }
         entry = this->_play_entry;
         this->_play_entry = nullptr;
         return common::error::success;
