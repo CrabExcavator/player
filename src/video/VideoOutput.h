@@ -135,6 +135,11 @@ namespace video {
         bool _running = false;
 
         /**
+         * @brief thread
+         */
+        misc::Thread _thread;
+
+        /**
          * @brief video driver
          */
         driver::video_driver_uptr _driver = nullptr;
@@ -155,19 +160,9 @@ namespace video {
         int64_t _last_pts = 0;
 
         /**
-         * @brief internal frame
-         */
-        demux::frame_sptr _frame = nullptr;
-
-        /**
          * @brief input context
          */
         input::input_ctx_sptr _input_ctx;
-
-        /**
-         * @brief thread
-         */
-        misc::Thread _thread;
     };
 
 }

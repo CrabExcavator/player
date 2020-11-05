@@ -31,7 +31,11 @@ namespace core {
 
     protected:
         uint64_t _version = 0;
+
         core::sync_ctx_sptr _sync_ctx = nullptr;
+
+        demux::frame_sptr _frame = nullptr;
+
         demux::stream::stream_sptr _stream = nullptr;
     };
 

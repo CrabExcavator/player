@@ -30,7 +30,10 @@ namespace core {
         this->_vo = std::make_shared<video::VideoOutput>();
 
         auto err = common::error::success;
-        if ((err = this->sync_ctx->init(shared_from_this())) != common::error::success) {
+        if ((err = this->input_ctx->init(shared_from_this())) != common::error::success) {
+            LOG(ERROR) << "init input context fail";
+            return err;
+        } else if ((err = this->sync_ctx->init(shared_from_this())) != common::error::success) {
             LOG(ERROR) << "init sync context fail";
             return err;
         } else if ((err = this->_demux_ctx->init(shared_from_this())) != common::error::success) {
@@ -41,9 +44,6 @@ namespace core {
             return err;
         } else if ((err = this->_vo->init(shared_from_this())) != common::error::success) {
             LOG(ERROR) << "init vo fail";
-            return err;
-        } else if ((err = this->input_ctx->init(shared_from_this())) != common::error::success) {
-            LOG(ERROR) << "init input context fail";
             return err;
         }
         this->input_ctx->receiveEvent(input::event::nextEntry);

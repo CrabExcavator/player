@@ -115,19 +115,14 @@ namespace audio {
         bool _running = false;
 
         /**
-         * @brief impl of driver
-         */
-        audio::driver::audio_driver_uptr _driver = nullptr;
-
-        /**
-         * @brief internal frame
-         */
-        demux::frame_sptr _frame = nullptr;
-
-        /**
          * @brief audio playback thread
          */
         misc::Thread _thread;
+
+        /**
+         * @brief impl of driver
+         */
+        audio::driver::audio_driver_uptr _driver = nullptr;
     };
 
 }
