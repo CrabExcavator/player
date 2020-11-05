@@ -9,7 +9,6 @@
 
 #include "DriverSDL.h"
 #include "video/VideoOutput.h"
-#include "exception/InitException.h"
 #include "demux/Frame.h"
 #include "video/image_format.h"
 #include "input/InputContext.h"

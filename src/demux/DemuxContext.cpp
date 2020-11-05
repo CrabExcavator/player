@@ -9,10 +9,7 @@
 #include "input/InputContext.h"
 
 common::error demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
-    this->vo_queue = player_ctx->vo_queue;
-    this->ao_queue = player_ctx->ao_queue;
-    this->sync_ = player_ctx->sync_;
-
+    this->sync_ctx = player_ctx->sync_ctx;
     this->_input_context = player_ctx->input_ctx;
     this->_running = true;
     this->_thread.run([&](){
@@ -28,12 +25,11 @@ bool demux::DemuxContext::loop() {
         if (entry == nullptr) return _running;
         this->_demuxer = std::make_shared<Demuxer>();
         this->_demuxer->init(entry, shared_from_this());
-        if (this->sync_ != nullptr) {
-            this->sync_->close();
-        }
+        this->sync_ctx->close();
+        this->sync_ctx->version++;
     }
-    auto ret = this->_demuxer->epoch();
-    if (ret == common::error::eof) {
+    auto err = this->_demuxer->epoch();
+    if (err == common::error::eof) {
         this->_demuxer->flush();
         this->_demuxer->close();
         this->_demuxer = nullptr;

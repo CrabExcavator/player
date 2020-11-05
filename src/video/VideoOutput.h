@@ -112,11 +112,6 @@ namespace video {
         int img_height = 1080;
 
         /**
-         * @brief input queue
-         */
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
-
-        /**
          * @brief rendering frame
          */
         demux::frame_sptr frame_rendering = nullptr;

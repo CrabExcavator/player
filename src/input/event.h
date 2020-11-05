@@ -15,10 +15,10 @@ namespace input {
      */
     enum class event : std::uint64_t {
         /// internal
-        exit = 0x0000, /**< enum value 0 */
+        exit = 0x0000, /**< enum value 0x0000 */
 
-        /// external
-        window_resize = 0x1000,
+        /// play
+        nextEntry = 0x1000 /**< enum value 0x1000 */
     };
 
 }

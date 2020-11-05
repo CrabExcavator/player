@@ -9,25 +9,25 @@
 #include "core/SyncContext.h"
 #include "core/PlayerContext.h"
 #include "demux/Frame.h"
+#include "demux/stream/Stream.h"
 
 namespace video {
 
-    static core::sync_sptr _sync = nullptr;
+    static core::sync_ctx_sptr _sync = nullptr;
 
     VideoOutput::VideoOutput(): _thread("vo") {
 
     }
 
     common::error VideoOutput::init(const core::player_ctx_sptr& player_ctx) {
-        this->queue = player_ctx->vo_queue;
         this->_input_ctx = player_ctx->input_ctx;
         this->window_width = GET_CONFIG(window_width);
         this->window_height = GET_CONFIG(window_height);
         this->_driver = driver::DriverFactory::create(GET_CONFIG(vo_driver));
         this->_driver->init(shared_from_this());
-        _sync = player_ctx->sync_;
+        this->_sync_ctx = player_ctx->sync_ctx;
+        this->_version = player_ctx->sync_ctx->version;
         this->_running = true;
-        this->version = player_ctx->sync_->version;
         this->_thread.run([&](){
             do{} while(this->loop());
         });
@@ -69,7 +69,14 @@ namespace video {
                 /// playback
 
                 this->_frame = nullptr;
-            } else if (this->queue->read(this->_frame)) {
+            }
+
+            if (this->_version != this->_sync_ctx->version) {
+                this->_sync_ctx->getVideoStream(this->_stream);
+                this->_version = this->_sync_ctx->version;
+            }
+
+            if (this->_stream != nullptr && this->_stream->read(this->_frame) == common::error::success) {
                 /**
                  * setNumOfStream driver if some args not match, idk is it ok putting in first frame
                  */

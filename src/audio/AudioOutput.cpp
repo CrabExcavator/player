@@ -7,23 +7,20 @@
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
 #include "core/PlayerContext.h"
-#include "core/SyncContext.h"
 #include "demux/Frame.h"
+#include "demux/stream/Stream.h"
 
 namespace audio {
 
-    static std::shared_ptr<core::SyncContext> _sync = nullptr;
-
-    AudioOutput::AudioOutput(): _thread("ao") {
+    AudioOutput::AudioOutput(): _thread("audio output") {
 
     }
 
     common::error AudioOutput::init(const core::player_ctx_sptr &player_ctx) {
-        this->queue = player_ctx->ao_queue;
         this->_driver = driver::DriverFactory::create(GET_CONFIG(ao_driver));
+        this->_version = player_ctx->sync_ctx->version;
+        this->_sync_ctx = player_ctx->sync_ctx;
         this->_running = true;
-        this->version = player_ctx->sync_->version;
-        _sync = player_ctx->sync_;
         this->_thread.run([&](){
            do{} while(this->loop());
         });
@@ -45,10 +42,6 @@ namespace audio {
             }
 
             if (this->_frame != nullptr) {
-                /// @todo these variables are useless for audio we need driver to produce audio clock
-                this->_last_tick = std::chrono::steady_clock::now();
-                this->_last_pts = this->_frame->pts;
-
                 /**
                  * we can not just dive into playback code with sync reason
                  * sync with other output
@@ -63,20 +56,26 @@ namespace audio {
                 /// end playback
 
                 this->_frame = nullptr;
-            } else if (this->queue->read(this->_frame)) {
+            }
+
+            /// update output version
+            if (this->_version != this->_sync_ctx->version) {
+                this->_sync_ctx->getAudioStream(this->_stream);
+                this->_version = this->_sync_ctx->version;
+            }
+
+            if (this->_stream != nullptr &&
+            this->_stream->read(this->_frame) == common::error::success) {
                 /**
                  * we should do something for first frame
                  * @attention the first frame always carry data
                  */
                 if (this->_frame->first) {
-                    this->_last_tick = std::chrono::steady_clock::now() + std::chrono::seconds(1);
-                    this->_last_pts = 0;
                     this->sampleFormat = this->_frame->sample_fmt;
                     this->num_of_channel = this->_frame->num_of_channel;
                     this->size_of_sample = this->_frame->sample_size;
                     this->sample_rate = this->_frame->sample_rate;
                     this->_driver->init(shared_from_this());
-                    this->_time_base = this->_frame->time_base;
                 }
 
                 /**
@@ -85,6 +84,7 @@ namespace audio {
                  */
                 if (this->_frame->last) {
                     /// @todo do something
+                    this->_stream = nullptr;
                 }
             }
         }

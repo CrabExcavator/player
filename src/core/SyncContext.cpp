@@ -5,7 +5,8 @@
 
 #include "SyncContext.h"
 #include "misc/util.h"
-#include "demux/Stream.h"
+#include "demux/stream/Stream.h"
+#include "core/PlayerContext.h"
 
 namespace core {
 
@@ -13,9 +14,11 @@ namespace core {
 
     }
 
-    common::error SyncContext::init(core::player_ctx_sptr player_ctx) {
-        this->_streams = std::make_shared<std::vector<demux::stream_sptr>>();
+    common::error SyncContext::init(const core::player_ctx_sptr& player_ctx) {
+        this->_video_streams = std::make_shared<std::vector<demux::stream::stream_sptr>>();
+        this->_audio_streams = std::make_shared<std::vector<demux::stream::stream_sptr>>();
         this->version = 0;
+        this->_input_ctx = player_ctx->input_ctx;
         return common::error::success;
     }
 
@@ -44,8 +47,42 @@ namespace core {
         this->_cond.notify_all();
     }
 
-    common::error SyncContext::addStream(const demux::stream_sptr& stream) {
-        this->_streams->emplace_back(stream);
+    common::error SyncContext::addVideoStream(const demux::stream::stream_sptr &stream) {
+        this->_video_streams->emplace_back(stream);
+        return common::error::success;
+    }
+
+    common::error SyncContext::addAudioStream(const demux::stream::stream_sptr &stream) {
+        this->_audio_streams->emplace_back(stream);
+        return common::error::success;
+    }
+
+    common::error SyncContext::addStream(const demux::stream::stream_sptr &stream) {
+        if (stream->op == output_port::audio) {
+            return this->addAudioStream(stream);
+        } else if (stream->op == output_port::video) {
+            return this->addVideoStream(stream);
+        }
+        return common::error::unknownError;
+    }
+
+    common::error SyncContext::getVideoStream(demux::stream::stream_sptr &stream) {
+        assert(this->_video_streams->size() <= 1);
+        if (this->_video_streams->empty()) {
+            return common::error::noStream;
+        }
+        stream = this->_video_streams->at(0);
+        this->_video_streams->clear();
+        return common::error::success;
+    }
+
+    common::error SyncContext::getAudioStream(demux::stream::stream_sptr &stream) {
+        assert(this->_audio_streams->size() <= 1);
+        if (this->_audio_streams->empty()) {
+            return common::error::noStream;
+        }
+        stream = this->_audio_streams->at(0);
+        this->_audio_streams->clear();
         return common::error::success;
     }
 

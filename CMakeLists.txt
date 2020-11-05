@@ -55,12 +55,16 @@ set(
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp
         src/demux/Demuxer.cpp
-        src/demux/Stream.cpp
         src/demux/Frame.cpp
         src/demux/DemuxContext.cpp
         src/demux/filter/FrameFilterBase.cpp
         src/demux/filter/Blit.cpp
-        src/demux/filter/Fill.cpp
+        src/demux/filter/FillVideo.cpp
+        src/demux/filter/FillAudio.cpp
+        src/demux/stream/StreamFactory.cpp
+        src/demux/stream/Stream.cpp
+        src/demux/stream/VideoStream.cpp
+        src/demux/stream/AudioStream.cpp
 )
 set(
         COMMON_LIB

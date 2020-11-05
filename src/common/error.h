@@ -14,6 +14,11 @@ namespace common {
      * @brief error code used by player, error lt 0 is exception
      */
     enum class error : std::int64_t {
+
+        /// error code of demux
+        demuxUnknownError = -5000, /**< enum value -5000 */
+        demuxerInitFail = -4999, /**< enum value -4999 */
+
         /// error code of stream
         streamUnknownError = -4000, /**< enum value -4000 */
         streamFeedPacketFail, /**< enum value -3999 */
@@ -34,6 +39,8 @@ namespace common {
         success = 0, /**< enum value 0 */
         exit, /**< enum value 1 */
         eof , /**< enum value 2 */
+        unRead, /**< enum value 3 */
+        noStream, /**< enum value 4 */
     };
 
 }

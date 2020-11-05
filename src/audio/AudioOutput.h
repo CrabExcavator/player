@@ -74,10 +74,6 @@ namespace audio {
         common::error stopRunning();
 
     public:
-        /**
-         * @brief recv frame
-         */
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> queue;
 
         /**
          * @brief frame is playing, always used by audio driver
@@ -122,21 +118,6 @@ namespace audio {
          * @brief impl of driver
          */
         audio::driver::audio_driver_uptr _driver = nullptr;
-
-        /**
-         * @brief abs clock of last frame
-         */
-        std::chrono::steady_clock::time_point _last_tick{};
-
-        /**
-         * @brief pts of last frame
-         */
-        int64_t _last_pts = 0;
-
-        /**
-         * @brief time base of pts, time_base * pts = playback timing
-         */
-        std::chrono::steady_clock::duration _time_base{};
 
         /**
          * @brief internal frame

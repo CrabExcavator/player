@@ -64,23 +64,7 @@ namespace demux {
          */
         common::error close();
 
-        /**
-         * @brief get number of stream
-         * @return number of stream
-         */
-        int nbStreams() const;
-
     private:
-        /**
-         * @brief no use
-         */
-        int64_t _base_pts{};
-
-        /**
-         * @brief weak pointer to entry, no use for now
-         */
-        std::weak_ptr<core::PlayEntry> _entry;
-
         /**
          * @brief format context
          */
@@ -89,7 +73,7 @@ namespace demux {
         /**
          * @brief list of stream
          */
-        std::vector<stream_sptr> _streams;
+        std::vector<stream::stream_sptr> _streams;
 
         /**
          * @brief packet to fill

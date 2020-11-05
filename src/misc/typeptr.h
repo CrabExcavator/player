@@ -45,7 +45,7 @@ namespace core {
     using play_list_sptr = std::shared_ptr<PlayList>;
 
     class SyncContext;
-    using sync_sptr = std::shared_ptr<SyncContext>;
+    using sync_ctx_sptr = std::shared_ptr<SyncContext>;
 }
 
 namespace demux {
@@ -58,9 +58,10 @@ namespace demux {
     class Frame;
     using frame_sptr = std::shared_ptr<Frame>;
 
-    class Stream;
-    using stream_sptr = std::shared_ptr<Stream>;
-    using stream_wptr = std::weak_ptr<Stream>;
+    namespace stream {
+        class Stream;
+        using stream_sptr = std::shared_ptr<Stream>;
+    }
 }
 
 namespace input {

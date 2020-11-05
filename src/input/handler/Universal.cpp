@@ -21,6 +21,9 @@ namespace input::handler {
             player_ctx->stopRunning();
             return common::error::exit;
         }
+        if (input_ctx->hasEvent(input::event::nextEntry)) {
+            input_ctx->nextEntry();
+        }
         input_ctx->clearAllEvent();
         return common::error::success;
     }

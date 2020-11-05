@@ -3,31 +3,31 @@
 // Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
-#ifndef PLAYER_FILL_H
-#define PLAYER_FILL_H
+#ifndef PLAYER_FILLVIDEO_H
+#define PLAYER_FILLVIDEO_H
 
 #include <memory>
 
-#include "misc/typeptr.h"
 #include "FrameFilterBase.h"
+#include "misc/typeptr.h"
+#include "demux/stream/Stream.h"
 
 namespace demux::filter {
 
     /**
      * @brief setNumOfStream var in frame
      */
-    class Fill: public FrameFilterBase {
+    class FillVideo: public FrameFilterBase {
     public:
-        Fill() = delete;
-        explicit Fill(const stream_sptr& stream);
-        common::error filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
-        common::error flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
-        common::error close() override;
+        FillVideo() = default;
 
-    private:
-        stream_wptr _stream;
+        common::error filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+
+        common::error flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+
+        common::error close() override;
     };
 
 }
 
-#endif //PLAYER_FILL_H
+#endif //PLAYER_FILLVIDEO_H

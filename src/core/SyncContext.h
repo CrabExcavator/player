@@ -30,7 +30,7 @@ namespace core {
          * @param player_ctx
          * @return
          */
-        common::error init(core::player_ctx_sptr player_ctx);
+        common::error init(const core::player_ctx_sptr& player_ctx);
 
         /**
          * @brief setNumOfStream
@@ -39,11 +39,39 @@ namespace core {
         void setNumOfStream(int size);
 
         /**
-         * @brief add stream to sync
-         * @param stream
+         * @brief add video stream
+         * @param [in] stream
          * @return error code
          */
-        common::error addStream(const demux::stream_sptr& stream);
+        common::error addVideoStream(const demux::stream::stream_sptr& stream);
+
+        /**
+         * @brief add audio stream
+         * @param [in] stream
+         * @return error code
+         */
+        common::error addAudioStream(const demux::stream::stream_sptr& stream);
+
+        /**
+         * @brief add stream
+         * @param [in] stream
+         * @return error code
+         */
+        common::error addStream(const demux::stream::stream_sptr& stream);
+
+        /**
+         * @brief get video stream
+         * @param [out] stream
+         * @return error code
+         */
+        common::error getVideoStream(demux::stream::stream_sptr& stream);
+
+        /**
+         * @brief get audio stream
+         * @param [out] stream
+         * @return error code
+         */
+        common::error getAudioStream(demux::stream::stream_sptr& stream);
 
         /**
          * @brief call in output thread for sync
@@ -60,7 +88,7 @@ namespace core {
         /**
          * @brief version used to check if all output is in correct state
          */
-        uint64_t version{};
+        uint64_t version = 0;
 
     private:
         /**
@@ -79,9 +107,19 @@ namespace core {
         int _cnt;
 
         /**
-         * @brief streams used  in different output
+         * @brief streams used in video output
          */
-        misc::vector_sptr<demux::stream_sptr> _streams;
+        misc::vector_sptr<demux::stream::stream_sptr> _video_streams;
+
+        /**
+         * @brief streams used in audio output
+         */
+        misc::vector_sptr<demux::stream::stream_sptr> _audio_streams;
+
+        /**
+         * @brief input ctx used to notify something
+         */
+        input::input_ctx_sptr _input_ctx;
 
         /**
          * @brief mutex

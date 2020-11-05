@@ -48,19 +48,9 @@ namespace demux {
 
     public:
         /**
-         * @brief frame input queue for video output
-         */
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> vo_queue;
-
-        /**
-         * @brief frame input queue for audio output
-         */
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> ao_queue;
-
-        /**
          * @brief sync should setNumOfStream in demuxer, because demuxer know the number of stream
          */
-        core::sync_sptr sync_;
+        core::sync_ctx_sptr sync_ctx;
 
     private:
         /**

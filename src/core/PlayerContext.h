@@ -45,7 +45,7 @@ namespace core {
         /**
          * @brief sync
          */
-        sync_sptr sync_;
+        sync_ctx_sptr sync_ctx;
 
         /**
          * @brief play list
@@ -56,16 +56,6 @@ namespace core {
          * @brief input context
          */
         input::input_ctx_sptr input_ctx;
-
-        /**
-         * @brief communication between demuxer and video output
-         */
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> vo_queue;
-
-        /**
-         * @brief communication between demuxer and audio output
-         */
-        std::shared_ptr<folly::MPMCQueue<demux::frame_sptr>> ao_queue;
 
     private:
         /**

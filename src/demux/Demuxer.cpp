@@ -3,11 +3,11 @@
 // Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
-#include "Stream.h"
 #include "Demuxer.h"
-#include "exception/InitException.h"
 #include "DemuxContext.h"
 #include "core/PlayEntry.h"
+#include "core/SyncContext.h"
+#include "stream/StreamFactory.h"
 
 namespace demux {
 
@@ -28,31 +28,26 @@ namespace demux {
     }
 
     common::error Demuxer::init(const core::play_entry_sptr& entry, const demux_ctx_sptr& demux_ctx) {
-        this->_entry = entry;
-        this->_base_pts = entry->last_pts;
         this->_av_format_ctx.reset(avformat_alloc_context(), avformat_close_input_wrapper);
-        bool success = true;
-        success = (this->_av_format_ctx != nullptr);
-        if (success) {
-            auto raw_ptr = this->_av_format_ctx.get();
-            success = (avformat_open_input(&raw_ptr, entry->uri.c_str(), nullptr, nullptr) >= 0);
+        if (this->_av_format_ctx == nullptr) {
+            return common::error::demuxerInitFail;
         }
-        if (success) {
-            success = (avformat_find_stream_info(this->_av_format_ctx.get(), nullptr) >= 0);
+        auto raw_ptr = this->_av_format_ctx.get();
+        if (avformat_open_input(&raw_ptr, entry->uri.c_str(), nullptr, nullptr) < 0) {
+            return common::error::demuxerInitFail;
+        } else if (avformat_find_stream_info(raw_ptr, nullptr) < 0) {
+            return common::error::demuxerInitFail;
         }
-        if (success) {
-            for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
-                auto stream = std::make_shared<Stream>();
-                stream->init(this->_av_format_ctx, stream_index, demux_ctx);
-                this->_streams.emplace_back(stream);
-            }
+        for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
+            auto stream = stream::StreamFactory::create(
+                    this->_av_format_ctx->streams[stream_index]);
+            stream->init(shared_from_this());
+            this->_streams.emplace_back(stream);
+            demux_ctx->sync_ctx->addStream(stream);
         }
-        if (success) {
-            this->_av_packet.reset(av_packet_alloc(), av_packet_free_wrapper);
-            success = (this->_av_packet != nullptr);
-        }
-        if (!success) {
-            throw exception::DemuxerInitException();
+        this->_av_packet.reset(av_packet_alloc(), av_packet_free_wrapper);
+        if (this->_av_packet == nullptr) {
+            return common::error::demuxerInitFail;
         }
         return common::error::success;
     }
@@ -74,10 +69,6 @@ namespace demux {
             stream->feed(this->_av_packet);
         }
         return common::error::success;
-    }
-
-    int Demuxer::nbStreams() const {
-        return static_cast<int>(this->_av_format_ctx->nb_streams);
     }
 
     common::error Demuxer::close() {
