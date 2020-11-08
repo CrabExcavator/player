@@ -9,7 +9,6 @@
 #include <memory>
 #include <folly/MPMCQueue.h>
 
-#include "Demuxer.h"
 #include "core/PlayList.h"
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
@@ -46,17 +45,16 @@ namespace demux {
          */
         common::error stopRunning();
 
-    public:
+    private:
         /**
          * @brief sync should setNumOfStream in demuxer, because demuxer know the number of stream
          */
-        core::sync_ctx_sptr sync_ctx;
+        core::sync_ctx_sptr _sync_ctx;
 
-    private:
         /**
          * @brief demuxer for entry
          */
-        demuxer_sptr _demuxer;
+        demuxer::demuxer_sptr _demuxer;
 
         /**
          * @brief input context

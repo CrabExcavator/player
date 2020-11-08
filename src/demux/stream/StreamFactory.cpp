@@ -12,11 +12,15 @@ namespace demux::stream {
     stream_sptr StreamFactory::create(const AVStream* av_stream) {
         stream_sptr stream = nullptr;
         if (av_stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-            stream = std::make_shared<VideoStream>();
+            auto video_stream = std::make_shared<VideoStream>();
+            video_stream->init();
+            stream = video_stream;
             stream->setStream(av_stream);
             stream->op = core::output_port::video;
         } else if (av_stream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-            stream = std::make_shared<AudioStream>();
+            auto audio_stream = std::make_shared<AudioStream>();
+            audio_stream->init();
+            stream = audio_stream;
             stream->setStream(av_stream);
             stream->op = core::output_port::audio;
         }

@@ -10,7 +10,7 @@
 
 namespace demux::stream {
 
-    common::error VideoStream::init(const demux::demuxer_sptr &demuxer) {
+    common::error VideoStream::init() {
         this->_frame_filter_chain = std::make_shared<misc::Chain<frame_sptr>>();
         this->_frame_filter_chain
         ->addLast(std::make_shared<filter::FillVideo>())

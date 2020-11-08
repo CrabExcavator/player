@@ -7,9 +7,10 @@
 #include "core/PlayerContext.h"
 #include "core/SyncContext.h"
 #include "input/InputContext.h"
+#include "demuxer/DemuxerFactory.h"
 
 common::error demux::DemuxContext::init(const core::player_ctx_sptr& player_ctx) {
-    this->sync_ctx = player_ctx->sync_ctx;
+    this->_sync_ctx = player_ctx->sync_ctx;
     this->_input_context = player_ctx->input_ctx;
     this->_running = true;
     this->_thread.run([&](){
@@ -25,14 +26,18 @@ bool demux::DemuxContext::loop() {
             this->_input_context->getCurrentEntry(entry);
         }
         if (entry == nullptr) return _running;
-        this->_demuxer = std::make_shared<Demuxer>();
-        this->_demuxer->init(entry, shared_from_this());
-        this->sync_ctx->close();
-        this->sync_ctx->version++;
+        this->_demuxer = demuxer::DemuxerFactory::create("av"); /// @todo put in config
+        misc::vector_sptr<stream::stream_sptr> streams = nullptr;
+        this->_demuxer->open(entry, streams);
+        for (auto& stream : *streams) {
+            this->_sync_ctx->addStream(stream);
+        }
+        /// sync context to next version
+        this->_sync_ctx->close();
+        this->_sync_ctx->version++;
     }
     auto err = this->_demuxer->epoch();
     if (err == common::error::eof) {
-        this->_demuxer->flush();
         this->_demuxer->close();
         this->_demuxer = nullptr;
     }

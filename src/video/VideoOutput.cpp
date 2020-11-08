@@ -106,6 +106,7 @@ namespace video {
                  */
                 if (this->_frame->last) {
                     /// @todo do something
+                    this->_stream = nullptr;
                 }
             }
         }

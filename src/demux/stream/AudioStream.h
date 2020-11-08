@@ -17,7 +17,7 @@ namespace demux::stream {
     public:
         AudioStream() = default;
 
-        common::error init(const demuxer_sptr& demuxer) override;
+        common::error init();
     };
 
 }

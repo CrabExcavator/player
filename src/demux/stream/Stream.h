@@ -33,14 +33,7 @@ namespace demux::stream {
          * @brief get time base
          * @return time base
          */
-        std::chrono::nanoseconds getTimeBase() const;
-
-        /**
-         * @brief init stream with different filter
-         * @param [in] demuxer
-         * @return error code
-         */
-        virtual common::error init(const demuxer_sptr& demuxer) = 0;
+        [[nodiscard]] std::chrono::nanoseconds getTimeBase() const;
 
         /**
          * @brief feed packet
@@ -68,7 +61,7 @@ namespace demux::stream {
         /**
          * @brief output port
          */
-        core::output_port op;
+        core::output_port op = core::output_port::null;
 
     protected:
         /**

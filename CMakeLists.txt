@@ -54,7 +54,6 @@ set(
         src/input/InputContext.cpp
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp
-        src/demux/Demuxer.cpp
         src/demux/Frame.cpp
         src/demux/DemuxContext.cpp
         src/demux/filter/FrameFilterBase.cpp
@@ -65,6 +64,8 @@ set(
         src/demux/stream/Stream.cpp
         src/demux/stream/VideoStream.cpp
         src/demux/stream/AudioStream.cpp
+        src/demux/demuxer/AVDemuxer.cpp
+        src/demux/demuxer/DemuxerFactory.cpp
 )
 set(
         COMMON_LIB
@@ -98,7 +99,6 @@ set(
         test/sample.cpp
         test/Pocket.cpp
         test/PlayList.cpp
-        test/Demuxer.cpp
         test/Chain.cpp
 )
 set(
