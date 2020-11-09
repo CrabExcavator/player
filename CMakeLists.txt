@@ -60,11 +60,8 @@ set(
         src/demux/filter/Blit.cpp
         src/demux/filter/FillVideo.cpp
         src/demux/filter/FillAudio.cpp
-        src/demux/stream/StreamFactory.cpp
-        src/demux/stream/Stream.cpp
-        src/demux/stream/VideoStream.cpp
-        src/demux/stream/AudioStream.cpp
-        src/demux/demuxer/AVDemuxer.cpp
+        src/demux/stream/FFStream.cpp
+        src/demux/demuxer/FFDemuxer.cpp
         src/demux/demuxer/DemuxerFactory.cpp
 )
 set(

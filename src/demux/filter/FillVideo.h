@@ -10,7 +10,6 @@
 
 #include "FrameFilterBase.h"
 #include "misc/typeptr.h"
-#include "demux/stream/Stream.h"
 
 namespace demux::filter {
 

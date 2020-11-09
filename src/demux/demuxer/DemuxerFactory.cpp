@@ -4,12 +4,12 @@
 //
 
 #include "DemuxerFactory.h"
-#include "AVDemuxer.h"
+#include "FFDemuxer.h"
 
 namespace demux::demuxer {
 
     demuxer_sptr DemuxerFactory::create(const std::string& name) {
-        return std::make_shared<AVDemuxer>();
+        return std::make_shared<FFDemuxer>();
     }
 
 }

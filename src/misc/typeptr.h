@@ -59,8 +59,11 @@ namespace demux {
     using frame_sptr = std::shared_ptr<Frame>;
 
     namespace stream {
-        class Stream;
-        using stream_sptr = std::shared_ptr<Stream>;
+        class IStream;
+        using stream_sptr = std::shared_ptr<IStream>;
+
+        class FFStream;
+        using ffstream_sptr = std::shared_ptr<FFStream>;
     }
 
     namespace packet {

@@ -5,7 +5,7 @@
 
 #include "SyncContext.h"
 #include "misc/util.h"
-#include "demux/stream/Stream.h"
+#include "demux/stream/IStream.h"
 #include "core/PlayerContext.h"
 
 namespace core {
@@ -58,9 +58,9 @@ namespace core {
     }
 
     common::error SyncContext::addStream(const demux::stream::stream_sptr &stream) {
-        if (stream->op == output_port::audio) {
+        if (stream->getOutputPort() == output_port::audio) {
             return this->addAudioStream(stream);
-        } else if (stream->op == output_port::video) {
+        } else if (stream->getOutputPort() == output_port::video) {
             return this->addVideoStream(stream);
         }
         return common::error::unknownError;

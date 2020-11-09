@@ -5,9 +5,8 @@
 
 #include <glog/logging.h>
 
-#include "AVDemuxer.h"
+#include "FFDemuxer.h"
 #include "core/PlayEntry.h"
-#include "demux/stream/StreamFactory.h"
 
 namespace demux::demuxer {
 
@@ -19,10 +18,11 @@ namespace demux::demuxer {
         av_packet_free(&pkt);
     }
 
-    common::error AVDemuxer::open(const core::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr>& streams) {
+    common::error FFDemuxer::open(const core::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr>& streams) {
         /** @attention all [out] pointer parm should be nullptr */
         assert(streams == nullptr);
-        this->_streams = std::make_shared<std::vector<stream::stream_sptr>>();
+        streams = std::make_shared<std::vector<stream::stream_sptr>>();
+        this->_streams = std::make_shared<std::vector<stream::ffstream_sptr>>();
         this->_av_format_ctx.reset(avformat_alloc_context(), avformat_close_input_wrapper);
         this->_av_packet.reset(av_packet_alloc(), av_packet_free_wrapper);
         if (this->_av_format_ctx == nullptr) {
@@ -41,16 +41,15 @@ namespace demux::demuxer {
             return common::error::demuxerInitFail;
         }
         for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
-            /// @todo add stream to output
-            auto stream = stream::StreamFactory::create(
-                    this->_av_format_ctx->streams[stream_index]);
+            auto stream = std::make_shared<stream::FFStream>();
+            stream->init(this->_av_format_ctx->streams[stream_index]);
             this->_streams->emplace_back(stream);
+            streams->emplace_back(stream);
         }
-        streams = this->_streams;
         return common::error::success;
     }
 
-    common::error AVDemuxer::epoch() {
+    common::error FFDemuxer::epoch() {
         if (av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get()) < 0) {
             return common::error::eof;
         }
@@ -59,7 +58,7 @@ namespace demux::demuxer {
         return common::error::success;
     }
 
-    common::error AVDemuxer::close() {
+    common::error FFDemuxer::close() {
         for (int stream_index = 0 ; stream_index < this->_streams->size() ; stream_index++) {
             av_packet_unref(this->_av_packet.get());
             this->_av_packet.get()->stream_index = stream_index;

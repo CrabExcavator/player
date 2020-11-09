@@ -3,22 +3,21 @@
 // Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
-#ifndef PLAYER_AVDEMUXER_H
-#define PLAYER_AVDEMUXER_H
+#ifndef PLAYER_FFDEMUXER_H
+#define PLAYER_FFDEMUXER_H
 
-extern "C" {
-#include <libavformat/avformat.h>
-}
 
 #include "IDemuxer.h"
 #include "misc/typeptr.h"
+#include "misc/avheader.h"
+#include "demux/stream/FFStream.h"
 
 namespace demux::demuxer {
 
     /**
      * @brief impl of demuxer using libavformat from project ffmpeg
      */
-    class AVDemuxer : public IDemuxer {
+    class FFDemuxer : public IDemuxer {
     public:
         /**
          * @brief open entry
@@ -43,9 +42,6 @@ namespace demux::demuxer {
         common::error close() override;
 
     private:
-        using av_packet_sptr = std::shared_ptr<AVPacket>;
-
-    private:
         /**
          * @brief av format context from libavformat
          */
@@ -54,7 +50,7 @@ namespace demux::demuxer {
         /**
          * @brief ref to streams opened
          */
-        misc::vector_sptr<stream::stream_sptr> _streams;
+        misc::vector_sptr<stream::ffstream_sptr> _streams;
 
         /**
          * @brief packet to fill
@@ -64,4 +60,4 @@ namespace demux::demuxer {
 
 }
 
-#endif //PLAYER_AVDEMUXER_H
+#endif //PLAYER_FFDEMUXER_H

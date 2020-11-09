@@ -6,7 +6,7 @@
 #include <map>
 
 #include "FillVideo.h"
-#include "demux/stream/Stream.h"
+#include "demux/stream/IStream.h"
 
 namespace demux::filter {
 

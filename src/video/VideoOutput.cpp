@@ -9,7 +9,7 @@
 #include "core/SyncContext.h"
 #include "core/PlayerContext.h"
 #include "demux/Frame.h"
-#include "demux/stream/Stream.h"
+#include "demux/stream/IStream.h"
 
 namespace video {
 
