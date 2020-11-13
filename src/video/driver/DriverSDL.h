@@ -15,71 +15,71 @@
 
 namespace video::driver {
 
-    /**
-     * @brief video driver of sdl
-     */
-    class DriverSDL: public VideoDriver {
-    public:
-        /**
-         * @brief default
-         */
-        DriverSDL() = default;
+/**
+ * @brief video driver of sdl
+ */
+class DriverSDL : public VideoDriver {
+ public:
+  /**
+   * @brief default
+   */
+  DriverSDL() = default;
 
-        /**
-         * @brief clear SDL
-         */
-        ~DriverSDL() override;
+  /**
+   * @brief clear SDL
+   */
+  ~DriverSDL() override;
 
-        /**
-         * @brief setNumOfStream SDL && create window && create texture
-         * @param [in] vo
-         * @return error code
-         */
-        common::error init(vo_sptr vo) override;
+  /**
+   * @brief setNumOfStream SDL && create window && create texture
+   * @param [in] vo
+   * @return error code
+   */
+  common::Error init(vo_sptr vo) override;
 
-        /**
-         * @brief draw one image in each call
-         * @param [in] vo
-         * @return error code
-         */
-        common::error drawImage(vo_sptr vo) override;
+  /**
+   * @brief draw one image in each call
+   * @param [in] vo
+   * @return error code
+   */
+  common::Error drawImage(vo_sptr vo) override;
 
-        /**
-         * @brief listen for event, should called in main thread
-         * @param [in] vo
-         * @return error code
-         */
-        common::error waitEvents(vo_sptr vo) override;
+  /**
+   * @brief listen for event, should called in main thread
+   * @param [in] vo
+   * @return error code
+   */
+  common::Error waitEvents(vo_sptr vo) override;
 
-        /**
-         * @brief 1. reConfig texture
-         * @param [in] vo
-         * @return error code
-         */
-        common::error reConfig(vo_sptr vo) override;
+  /**
+   * @brief 1. reConfig texture
+   * @param [in] vo
+   * @return error code
+   */
+  common::Error reConfig(vo_sptr vo) override;
 
-    private:
-        using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>>;
+ private:
+  using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>;
 
-        using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer*)>>;
+  using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>;
 
-        using texture_uptr = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture*)>>;
+  using texture_uptr = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>;
 
-        /**
-         * @brief pointer to window
-         */
-        window_uptr _window;
+  /**
+   * @brief pointer to window
+   */
+  window_uptr _window;
 
-        /**
-         * @brief pointer to renderer
-         */
-        renderer_uptr _renderer;
+  /**
+   * @brief pointer to renderer
+   */
+  renderer_uptr _renderer;
 
-        /**
-         * @brief pointer to texture
-         */
-        texture_uptr _texture;
-    };
+  /**
+   * @brief pointer to texture
+   */
+  texture_uptr _texture;
+};
 
 }
 

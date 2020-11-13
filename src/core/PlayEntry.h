@@ -12,93 +12,93 @@
 #include <memory>
 
 namespace demux {
-    class Demuxer;
+class Demuxer;
 }
 
 namespace core {
 
-    /**
-     * @brief supported entry type
-     */
-    enum class entry_type {
-        file,
-        numOfEntryType
-    };
+/**
+ * @brief supported entry type
+ */
+enum class entry_type {
+  file,
+  numOfEntryType
+};
 
-    /**
-     * @brief play entry
-     */
-    class PlayEntry {
-    public:
-        /**
-         * @brief delete
-         */
-        PlayEntry() = delete;
+/**
+ * @brief play entry
+ */
+class PlayEntry {
+ public:
+  /**
+   * @brief delete
+   */
+  PlayEntry() = delete;
 
-        /**
-         * @brief setNumOfStream play entry
-         * @param [in] type entry type
-         * @param [in] uri resource path
-         * @param [in] last_pts no use yet
-         */
-        PlayEntry(entry_type type, std::string uri, int64_t last_pts);
+  /**
+   * @brief setNumOfStream play entry
+   * @param [in] type entry type
+   * @param [in] uri resource path
+   * @param [in] last_pts no use yet
+   */
+  PlayEntry(entry_type type, std::string uri, int64_t last_pts);
 
-        /**
-         * @brief default
-         * @param rhs
-         */
-        PlayEntry(const PlayEntry& rhs) = default;
+  /**
+   * @brief default
+   * @param rhs
+   */
+  PlayEntry(const PlayEntry &rhs) = default;
 
-        /**
-         * @brief default
-         * @param rhs
-         */
-        PlayEntry(PlayEntry&& rhs) = default;
+  /**
+   * @brief default
+   * @param rhs
+   */
+  PlayEntry(PlayEntry &&rhs) = default;
 
-        /**
-         * @brief default
-         * @param rhs
-         * @return
-         */
-        PlayEntry& operator = (const PlayEntry& rhs) = default;
+  /**
+   * @brief default
+   * @param rhs
+   * @return
+   */
+  PlayEntry &operator=(const PlayEntry &rhs) = default;
 
-        /**
-         * @brief default
-         * @param rhs
-         * @return
-         */
-        PlayEntry& operator = (PlayEntry&& rhs) = default;
+  /**
+   * @brief default
+   * @param rhs
+   * @return
+   */
+  PlayEntry &operator=(PlayEntry &&rhs) = default;
 
-        /**
-         * @brief default
-         */
-        ~PlayEntry() = default;
+  /**
+   * @brief default
+   */
+  ~PlayEntry() = default;
 
-        /**
-         * @brief cmp operator
-         * @param rhs
-         * @return
-         */
-        bool operator < (const PlayEntry&rhs) const {
-            return (this->type < rhs.type) || (this->type == rhs.type && this->uri < rhs.uri);
-        }
+  /**
+   * @brief cmp operator
+   * @param rhs
+   * @return
+   */
+  bool operator<(const PlayEntry &rhs) const {
+    return (this->type < rhs.type) || (this->type == rhs.type && this->uri < rhs.uri);
+  }
 
-    public:
-        /**
-         * @brief entry type
-         */
-        entry_type type;
+ public:
+  /**
+   * @brief entry type
+   */
+  entry_type type;
 
-        /**
-         * @brief resource path
-         */
-        std::string uri;
+  /**
+   * @brief resource path
+   */
+  std::string uri;
 
-        /**
-         * @brief pts last play
-         */
-        int64_t last_pts;
-    };
+  /**
+   * @brief pts last play
+   */
+  int64_t last_pts;
+};
 
 }
 

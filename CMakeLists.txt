@@ -48,9 +48,11 @@ set(
         src/video/VideoOutput.cpp
         src/video/driver/DriverFactory.cpp
         src/video/driver/DriverSDL.cpp
+        src/video/ImageFormat.cpp
         src/audio/AudioOutput.cpp
         src/audio/driver/DriverFactory.cpp
         src/audio/driver/DriverPortAudio.cpp
+        src/audio/SampleFormat.cpp
         src/input/InputContext.cpp
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp
@@ -63,6 +65,8 @@ set(
         src/demux/stream/FFStream.cpp
         src/demux/demuxer/FFDemuxer.cpp
         src/demux/demuxer/DemuxerFactory.cpp
+        src/demux/frame/IFrame.cpp
+        src/demux/frame/FFFrame.cpp
 )
 set(
         COMMON_LIB
@@ -109,6 +113,7 @@ set(
 ########## target ##########
 # release
 add_executable(player ${RELEASE_SOURCE})
+set_target_properties(player PROPERTIES LINK_FLAGS "-Wall -Wextra -Werror")
 target_link_libraries(player ${RELEASE_LIB})
 
 # test

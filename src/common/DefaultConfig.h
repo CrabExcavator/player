@@ -14,45 +14,45 @@
 
 namespace common {
 
-    /**
-     * @brief default config
-     * if user defined class should support config, operator << & >>
-     * should be impl
-     */
-    class DefaultConfig {
-    public:
+/**
+ * @brief default config
+ * if user defined class should support config, operator << & >>
+ * should be impl
+ */
+class DefaultConfig {
+ public:
 
-        /**
-         * @brief play_method of play_list
-         */
-        static misc::Pocket<core::play_method> default_play_method;
+  /**
+   * @brief play_method of play_list
+   */
+  static misc::Pocket<core::play_method> default_play_method;
 
-        /**
-         * @brief window_width of audio output
-         */
-        static misc::Pocket<int> window_width;
+  /**
+   * @brief window_width of audio output
+   */
+  static misc::Pocket<int> window_width;
 
-        /**
-         * @brief window_height of audio output
-         */
-        static misc::Pocket<int> window_height;
+  /**
+   * @brief window_height of audio output
+   */
+  static misc::Pocket<int> window_height;
 
-        /**
-         * @brief driver name of audio output
-         */
-        static misc::Pocket<std::string> ao_driver;
+  /**
+   * @brief driver name of audio output
+   */
+  static misc::Pocket<std::string> ao_driver;
 
-        /**
-         * @brief driver name of video driver
-         */
-        static misc::Pocket<std::string> vo_driver;
+  /**
+   * @brief driver name of video driver
+   */
+  static misc::Pocket<std::string> vo_driver;
 
-        /**
-         * @brief default queue size of concurrent queue
-         */
-        static misc::Pocket<int> default_queue_size;
+  /**
+   * @brief default queue size of concurrent queue
+   */
+  static misc::Pocket<int> default_queue_size;
 
-    };
+};
 
 }
 

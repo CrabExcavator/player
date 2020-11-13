@@ -10,19 +10,19 @@
 
 namespace audio::driver {
 
-    /**
-     * @brief the factory to create audio driver
-     */
-    class DriverFactory {
-    public:
-        /**
-         * @brief create audio driver with specify name
-         * @param [in] driver_name the name of audio driver, could be
-         * defined in config
-         * @return created driver
-         */
-        static audio_driver_uptr create(const std::string& driver_name);
-    };
+/**
+ * @brief the factory to create audio driver
+ */
+class DriverFactory {
+ public:
+  /**
+   * @brief create audio driver with specify name
+   * @param [in] driver_name the name of audio driver, could be
+   * defined in config
+   * @return created driver
+   */
+  static audio_driver_uptr create(const std::string &driver_name);
+};
 
 }
 

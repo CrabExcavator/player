@@ -6,7 +6,6 @@
 #ifndef PLAYER_FFDEMUXER_H
 #define PLAYER_FFDEMUXER_H
 
-
 #include "IDemuxer.h"
 #include "misc/typeptr.h"
 #include "misc/avheader.h"
@@ -14,49 +13,49 @@
 
 namespace demux::demuxer {
 
-    /**
-     * @brief impl of demuxer using libavformat from project ffmpeg
-     */
-    class FFDemuxer : public IDemuxer {
-    public:
-        /**
-         * @brief open entry
-         * @param [in] entry
-         * @param [out] streams
-         * @return error code
-         */
-        common::error open(const core::play_entry_sptr& entry,
-                           misc::vector_sptr<stream::stream_sptr>& streams) override;
+/**
+ * @brief impl of demuxer using libavformat from project ffmpeg
+ */
+class FFDemuxer : public IDemuxer {
+ public:
+  /**
+   * @brief open entry
+   * @param [in] entry
+   * @param [out] streams
+   * @return error code
+   */
+  common::Error open(const core::play_entry_sptr &entry,
+                     misc::vector_sptr<stream::stream_sptr> &streams) override;
 
-        /**
-         * @brief parse one packet
-         * @param [out] packet
-         * @return error code
-         */
-        common::error epoch() override;
+  /**
+   * @brief parse one packet
+   * @param [out] packet
+   * @return error code
+   */
+  common::Error epoch() override;
 
-        /**
-         * @brief close
-         * @return error code
-         */
-        common::error close() override;
+  /**
+   * @brief close
+   * @return error code
+   */
+  common::Error close() override;
 
-    private:
-        /**
-         * @brief av format context from libavformat
-         */
-        std::shared_ptr<AVFormatContext> _av_format_ctx;
+ private:
+  /**
+   * @brief av format context from libavformat
+   */
+  std::shared_ptr<AVFormatContext> _av_format_ctx;
 
-        /**
-         * @brief ref to streams opened
-         */
-        misc::vector_sptr<stream::ffstream_sptr> _streams;
+  /**
+   * @brief ref to streams opened
+   */
+  misc::vector_sptr<stream::ffstream_sptr> _streams;
 
-        /**
-         * @brief packet to fill
-         */
-        av_packet_sptr _av_packet;
-    };
+  /**
+   * @brief packet to fill
+   */
+  av_packet_sptr _av_packet;
+};
 
 }
 

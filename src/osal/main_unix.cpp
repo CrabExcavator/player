@@ -5,8 +5,8 @@
 
 namespace osal {
 
-    int player_main(int argc, char *argv[]) {
-        return 0;
-    }
+int player_main(int argc, char *argv[]) {
+  return 0;
+}
 
 }

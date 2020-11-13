@@ -10,22 +10,22 @@
 
 namespace input::handler {
 
-    /**
-     * @brief universal event handler
-     */
-    class Universal : public EventHandlerBase {
-    public:
-        Universal() = default;
+/**
+ * @brief universal event handler
+ */
+class Universal : public EventHandlerBase {
+ public:
+  Universal() = default;
 
-        /**
-         * handle event
-         * @param in
-         * @param out
-         * @return
-         */
-        common::error filter(const misc::vector_sptr<input_ctx_sptr>& in, misc::vector_sptr<input_ctx_sptr>& out) override;
+  /**
+   * handle event
+   * @param in
+   * @param out
+   * @return
+   */
+  common::Error filter(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) override;
 
-    };
+};
 
 }
 

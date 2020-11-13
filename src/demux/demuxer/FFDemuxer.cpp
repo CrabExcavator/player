@@ -10,63 +10,63 @@
 
 namespace demux::demuxer {
 
-    static void avformat_close_input_wrapper(AVFormatContext* ctx) {
-        avformat_close_input(&ctx);
-    }
+static void avformat_close_input_wrapper(AVFormatContext *ctx) {
+  avformat_close_input(&ctx);
+}
 
-    static void av_packet_free_wrapper(AVPacket* pkt) {
-        av_packet_free(&pkt);
-    }
+static void av_packet_free_wrapper(AVPacket *pkt) {
+  av_packet_free(&pkt);
+}
 
-    common::error FFDemuxer::open(const core::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr>& streams) {
-        /** @attention all [out] pointer parm should be nullptr */
-        assert(streams == nullptr);
-        streams = std::make_shared<std::vector<stream::stream_sptr>>();
-        this->_streams = std::make_shared<std::vector<stream::ffstream_sptr>>();
-        this->_av_format_ctx.reset(avformat_alloc_context(), avformat_close_input_wrapper);
-        this->_av_packet.reset(av_packet_alloc(), av_packet_free_wrapper);
-        if (this->_av_format_ctx == nullptr) {
-            LOG(ERROR) << "create av format context fail";
-            return common::error::demuxerInitFail;
-        } else if (this->_av_packet == nullptr) {
-            LOG(ERROR) << "create av packet fail";
-            return common::error::demuxerInitFail;
-        }
-        auto raw_av_format_ctx = this->_av_format_ctx.get();
-        if (avformat_open_input(&raw_av_format_ctx, entry->uri.c_str(), nullptr, nullptr) < 0) {
-            LOG(ERROR) << "open av format context fail";
-            return common::error::demuxerInitFail;
-        } else if (avformat_find_stream_info(raw_av_format_ctx, nullptr) < 0) {
-            LOG(ERROR) << "can't find all stream info";
-            return common::error::demuxerInitFail;
-        }
-        for (int stream_index = 0 ; stream_index < this->_av_format_ctx->nb_streams ; stream_index++) {
-            auto stream = std::make_shared<stream::FFStream>();
-            stream->init(this->_av_format_ctx->streams[stream_index]);
-            this->_streams->emplace_back(stream);
-            streams->emplace_back(stream);
-        }
-        return common::error::success;
-    }
+common::Error FFDemuxer::open(const core::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr> &streams) {
+  /** @attention all [out] pointer parm should be nullptr */
+  assert(streams == nullptr);
+  streams = std::make_shared<std::vector<stream::stream_sptr>>();
+  this->_streams = std::make_shared<std::vector<stream::ffstream_sptr>>();
+  this->_av_format_ctx.reset(avformat_alloc_context(), avformat_close_input_wrapper);
+  this->_av_packet.reset(av_packet_alloc(), av_packet_free_wrapper);
+  if (this->_av_format_ctx == nullptr) {
+    LOG(ERROR) << "create av format context fail";
+    return common::Error::demuxerInitFail;
+  } else if (this->_av_packet == nullptr) {
+    LOG(ERROR) << "create av packet fail";
+    return common::Error::demuxerInitFail;
+  }
+  auto raw_av_format_ctx = this->_av_format_ctx.get();
+  if (avformat_open_input(&raw_av_format_ctx, entry->uri.c_str(), nullptr, nullptr) < 0) {
+    LOG(ERROR) << "open av format context fail";
+    return common::Error::demuxerInitFail;
+  } else if (avformat_find_stream_info(raw_av_format_ctx, nullptr) < 0) {
+    LOG(ERROR) << "can't find all stream info";
+    return common::Error::demuxerInitFail;
+  }
+  for (int stream_index = 0; stream_index < this->_av_format_ctx->nb_streams; stream_index++) {
+    auto stream = std::make_shared<stream::FFStream>();
+    stream->init(this->_av_format_ctx->streams[stream_index]);
+    this->_streams->emplace_back(stream);
+    streams->emplace_back(stream);
+  }
+  return common::Error::SUCCESS;
+}
 
-    common::error FFDemuxer::epoch() {
-        if (av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get()) < 0) {
-            return common::error::eof;
-        }
-        this->_streams->at(this->_av_packet->stream_index)->feed(this->_av_packet);
-        av_packet_unref(this->_av_packet.get());
-        return common::error::success;
-    }
+common::Error FFDemuxer::epoch() {
+  if (av_read_frame(this->_av_format_ctx.get(), this->_av_packet.get()) < 0) {
+    return common::Error::eof;
+  }
+  this->_streams->at(this->_av_packet->stream_index)->feed(this->_av_packet);
+  av_packet_unref(this->_av_packet.get());
+  return common::Error::SUCCESS;
+}
 
-    common::error FFDemuxer::close() {
-        for (int stream_index = 0 ; stream_index < this->_streams->size() ; stream_index++) {
-            av_packet_unref(this->_av_packet.get());
-            this->_av_packet.get()->stream_index = stream_index;
-            auto stream = this->_streams->at(stream_index);
-            stream->feed(this->_av_packet);
-            stream->close();
-        }
-        return common::error::success;
-    }
+common::Error FFDemuxer::close() {
+  for (int stream_index = 0; stream_index < this->_streams->size(); stream_index++) {
+    av_packet_unref(this->_av_packet.get());
+    this->_av_packet.get()->stream_index = stream_index;
+    auto stream = this->_streams->at(stream_index);
+    stream->feed(this->_av_packet);
+    stream->close();
+  }
+  return common::Error::SUCCESS;
+}
 
 }

@@ -10,13 +10,13 @@
 
 namespace demux::demuxer {
 
-    /**
-     * @brief the factory to decide which kind of demuxer to create
-     */
-    class DemuxerFactory {
-    public:
-        static demuxer_sptr create(const std::string& name);
-    };
+/**
+ * @brief the factory to decide which kind of demuxer to create
+ */
+class DemuxerFactory {
+ public:
+  static demuxer_sptr create(const std::string &name);
+};
 
 }
 

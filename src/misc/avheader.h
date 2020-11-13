@@ -14,6 +14,6 @@ extern "C" {
 
 using av_packet_sptr = std::shared_ptr<AVPacket>;
 
-using av_codec_ctx_uptr = std::unique_ptr<AVCodecContext, std::function<void(AVCodecContext*)>>;
+using av_codec_ctx_uptr = std::unique_ptr<AVCodecContext, std::function<void(AVCodecContext *)>>;
 
 #endif //PLAYER_AVHEADER_H

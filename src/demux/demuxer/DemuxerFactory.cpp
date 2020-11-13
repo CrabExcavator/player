@@ -8,8 +8,8 @@
 
 namespace demux::demuxer {
 
-    demuxer_sptr DemuxerFactory::create(const std::string& name) {
-        return std::make_shared<FFDemuxer>();
-    }
+demuxer_sptr DemuxerFactory::create(const std::string &name) {
+  return std::make_shared<FFDemuxer>();
+}
 
 }

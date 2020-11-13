@@ -8,40 +8,40 @@
 
 #include <vector>
 
-#include "common/error.h"
+#include "common/Error.h"
 #include "typeptr.h"
 
 namespace misc {
 
-    /**
-     * @brief chain node
-     * @tparam T type to handle
-     */
-    template <typename T>
-    class ChainNode {
-    public:
-        /**
-         * @brief filter
-         * @param [in] in list of typename T
-         * @param [out] out list of typename T
-         * @return error code
-         */
-        virtual common::error filter(const vector_sptr<T>& in, vector_sptr<T>& out) = 0;
+/**
+ * @brief chain node
+ * @tparam T type to handle
+ */
+template<typename T>
+class ChainNode {
+ public:
+  /**
+   * @brief filter
+   * @param [in] in list of typename T
+   * @param [out] out list of typename T
+   * @return error code
+   */
+  virtual common::Error filter(const vector_sptr<T> &in, vector_sptr<T> &out) = 0;
 
-        /**
-         * @brief flush
-         * @param [in] in list of typename T
-         * @param [out] out list of typename T
-         * @return error code
-         */
-        virtual common::error flush(const vector_sptr<T>& in, vector_sptr<T>& out) = 0;
+  /**
+   * @brief flush
+   * @param [in] in list of typename T
+   * @param [out] out list of typename T
+   * @return error code
+   */
+  virtual common::Error flush(const vector_sptr<T> &in, vector_sptr<T> &out) = 0;
 
-        /**
-         * @brief close
-         * @return error code
-         */
-        virtual common::error close() = 0;
-    };
+  /**
+   * @brief close
+   * @return error code
+   */
+  virtual common::Error close() = 0;
+};
 
 }
 

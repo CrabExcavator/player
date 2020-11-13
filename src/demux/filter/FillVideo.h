@@ -13,19 +13,19 @@
 
 namespace demux::filter {
 
-    /**
-     * @brief setNumOfStream var in frame
-     */
-    class FillVideo: public FrameFilterBase {
-    public:
-        FillVideo() = default;
+/**
+ * @brief setNumOfStream var in frame
+ */
+class FillVideo : public FrameFilterBase {
+ public:
+  FillVideo() = default;
 
-        common::error filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+  common::Error filter(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr> &out) override;
 
-        common::error flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+  common::Error flush(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr> &out) override;
 
-        common::error close() override;
-    };
+  common::Error close() override;
+};
 
 }
 

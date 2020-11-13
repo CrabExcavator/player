@@ -7,19 +7,19 @@
 #define PLAYER_BLIT_H
 
 #include "FrameFilterBase.h"
-#include "video/image_format.h"
+#include "video/ImageFormat.h"
 
 namespace demux::filter {
 
-    /**
-     * @brief transfer data in raw frame to data that can be used directly
-     */
-    class Blit: public FrameFilterBase {
-    public:
-        common::error filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
-        common::error flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
-        common::error close() override;
-    };
+/**
+ * @brief transfer data in raw frame to data that can be used directly
+ */
+class Blit : public FrameFilterBase {
+ public:
+  common::Error filter(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr> &out) override;
+  common::Error flush(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr> &out) override;
+  common::Error close() override;
+};
 
 }
 

@@ -10,16 +10,16 @@
 
 namespace demux::filter {
 
-    class FillAudio : public FrameFilterBase {
-    public:
-        FillAudio() = default;
+class FillAudio : public FrameFilterBase {
+ public:
+  FillAudio() = default;
 
-        common::error filter(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+  common::Error filter(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr> &out) override;
 
-        common::error flush(const misc::vector_sptr<frame_sptr>& in, misc::vector_sptr<frame_sptr>& out) override;
+  common::Error flush(const misc::vector_sptr<frame_sptr> &in, misc::vector_sptr<frame_sptr> &out) override;
 
-        common::error close() override;
-    };
+  common::Error close() override;
+};
 
 }
 

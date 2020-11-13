@@ -10,14 +10,14 @@
 
 namespace demux {
 
-    Frame::Frame() {
-        this->_frame = av_frame_alloc();
-    }
+Frame::Frame() {
+  this->_frame = av_frame_alloc();
+}
 
-    Frame::~Frame() {
-        av_frame_free(&this->_frame);
-        this->_frame = nullptr;
-        free(this->pixels);
-    }
+Frame::~Frame() {
+  av_frame_free(&this->_frame);
+  this->_frame = nullptr;
+  free(this->pixels);
+}
 
 }

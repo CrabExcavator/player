@@ -16,90 +16,90 @@
 
 namespace common {
 
-    using dic_uptr = std::unique_ptr<std::unordered_map<std::string, std::string>>;
+using dic_uptr = std::unique_ptr<std::unordered_map<std::string, std::string>>;
 
-    /**
-     * @brief config
-     */
-    class Config {
-    public:
-        /**
-         * @brief get config singleton
-         * @return config singleton
-         */
-        static config_sptr getInstance();
+/**
+ * @brief config
+ */
+class Config {
+ public:
+  /**
+   * @brief get config singleton
+   * @return config singleton
+   */
+  static config_sptr getInstance();
 
-        /**
-         * @brief load config from local filesystem
-         * @param [in] path path of config file
-         */
-        static void loadConfig(const std::string& path);
+  /**
+   * @brief load config from local filesystem
+   * @param [in] path path of config file
+   */
+  static void loadConfig(const std::string &path);
 
-        /**
-         * @brief delete
-         * @param rhs
-         */
-        Config(const Config& rhs) = delete;
+  /**
+   * @brief delete
+   * @param rhs
+   */
+  Config(const Config &rhs) = delete;
 
-        /**
-         * @brief delete
-         * @param rhs
-         */
-        Config(Config&& rhs) = delete;
+  /**
+   * @brief delete
+   * @param rhs
+   */
+  Config(Config &&rhs) = delete;
 
-        /**
-         * @brief delete
-         * @param rhs
-         * @return
-         */
-        Config& operator = (const Config& rhs) = delete;
+  /**
+   * @brief delete
+   * @param rhs
+   * @return
+   */
+  Config &operator=(const Config &rhs) = delete;
 
-        /**
-         * @brief delete
-         * @param rhs
-         * @return
-         */
-        Config& operator = (Config&& rhs) = delete;
+  /**
+   * @brief delete
+   * @param rhs
+   * @return
+   */
+  Config &operator=(Config &&rhs) = delete;
 
-        /**
-         * @brief default
-         */
-        ~Config() = default;
+  /**
+   * @brief default
+   */
+  ~Config() = default;
 
-        /**
-         * @brief key of config key-value pair
-         * @tparam T type of value
-         * @param [in] pocket wrapper of key
-         * @return value
-         */
-        template<typename T>
-        T get(const misc::Pocket<T>& pocket) {
-            std::lock_guard _(this->_mutex);
-            const auto& key = pocket.getKey();
-            // todo add additional type support
+  /**
+   * @brief key of config key-value pair
+   * @tparam T type of value
+   * @param [in] pocket wrapper of key
+   * @return value
+   */
+  template<typename T>
+  T get(const misc::Pocket<T> &pocket) {
+    std::lock_guard _(this->_mutex);
+    const auto &key = pocket.getKey();
+    // todo add additional type support
 //            if (this->_dic->contains(key)) {
 //                return misc::Pocket<T>::cast(this->_dic->at(key));
 //            }
-            return pocket.getValue();
-        }
+    return pocket.getValue();
+  }
 
-    private:
-        /**
-         * @brief delete
-         */
-        Config();
+ private:
+  /**
+   * @brief delete
+   */
+  Config();
 
-    private:
-        /**
-         * @brief mutex
-         */
-        std::mutex _mutex;
+ private:
+  /**
+   * @brief mutex
+   */
+  std::mutex _mutex;
 
-        /**
-         * @brief data structure to store config
-         */
-        dic_uptr _dic;
-    };
+  /**
+   * @brief data structure to store config
+   */
+  dic_uptr _dic;
+};
 
 #define GET_CONFIG(entry) common::Config::getInstance()->get(common::DefaultConfig::entry)
 

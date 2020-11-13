@@ -6,42 +6,42 @@
 #ifndef PLAYER_IDEMUXER_H
 #define PLAYER_IDEMUXER_H
 
-#include "common/error.h"
+#include "common/Error.h"
 #include "misc/typeptr.h"
 
 namespace demux::demuxer {
 
-    /**
-     * @brief the interface of Demuxer
-     */
-    class IDemuxer {
-    public:
-        /**
-         * @brief default
-         */
-        virtual ~IDemuxer() = default;
+/**
+ * @brief the interface of Demuxer
+ */
+class IDemuxer {
+ public:
+  /**
+   * @brief default
+   */
+  virtual ~IDemuxer() = default;
 
-        /**
-         * @brief open an entry
-         * @param [in] entry
-         * @param [out] streams
-         * @return error code
-         */
-        virtual common::error open(const core::play_entry_sptr& entry, misc::vector_sptr<stream::stream_sptr>& streams) = 0;
+  /**
+   * @brief open an entry
+   * @param [in] entry
+   * @param [out] streams
+   * @return error code
+   */
+  virtual common::Error open(const core::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr> &streams) = 0;
 
-        /**
-         * @brief parse next packet && push it to stream
-         * @param [out] packet
-         * @return error code
-         */
-        virtual common::error epoch() = 0;
+  /**
+   * @brief parse next packet && push it to stream
+   * @param [out] packet
+   * @return error code
+   */
+  virtual common::Error epoch() = 0;
 
-        /**
-         * @brief close demuxer
-         * @return error code
-         */
-        virtual common::error close() = 0;
-    };
+  /**
+   * @brief close demuxer
+   * @return error code
+   */
+  virtual common::Error close() = 0;
+};
 
 }
 

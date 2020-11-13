@@ -8,17 +8,16 @@
 
 namespace input::handler {
 
+common::Error
+EventHandlerBase::flush(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) {
+  return common::Error::UNKNOWN_ERROR;
+}
 
-    common::error
-    EventHandlerBase::flush(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) {
-        return common::error::unknownError;
-    }
+common::Error EventHandlerBase::close() {
+  return common::Error::UNKNOWN_ERROR;
+}
 
-    common::error EventHandlerBase::close() {
-        return common::error::unknownError;
-    }
-
-    core::player_ctx_sptr EventHandlerBase::getPlayContext(const input_ctx_sptr &input_ctx) {
-        return input_ctx->_player_ctx.lock();
-    }
+core::player_ctx_sptr EventHandlerBase::getPlayContext(const input_ctx_sptr &input_ctx) {
+  return input_ctx->_player_ctx.lock();
+}
 }

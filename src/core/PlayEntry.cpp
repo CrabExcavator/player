@@ -7,8 +7,9 @@
 
 namespace core {
 
-    PlayEntry::PlayEntry(entry_type type, std::string uri, int64_t last_pts): type(type), uri(std::move(uri)), last_pts(last_pts) {
+PlayEntry::PlayEntry(entry_type type, std::string uri, int64_t last_pts)
+    : type(type), uri(std::move(uri)), last_pts(last_pts) {
 
-    }
+}
 
 }

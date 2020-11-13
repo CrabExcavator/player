@@ -7,7 +7,7 @@
 
 #include "misc/Thread.h"
 #include "misc/util.h"
-#include "common/error.h"
+#include "common/Error.h"
 
 TEST(SAMPLE, THREAD) {
     misc::Thread t1(std::string("hehe"));
@@ -25,7 +25,7 @@ TEST(SAMPLE, TO_STRING) {
 #include <chrono>
 
 TEST(SAMPLE, CHRONO) {
-    LOG(INFO) << static_cast<int>(common::error::eof);
+    LOG(INFO) << static_cast<int>(common::Error::eof);
     double raw = 2.23;
     auto seconds = std::chrono::duration<double>(raw);
     auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(seconds);

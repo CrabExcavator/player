@@ -11,21 +11,20 @@
 
 namespace misc {
 
-    class Init {
-    public:
-        Init() = delete;
+class Init {
+ public:
+  Init() = delete;
 
+  Init(int argc, char *argv[]) {
+    google::InitGoogleLogging(argv[0]);
+    FLAGS_logtostderr = true;
+    gflags::ParseCommandLineFlags(&argc, &argv, true);
+  }
 
-        Init(int argc, char* argv[]) {
-            google::InitGoogleLogging(argv[0]);
-            FLAGS_logtostderr = true;
-            gflags::ParseCommandLineFlags(&argc, &argv, true);
-        }
-
-        ~Init() {
-            google::ShutdownGoogleLogging();
-        }
-    };
+  ~Init() {
+    google::ShutdownGoogleLogging();
+  }
+};
 
 }
 
