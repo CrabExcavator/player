@@ -24,7 +24,7 @@ class FFDemuxer : public IDemuxer {
    * @param [out] streams
    * @return error code
    */
-  common::Error open(const core::play_entry_sptr &entry,
+  common::Error Open(const core::play_entry_sptr &entry,
                      misc::vector_sptr<stream::stream_sptr> &streams) override;
 
   /**
@@ -32,29 +32,29 @@ class FFDemuxer : public IDemuxer {
    * @param [out] packet
    * @return error code
    */
-  common::Error epoch() override;
+  common::Error Epoch() override;
 
   /**
    * @brief close
    * @return error code
    */
-  common::Error close() override;
+  common::Error Close() override;
 
  private:
   /**
    * @brief av format context from libavformat
    */
-  std::shared_ptr<AVFormatContext> _av_format_ctx;
+  std::shared_ptr<AVFormatContext> av_format_ctx_;
 
   /**
    * @brief ref to streams opened
    */
-  misc::vector_sptr<stream::ffstream_sptr> _streams;
+  misc::vector_sptr<stream::ffstream_sptr> streams_;
 
   /**
    * @brief packet to fill
    */
-  av_packet_sptr _av_packet;
+  av_packet_sptr av_packet_;
 };
 
 }

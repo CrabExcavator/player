@@ -22,7 +22,7 @@ static std::string video_sample = "small_bunny_1080p_60fps.mp4";
 common::Error PlayerContext::init() {
   this->play_list = std::make_shared<PlayList>();
   this->play_list->addLast(std::make_shared<core::PlayEntry>
-                               (core::entry_type::file, video_sample, 0));
+                               (core::entry_type::file, audio_sample, 0));
   this->sync_ctx = std::make_shared<SyncContext>();
   this->input_ctx = std::make_shared<input::InputContext>();
   this->_demux_ctx = std::make_shared<demux::DemuxContext>();
@@ -42,7 +42,7 @@ common::Error PlayerContext::init() {
   } else if ((err = this->_ao->Init(shared_from_this())) != common::Error::SUCCESS) {
     LOG(ERROR) << "init ao fail";
     return err;
-  } else if ((err = this->_vo->init(shared_from_this())) != common::Error::SUCCESS) {
+  } else if ((err = this->_vo->Init(shared_from_this())) != common::Error::SUCCESS) {
     LOG(ERROR) << "init vo fail";
     return err;
   }
@@ -64,7 +64,7 @@ bool PlayerContext::loop() {
   }
 
   /// some vo function must be called in main loop
-  this->_vo->loopInMainThread();
+  this->_vo->LoopInMainThread();
 
   return true;
 }
@@ -72,7 +72,7 @@ bool PlayerContext::loop() {
 common::Error PlayerContext::stopRunning() {
   this->_demux_ctx->stopRunning();
   this->_ao->StopRunning();
-  this->_vo->stopRunning();
+  this->_vo->StopRunning();
   return common::Error::SUCCESS;
 }
 

@@ -58,9 +58,9 @@ common::Error SyncContext::addAudioStream(const demux::stream::stream_sptr &stre
 }
 
 common::Error SyncContext::addStream(const demux::stream::stream_sptr &stream) {
-  if (stream->getOutputPort() == output_port::audio) {
+  if (stream->GetOutputPort() == output_port::audio) {
     return this->addAudioStream(stream);
-  } else if (stream->getOutputPort() == output_port::video) {
+  } else if (stream->GetOutputPort() == output_port::video) {
     return this->addVideoStream(stream);
   }
   return common::Error::UNKNOWN_ERROR;

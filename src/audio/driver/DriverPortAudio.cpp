@@ -7,7 +7,7 @@
 
 #include "DriverPortAudio.h"
 #include "audio/AudioOutput.h"
-#include "demux/Frame.h"
+#include "demux/frame/IFrame.h"
 #include "audio/SampleFormat.h"
 
 namespace audio::driver {
@@ -83,10 +83,14 @@ common::Error DriverPortAudio::play(ao_sptr ao) {
     switch (ao->sample_format_) {
       case SampleFormat::FLTP: {
         int cur = 0;
-        for (int sample = 0; sample < ao->frame_playing_->num_of_sample; sample++) {
-          for (int channel = 0; channel < ao->num_of_channel_; channel++) {
-            this->_buffer.put(ao->frame_playing_->raw()->data[channel],
-                              cur, ao->size_of_sample_);
+        for (int sample = 0; sample < ao->frame_playing_->GetNumOfSample(); sample++) {
+          misc::vector_sptr<common::Slice> data = nullptr;
+          if (common::Error::SUCCESS != ao->frame_playing_->GetData(data)) {
+            // do nothing
+          } else {
+            for (auto aData : *data) {
+              this->_buffer.put(aData.GetPtr(), cur, ao->size_of_sample_);
+            }
           }
           cur += ao->size_of_sample_;
         }

@@ -77,7 +77,7 @@ class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
   /**
    * @brief frame is playing, always used by audio driver
    */
-  demux::frame_sptr frame_playing_ = nullptr;
+  demux::frame::frame_sptr frame_playing_ = nullptr;
 
   /**
    * @brief flag to mark force reConfig
@@ -127,7 +127,7 @@ class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
 
   core::sync_ctx_sptr sync_ctx_ = nullptr;
 
-  demux::frame_sptr frame_ = nullptr;
+  demux::frame::frame_sptr frame_ = nullptr;
 
   demux::stream::stream_sptr stream_ = nullptr;
 };

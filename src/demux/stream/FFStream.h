@@ -10,7 +10,6 @@
 
 #include "IStream.h"
 #include "misc/avheader.h"
-#include "demux/filter/FrameFilterBase.h"
 
 namespace demux::stream {
 
@@ -22,56 +21,54 @@ class FFStream : public IStream {
   /**
    * @brief init avS
    * @param stream
-   * @return
+   * @return error code
    */
-  common::Error init(const AVStream *stream);
+  common::Error Init(const AVStream *stream);
 
   /**
    * @brief read a frame
    * @param [out] frame
    * @return error code
    */
-  common::Error read(frame_sptr &frame) override;
+  common::Error Read(frame::frame_sptr &frame) override;
 
   /**
    * @brief close stream
    * @return error code
    */
-  common::Error close() override;
+  common::Error Close() override;
 
   /**
    * @brief get time base of stream
    * @return time base
    */
-  std::chrono::nanoseconds getTimeBase() override;
+  std::chrono::nanoseconds GetTimeBase() override;
 
   /**
    * @brief what type of output should this stream bind to
    * @return output port
    */
-  core::output_port getOutputPort() override;
+  core::output_port GetOutputPort() override;
 
   /**
    * @brief feed packet
    * @param [in] packet
    * @return error code
    */
-  common::Error feed(const av_packet_sptr &packet);
+  common::Error Feed(const av_packet_sptr &packet);
 
  private:
-  bool _first = true;
+  bool first_ = true;
 
-  AVCodec *_codec = nullptr;
+  AVCodec *codec_ = nullptr;
 
-  av_codec_ctx_uptr _codec_ctx = nullptr;
+  av_codec_ctx_uptr codec_ctx_ = nullptr;
 
-  std::shared_ptr<folly::MPMCQueue<frame_sptr>> _queue = nullptr;
+  std::shared_ptr<folly::MPMCQueue<frame::ffframe_sptr>> queue_ = nullptr;
 
-  std::chrono::nanoseconds _time_base{};
+  std::chrono::nanoseconds time_base_{};
 
-  filter::frame_filter_chain_sptr _frame_filter_chain = nullptr;
-
-  core::output_port _op = core::output_port::null;
+  core::output_port op_ = core::output_port::null;
 };
 
 }

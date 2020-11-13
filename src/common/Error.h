@@ -41,7 +41,7 @@ enum class Error : std::int64_t {
   SUCCESS = 0, /**< enum value 0 */
   exit, /**< enum value 1 */
   eof, /**< enum value 2 */
-  unRead, /**< enum value 3 */
+  UN_READ, /**< enum value 3 */
   noStream, /**< enum value 4 */
 };
 

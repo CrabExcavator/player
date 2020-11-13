@@ -9,7 +9,7 @@
 
 #include "DriverSDL.h"
 #include "video/VideoOutput.h"
-#include "demux/Frame.h"
+#include "demux/frame/IFrame.h"
 #include "video/ImageFormat.h"
 #include "input/InputContext.h"
 
@@ -38,7 +38,7 @@ common::Error DriverSDL::init(vo_sptr vo) {
   }
   window_uptr window{
       SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                       vo->window_width, vo->window_height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN),
+                       vo->window_width_, vo->window_height_, SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN),
       SDL_DestroyWindow
   };
   if (window == nullptr) {
@@ -60,18 +60,18 @@ common::Error DriverSDL::init(vo_sptr vo) {
 
 common::Error DriverSDL::drawImage(vo_sptr vo) {
   SDL_RenderClear(this->_renderer.get());
-  SDL_SetTextureBlendMode(this->_texture.get(), SDL_BLENDMODE_NONE);
-  if (vo->frame_rendering != nullptr) {
-    void *pixels = nullptr;
-    int pitch = 0;
-    SDL_LockTexture(this->_texture.get(), nullptr, &pixels, &pitch);
-    memcpy(pixels, vo->frame_rendering->pixels,
-           vo->img_pitch * vo->img_height + vo->img_pitch * vo->img_height / 4 + vo->img_pitch * vo->img_height / 4);
-    SDL_UnlockTexture(this->_texture.get());
-
-    SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, nullptr);
-    SDL_RenderPresent(this->_renderer.get());
-  }
+//  SDL_SetTextureBlendMode(this->_texture.get(), SDL_BLENDMODE_NONE);
+//  if (vo->frame_rendering_ != nullptr) {
+//    void *pixels = nullptr;
+//    int pitch = 0;
+//    SDL_LockTexture(this->_texture.get(), nullptr, &pixels, &pitch);
+//    memcpy(pixels, vo->frame_rendering_->pixels,
+//           vo->img_pitch_ * vo->img_height_ + vo->img_pitch_ * vo->img_height_ / 4 + vo->img_pitch_ * vo->img_height_ / 4);
+//    SDL_UnlockTexture(this->_texture.get());
+//
+//    SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, nullptr);
+//    SDL_RenderPresent(this->_renderer.get());
+//  }
   return common::Error::SUCCESS;
 }
 
@@ -80,7 +80,7 @@ common::Error DriverSDL::waitEvents(vo_sptr vo) {
   SDL_Event ev;
   while (SDL_WaitEventTimeout(&ev, timeout_ms)) {
     timeout_ms = 0;
-    auto input_ctx = vo->getInputCtx();
+    auto input_ctx = vo->GetInputCtx();
     switch (ev.type) {
       case SDL_QUIT:input_ctx->receiveEvent(input::event::exit);
         break;
@@ -91,11 +91,11 @@ common::Error DriverSDL::waitEvents(vo_sptr vo) {
 }
 
 common::Error DriverSDL::reConfig(vo_sptr vo) {
-  auto texture_fmt = getFormat(vo->imgfmt);
+  auto texture_fmt = getFormat(vo->image_format_);
   SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
   texture_uptr texture{
       SDL_CreateTexture(this->_renderer.get(), texture_fmt,
-                        SDL_TEXTUREACCESS_STREAMING, vo->img_pitch, vo->img_height),
+                        SDL_TEXTUREACCESS_STREAMING, vo->img_pitch_, vo->img_height_),
       SDL_DestroyTexture
   };
   this->_texture.swap(texture);

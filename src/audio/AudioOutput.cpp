@@ -7,7 +7,7 @@
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
 #include "core/PlayerContext.h"
-#include "demux/Frame.h"
+#include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
 
 namespace audio {
@@ -41,7 +41,7 @@ bool AudioOutput::Loop() {
       this->need_re_config_ = false;
     }
 
-    if (this->frame_ != nullptr) {
+    if (this->frame_ != nullptr && !this->frame_->IsLast()) {
       /**
        * we can not just dive into playback code with sync reason
        * sync with other output
@@ -65,16 +65,16 @@ bool AudioOutput::Loop() {
     }
 
     if (this->stream_ != nullptr &&
-        this->stream_->read(this->frame_) == common::Error::SUCCESS) {
+        common::Error::SUCCESS == this->stream_->Read(this->frame_)) {
       /**
        * we should do something for first frame
        * @attention the first frame always carry data
        */
-      if (this->frame_->first) {
-        this->sample_format_ = this->frame_->sample_fmt;
-        this->num_of_channel_ = this->frame_->num_of_channel;
-        this->size_of_sample_ = this->frame_->sample_size;
-        this->sample_rate_ = this->frame_->sample_rate;
+      if (this->frame_->IsFirst()) {
+        this->sample_format_ = this->frame_->GetSampleFormat();
+        this->num_of_channel_ = this->frame_->GetNumOfChannel();
+        this->size_of_sample_ = this->frame_->GetSampleSize();
+        this->sample_rate_ = this->frame_->GetSampleRate();
         this->driver_->init(shared_from_this());
       }
 
@@ -82,7 +82,7 @@ bool AudioOutput::Loop() {
        * we should do something for last frame
        * @attentionq the last frame never carry data
        */
-      if (this->frame_->last) {
+      if (this->frame_->IsLast()) {
         /// @todo do something
         this->stream_ = nullptr;
       }

@@ -52,12 +52,6 @@ namespace demux {
 class DemuxContext;
 using demux_ctx_sptr = std::shared_ptr<DemuxContext>;
 
-//class Demuxer;
-//using demuxer_sptr = std::shared_ptr<Demuxer>;
-
-class Frame;
-using frame_sptr = std::shared_ptr<Frame>;
-
 namespace stream {
 class IStream;
 using stream_sptr = std::shared_ptr<IStream>;
@@ -66,9 +60,12 @@ class FFStream;
 using ffstream_sptr = std::shared_ptr<FFStream>;
 }
 
-namespace packet {
-class IPacket;
-using packet_sptr = std::shared_ptr<IPacket>;
+namespace frame {
+class IFrame;
+using frame_sptr = std::shared_ptr<IFrame>;
+
+class FFFrame;
+using ffframe_sptr = std::shared_ptr<FFFrame>;
 }
 
 namespace demuxer {

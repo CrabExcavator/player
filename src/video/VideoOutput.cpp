@@ -8,53 +8,53 @@
 #include "common/Config.h"
 #include "core/SyncContext.h"
 #include "core/PlayerContext.h"
-#include "demux/Frame.h"
+#include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
 
 namespace video {
 
 static core::sync_ctx_sptr _sync = nullptr;
 
-VideoOutput::VideoOutput() : _thread("vo") {
+VideoOutput::VideoOutput() : thread_("vo") {
 
 }
 
-common::Error VideoOutput::init(const core::player_ctx_sptr &player_ctx) {
-  this->_input_ctx = player_ctx->input_ctx;
-  this->window_width = GET_CONFIG(window_width);
-  this->window_height = GET_CONFIG(window_height);
-  this->_driver = driver::DriverFactory::create(GET_CONFIG(vo_driver));
-  this->_driver->init(shared_from_this());
-  this->_sync_ctx = player_ctx->sync_ctx;
-  this->_version = player_ctx->sync_ctx->version;
-  this->_running = true;
-  this->_thread.run([&]() {
-    do {} while (this->loop());
+common::Error VideoOutput::Init(const core::player_ctx_sptr &player_ctx) {
+  this->input_ctx_ = player_ctx->input_ctx;
+  this->window_width_ = GET_CONFIG(window_width);
+  this->window_height_ = GET_CONFIG(window_height);
+  this->driver_ = driver::DriverFactory::create(GET_CONFIG(vo_driver));
+  this->driver_->init(shared_from_this());
+  this->sync_ctx_ = player_ctx->sync_ctx;
+  this->version_ = player_ctx->sync_ctx->version;
+  this->running_ = true;
+  this->thread_.run([&]() {
+    do {} while (this->Loop());
   });
   return common::Error::SUCCESS;
 }
 
-input::input_ctx_sptr VideoOutput::getInputCtx() {
-  return this->_input_ctx;
+input::input_ctx_sptr VideoOutput::GetInputCtx() {
+  return this->input_ctx_;
 }
 
-bool VideoOutput::loop() {
-  if (this->_running) {
+bool VideoOutput::Loop() {
+  if (this->running_) {
     /// force reConfig
-    if (this->need_reConfig) {
-      this->_driver->reConfig(shared_from_this());
-      this->need_reConfig = false;
+    if (this->need_re_config_) {
+      this->driver_->reConfig(shared_from_this());
+      this->need_re_config_ = false;
     }
 
-    if (this->_frame != nullptr) {
+    if (this->frame_ != nullptr && !this->frame_->IsLast()) {
       /**
        * we can not just dive into playback code with sync reason
        * sync with system clock
        */
-      auto rendering_time = (this->_frame->pts - this->_last_pts) * this->_time_base + this->_last_tick;
+      auto rendering_time = (this->frame_->GetPts() - this->last_pts_) * this->time_base_ + this->last_tick_;
       std::this_thread::sleep_until(rendering_time);
-      this->_last_tick = std::chrono::steady_clock::now();
-      this->_last_pts = this->_frame->pts;
+      this->last_tick_ = std::chrono::steady_clock::now();
+      this->last_pts_ = this->frame_->GetPts();
 
       /**
        * we can not just dive into playback code with sync reason
@@ -63,64 +63,64 @@ bool VideoOutput::loop() {
       //_sync->wait();
 
       /// playback
-      this->frame_rendering = this->_frame;
-      this->_driver->drawImage(shared_from_this());
-      this->frame_rendering = nullptr;
+      this->frame_rendering_ = this->frame_;
+      this->driver_->drawImage(shared_from_this());
+      this->frame_rendering_ = nullptr;
       /// playback
 
-      this->_frame = nullptr;
+      this->frame_ = nullptr;
     }
 
-    if (this->_version != this->_sync_ctx->version) {
-      this->_sync_ctx->getVideoStream(this->_stream);
-      this->_version = this->_sync_ctx->version;
+    if (this->version_ != this->sync_ctx_->version) {
+      this->sync_ctx_->getVideoStream(this->stream_);
+      this->version_ = this->sync_ctx_->version;
     }
 
-    if (this->_stream != nullptr && this->_stream->read(this->_frame) == common::Error::SUCCESS) {
+    if (this->stream_ != nullptr && this->stream_->Read(this->frame_) == common::Error::SUCCESS) {
       /**
        * setNumOfStream driver if some args not match, idk is it ok putting in first frame
        */
-      if (this->_frame->img_fmt != this->imgfmt) {
-        this->imgfmt = this->_frame->img_fmt;
-        this->_driver->reConfig(shared_from_this());
+      if (this->frame_->GetImageFormat() != this->image_format_) {
+        this->image_format_ = this->frame_->GetImageFormat();
+        this->driver_->reConfig(shared_from_this());
       }
-      if (this->_frame->height != this->img_height || this->_frame->pitch != this->img_pitch) {
-        this->img_height = this->_frame->height;
-        this->img_pitch = this->_frame->pitch;
-        this->_driver->reConfig(shared_from_this());
+      if (this->frame_->GetHeight() != this->img_height_ || this->frame_->GetWidth() != this->img_pitch_) {
+        this->img_height_ = this->frame_->GetHeight();
+        this->img_pitch_ = this->frame_->GetWidth();
+        this->driver_->reConfig(shared_from_this());
       }
 
       /**
        * we should do something for first frame
        * @attention the first frame always carry data
        */
-      if (this->_frame->first) {
-        this->_last_tick = std::chrono::steady_clock::now() + std::chrono::seconds(1);
-        this->_last_pts = 0;
-        this->_time_base = this->_frame->time_base;
+      if (this->frame_->IsFirst()) {
+        this->last_tick_ = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+        this->last_pts_ = 0;
+        this->time_base_ = this->stream_->GetTimeBase();
       }
 
       /**
        * we should do something for last frame
        * @attention the last frame never carry data
        */
-      if (this->_frame->last) {
+      if (this->frame_->IsLast()) {
         /// @todo do something
-        this->_stream = nullptr;
+        this->stream_ = nullptr;
       }
     }
   }
-  return this->_running;
+  return this->running_;
 }
 
-common::Error VideoOutput::loopInMainThread() {
-  this->_driver->waitEvents(shared_from_this());
+common::Error VideoOutput::LoopInMainThread() {
+  this->driver_->waitEvents(shared_from_this());
   return common::Error::SUCCESS;
 }
 
-common::Error VideoOutput::stopRunning() {
-  this->_running = false;
-  this->_thread.join();
+common::Error VideoOutput::StopRunning() {
+  this->running_ = false;
+  this->thread_.join();
   return common::Error::SUCCESS;
 }
 

@@ -4,13 +4,14 @@
 //
 
 #include <map>
+#include <glog/logging.h>
 
 #include "FFFrame.h"
 
 namespace demux::frame {
 
 static std::map<AVSampleFormat, audio::SampleFormat> AVSampleFormatMap = {
-    {AV_SAMPLE_FMT_FLT, audio::SampleFormat::FLTP}
+    {AV_SAMPLE_FMT_FLTP, audio::SampleFormat::FLTP}
 };
 
 static std::map<AVPixelFormat, video::ImageFormat> AVImageFormatMap = {
@@ -28,15 +29,22 @@ common::Error FFFrame::Init(AVFrame *av_frame, bool first, bool last) {
   auto ret = common::Error::SUCCESS;
 
   if (first && last) {
+    LOG(WARNING) << "first && last all set true";
+    ret = common::Error::INVALID_ARGS;
+  } else if (!last && (av_frame == nullptr)) {
+    LOG(WARNING) << "not last frame but av_frame is null";
+    ret = common::Error::INVALID_ARGS;
+  } else if (last && (av_frame != nullptr)) {
+    LOG(WARNING) << "last frame is not null";
     ret = common::Error::INVALID_ARGS;
   }
 
   if (common::Error::SUCCESS != ret) {
     // do nothing
-  } else if (nullptr == (this->av_frame_ = av_frame_alloc())) {
-    ret = common::Error::OUT_OF_MEMORY;
   } else {
     this->av_frame_ = av_frame;
+    this->first_ = first;
+    this->last_ = last;
   }
 
   return ret;
@@ -74,7 +82,7 @@ common::Error FFFrame::GetData(misc::vector_sptr<common::Slice> &data) {
     }
   }
 
-  return common::Error::OUT_OF_MEMORY;
+  return ret;
 }
 
 int64_t FFFrame::GetPts() {

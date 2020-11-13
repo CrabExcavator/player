@@ -28,7 +28,7 @@ bool demux::DemuxContext::loop() {
     if (entry == nullptr) return _running;
     this->_demuxer = demuxer::DemuxerFactory::create("av"); /// @todo put in config
     misc::vector_sptr<stream::stream_sptr> streams = nullptr;
-    this->_demuxer->open(entry, streams);
+    this->_demuxer->Open(entry, streams);
     for (auto &stream : *streams) {
       this->_sync_ctx->addStream(stream);
     }
@@ -36,9 +36,9 @@ bool demux::DemuxContext::loop() {
     this->_sync_ctx->close();
     this->_sync_ctx->version++;
   }
-  auto err = this->_demuxer->epoch();
+  auto err = this->_demuxer->Epoch();
   if (err == common::Error::eof) {
-    this->_demuxer->close();
+    this->_demuxer->Close();
     this->_demuxer = nullptr;
   }
   return _running;

@@ -29,25 +29,25 @@ class IStream {
    * @param [out] frame
    * @return error code
    */
-  virtual common::Error read(frame_sptr &frame) = 0;
+  virtual common::Error Read(frame::frame_sptr &frame) = 0;
 
   /**
    * @brief close stream
    * @return error code
    */
-  virtual common::Error close() = 0;
+  virtual common::Error Close() = 0;
 
   /**
    * @brief get time base of stream
    * @return time base
    */
-  virtual std::chrono::nanoseconds getTimeBase() = 0;
+  virtual std::chrono::nanoseconds GetTimeBase() = 0;
 
   /**
    * @brief what type of output should this stream bind to
    * @return output port
    */
-  virtual core::output_port getOutputPort() = 0;
+  virtual core::output_port GetOutputPort() = 0;
 };
 
 }

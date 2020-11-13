@@ -32,6 +32,20 @@ class Slice {
     return *this;
   }
 
+  uint8_t *GetPtr() {
+    return this->ptr_;
+  }
+
+  uint64_t GetLength() const {
+    return this->length_;
+  }
+
+  common::Error Copy(uint8_t *buffer) {
+    /// @todo error
+    memcpy(buffer, ptr_, length_);
+    return common::Error::SUCCESS;
+  }
+
  private:
   uint8_t *ptr_;
 

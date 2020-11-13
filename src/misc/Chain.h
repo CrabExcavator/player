@@ -127,7 +127,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
     auto err = common::Error::SUCCESS;
     for (auto &node : this->_queue) {
       if (err != common::Error::SUCCESS) {
-        err = node->close();
+        err = node->Close();
       }
     }
     return err;

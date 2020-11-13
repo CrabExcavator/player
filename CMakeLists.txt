@@ -3,7 +3,7 @@ project(player)
 
 set(CMAKE_CXX_STANDARD 20)
 
-########## setNumOfStream ##########
+########## init ##########
 enable_testing()
 find_package(GTest REQUIRED)
 find_package(gflags REQUIRED)
@@ -56,12 +56,7 @@ set(
         src/input/InputContext.cpp
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp
-        src/demux/Frame.cpp
         src/demux/DemuxContext.cpp
-        src/demux/filter/FrameFilterBase.cpp
-        src/demux/filter/Blit.cpp
-        src/demux/filter/FillVideo.cpp
-        src/demux/filter/FillAudio.cpp
         src/demux/stream/FFStream.cpp
         src/demux/demuxer/FFDemuxer.cpp
         src/demux/demuxer/DemuxerFactory.cpp
@@ -108,7 +103,7 @@ set(
         GTest::GTest
         GTest::Main
 )
-########## setNumOfStream ##########
+########## init ##########
 
 ########## target ##########
 # release
