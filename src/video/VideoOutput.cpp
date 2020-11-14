@@ -6,20 +6,20 @@
 #include "VideoOutput.h"
 #include "video/driver/DriverFactory.h"
 #include "common/Config.h"
-#include "core/SyncContext.h"
-#include "core/PlayerContext.h"
+#include "common/SyncContext.h"
+#include "player/PlayerContext.h"
 #include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
 
 namespace video {
 
-static core::sync_ctx_sptr _sync = nullptr;
+static common::sync_ctx_sptr _sync = nullptr;
 
 VideoOutput::VideoOutput() : thread_("vo") {
 
 }
 
-common::Error VideoOutput::Init(const core::player_ctx_sptr &player_ctx) {
+common::Error VideoOutput::Init(const player::player_ctx_sptr &player_ctx) {
   this->input_ctx_ = player_ctx->input_ctx;
   this->window_width_ = GET_CONFIG(window_width);
   this->window_height_ = GET_CONFIG(window_height);

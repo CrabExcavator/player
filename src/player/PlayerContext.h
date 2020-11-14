@@ -12,7 +12,7 @@
 #include "misc/typeptr.h"
 #include "common/Error.h"
 
-namespace core {
+namespace player {
 
 /**
  * @brief player context
@@ -45,7 +45,7 @@ class PlayerContext : public std::enable_shared_from_this<PlayerContext> {
   /**
    * @brief sync
    */
-  sync_ctx_sptr sync_ctx;
+  common::sync_ctx_sptr sync_ctx;
 
   /**
    * @brief play list

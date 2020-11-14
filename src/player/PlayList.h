@@ -13,7 +13,7 @@
 #include "PlayEntry.h"
 #include "misc/typeptr.h"
 
-namespace core {
+namespace player {
 
 /**
  * @brief play method define next play entry

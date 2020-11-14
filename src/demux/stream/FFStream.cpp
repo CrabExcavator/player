@@ -18,9 +18,9 @@ static void avcodec_free_context_wrapper(AVCodecContext *ctx) {
 common::Error FFStream::Init(const AVStream *stream) {
   auto codecParm = stream->codecpar;
   if (codecParm->codec_type == AVMEDIA_TYPE_AUDIO) {
-    this->op_ = core::output_port::audio;
+    this->op_ = output::OutputPort::audio;
   } else if (codecParm->codec_type == AVMEDIA_TYPE_VIDEO) {
-    this->op_ = core::output_port::video;
+    this->op_ = output::OutputPort::video;
   }
   this->codec_ = avcodec_find_decoder(codecParm->codec_id);
   av_codec_ctx_uptr codec_ctx(avcodec_alloc_context3(this->codec_), avcodec_free_context_wrapper);
@@ -83,7 +83,7 @@ std::chrono::nanoseconds FFStream::GetTimeBase() {
   return this->time_base_;
 }
 
-core::output_port FFStream::GetOutputPort() {
+output::OutputPort FFStream::GetOutputPort() {
   return this->op_;
 }
 

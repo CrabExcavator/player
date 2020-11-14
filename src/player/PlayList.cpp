@@ -6,7 +6,7 @@
 #include "PlayList.h"
 #include "common/Config.h"
 
-namespace core {
+namespace player {
 
 #define _check_set_first do{if(this->_set.contains(*entry))\
 {return shared_from_this();} else{this->_set.insert(*entry);}\

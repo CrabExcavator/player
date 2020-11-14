@@ -12,18 +12,18 @@
 #include "audio/AudioOutput.h"
 #include "video/VideoOutput.h"
 #include "demux/DemuxContext.h"
-#include "SyncContext.h"
+#include "common/SyncContext.h"
 
-namespace core {
+namespace player {
 
 static std::string audio_sample = "sample.mp3";
 static std::string video_sample = "small_bunny_1080p_60fps.mp4";
 
 common::Error PlayerContext::init() {
   this->play_list = std::make_shared<PlayList>();
-  this->play_list->addLast(std::make_shared<core::PlayEntry>
-                               (core::entry_type::file, audio_sample, 0));
-  this->sync_ctx = std::make_shared<SyncContext>();
+  this->play_list->addLast(std::make_shared<player::PlayEntry>
+                               (player::entry_type::file, audio_sample, 0));
+  this->sync_ctx = std::make_shared<common::SyncContext>();
   this->input_ctx = std::make_shared<input::InputContext>();
   this->_demux_ctx = std::make_shared<demux::DemuxContext>();
   this->_ao = std::make_shared<audio::AudioOutput>();

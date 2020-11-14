@@ -24,7 +24,7 @@ class FFDemuxer : public IDemuxer {
    * @param [out] streams
    * @return error code
    */
-  common::Error Open(const core::play_entry_sptr &entry,
+  common::Error Open(const player::play_entry_sptr &entry,
                      misc::vector_sptr<stream::stream_sptr> &streams) override;
 
   /**

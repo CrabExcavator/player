@@ -10,7 +10,7 @@
 #include <map>
 
 #include "misc/Pocket.h"
-#include "core/PlayList.h"
+#include "player/PlayList.h"
 
 namespace common {
 
@@ -25,7 +25,7 @@ class DefaultConfig {
   /**
    * @brief play_method of play_list
    */
-  static misc::Pocket<core::play_method> default_play_method;
+  static misc::Pocket<player::play_method> default_play_method;
 
   /**
    * @brief window_width of audio output

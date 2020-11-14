@@ -39,7 +39,7 @@ class EventHandlerBase : public misc::ChainNode<input_ctx_sptr> {
   common::Error close() override;
 
  protected:
-  static core::player_ctx_sptr getPlayContext(const input_ctx_sptr &input_ctx);
+  static player::player_ctx_sptr getPlayContext(const input_ctx_sptr &input_ctx);
 };
 
 using event_handler_chain_sptr = misc::chain_sptr<input_ctx_sptr>;

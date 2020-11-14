@@ -4,12 +4,12 @@
 //
 
 #include "DemuxContext.h"
-#include "core/PlayerContext.h"
-#include "core/SyncContext.h"
+#include "player/PlayerContext.h"
+#include "common/SyncContext.h"
 #include "input/InputContext.h"
 #include "demuxer/DemuxerFactory.h"
 
-common::Error demux::DemuxContext::init(const core::player_ctx_sptr &player_ctx) {
+common::Error demux::DemuxContext::init(const player::player_ctx_sptr &player_ctx) {
   this->_sync_ctx = player_ctx->sync_ctx;
   this->_input_context = player_ctx->input_ctx;
   this->_running = true;
@@ -21,7 +21,7 @@ common::Error demux::DemuxContext::init(const core::player_ctx_sptr &player_ctx)
 
 bool demux::DemuxContext::loop() {
   if (this->_demuxer == nullptr) {
-    core::play_entry_sptr entry = nullptr;
+    player::play_entry_sptr entry = nullptr;
     if (this->_input_context->pollEvent(input::event::entryAvailable)) {
       this->_input_context->getCurrentEntry(entry);
     }

@@ -11,7 +11,7 @@
 #include "audio/SampleFormat.h"
 #include "video/ImageFormat.h"
 #include "common/Error.h"
-#include "common/Slice.h"
+#include "misc/Slice.h"
 #include "misc/typeptr.h"
 
 namespace demux::frame {

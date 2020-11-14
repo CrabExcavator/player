@@ -6,7 +6,7 @@
 #include <glog/logging.h>
 
 #include "FFDemuxer.h"
-#include "core/PlayEntry.h"
+#include "player/PlayEntry.h"
 
 namespace demux::demuxer {
 
@@ -18,7 +18,7 @@ static void av_packet_free_wrapper(AVPacket *pkt) {
   av_packet_free(&pkt);
 }
 
-common::Error FFDemuxer::Open(const core::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr> &streams) {
+common::Error FFDemuxer::Open(const player::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr> &streams) {
   /** @attention all [out] pointer parm should be nullptr */
   assert(streams == nullptr);
   streams = std::make_shared<std::vector<stream::stream_sptr>>();

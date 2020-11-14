@@ -64,7 +64,7 @@ class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
    * @param [in] player_ctx player context
    * @return error code
    */
-  common::Error Init(const core::player_ctx_sptr &player_ctx);
+  common::Error Init(const player::player_ctx_sptr &player_ctx);
 
   /**
    * @brief stop audio playback thread
@@ -125,7 +125,7 @@ class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
 
   uint64_t version_ = 0;
 
-  core::sync_ctx_sptr sync_ctx_ = nullptr;
+  common::sync_ctx_sptr sync_ctx_ = nullptr;
 
   demux::frame::frame_sptr frame_ = nullptr;
 

@@ -10,7 +10,7 @@
 
 #include "misc/typeptr.h"
 #include "common/Error.h"
-#include "core/Output.h"
+#include "output/OutputPort.h"
 
 namespace demux::stream {
 
@@ -47,7 +47,7 @@ class IStream {
    * @brief what type of output should this stream bind to
    * @return output port
    */
-  virtual core::output_port GetOutputPort() = 0;
+  virtual output::OutputPort GetOutputPort() = 0;
 };
 
 }

@@ -6,15 +6,15 @@
 #include "SyncContext.h"
 #include "misc/util.h"
 #include "demux/stream/IStream.h"
-#include "core/PlayerContext.h"
+#include "player/PlayerContext.h"
 
-namespace core {
+namespace common {
 
 SyncContext::SyncContext() : _size(0), _cnt(0), _close(true) {
 
 }
 
-common::Error SyncContext::init(const core::player_ctx_sptr &player_ctx) {
+common::Error SyncContext::init(const player::player_ctx_sptr &player_ctx) {
   this->_video_streams = std::make_shared<std::vector<demux::stream::stream_sptr>>();
   this->_audio_streams = std::make_shared<std::vector<demux::stream::stream_sptr>>();
   this->version = 0;
@@ -58,9 +58,9 @@ common::Error SyncContext::addAudioStream(const demux::stream::stream_sptr &stre
 }
 
 common::Error SyncContext::addStream(const demux::stream::stream_sptr &stream) {
-  if (stream->GetOutputPort() == output_port::audio) {
+  if (stream->GetOutputPort() == output::OutputPort::audio) {
     return this->addAudioStream(stream);
-  } else if (stream->GetOutputPort() == output_port::video) {
+  } else if (stream->GetOutputPort() == output::OutputPort::video) {
     return this->addVideoStream(stream);
   }
   return common::Error::UNKNOWN_ERROR;

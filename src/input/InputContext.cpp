@@ -4,10 +4,10 @@
 //
 
 #include "InputContext.h"
-#include "core/PlayerContext.h"
+#include "player/PlayerContext.h"
 #include "misc/Chain.h"
 #include "handler/Universal.h"
-#include "core/PlayList.h"
+#include "player/PlayList.h"
 #include "misc/util.h"
 
 namespace input {
@@ -21,7 +21,7 @@ InputContext &InputContext::operator=(InputContext &&rhs) noexcept {
   return *this;
 }
 
-common::Error InputContext::init(const core::player_ctx_sptr &player) {
+common::Error InputContext::init(const player::player_ctx_sptr &player) {
   this->_player_ctx = player;
   this->_player_list = player->play_list;
   this->_handler_chain = std::make_shared<misc::Chain<input_ctx_sptr>>();
@@ -89,7 +89,7 @@ common::Error InputContext::nextEntry() {
   return common::Error::SUCCESS;
 }
 
-common::Error InputContext::getCurrentEntry(core::play_entry_sptr &entry) {
+common::Error InputContext::getCurrentEntry(player::play_entry_sptr &entry) {
   if (this->_play_entry == nullptr) {
     return common::Error::UNKNOWN_ERROR;
   }

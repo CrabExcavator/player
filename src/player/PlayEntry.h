@@ -11,11 +11,7 @@
 #include <string>
 #include <memory>
 
-namespace demux {
-class Demuxer;
-}
-
-namespace core {
+namespace player {
 
 /**
  * @brief supported entry type

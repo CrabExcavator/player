@@ -13,7 +13,7 @@
 #include "common/Error.h"
 #include "misc/typeptr.h"
 
-namespace core {
+namespace common {
 
 /**
  * @brief keep different thread with proper tick rate
@@ -30,7 +30,7 @@ class SyncContext {
    * @param player_ctx
    * @return
    */
-  common::Error init(const core::player_ctx_sptr &player_ctx);
+  common::Error init(const player::player_ctx_sptr &player_ctx);
 
   /**
    * @brief setNumOfStream

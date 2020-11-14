@@ -13,6 +13,9 @@
 namespace common {
 class Config;
 using config_sptr = std::shared_ptr<Config>;
+
+class SyncContext;
+using sync_ctx_sptr = std::shared_ptr<SyncContext>;
 }
 
 namespace misc {
@@ -33,7 +36,7 @@ template<typename T>
 using chain_sptr = std::shared_ptr<Chain<T>>;
 }
 
-namespace core {
+namespace player {
 class PlayEntry;
 using play_entry_sptr = std::shared_ptr<PlayEntry>;
 
@@ -43,9 +46,6 @@ using player_ctx_wptr = std::weak_ptr<PlayerContext>;
 
 class PlayList;
 using play_list_sptr = std::shared_ptr<PlayList>;
-
-class SyncContext;
-using sync_ctx_sptr = std::shared_ptr<SyncContext>;
 }
 
 namespace demux {

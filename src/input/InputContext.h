@@ -64,7 +64,7 @@ class InputContext : public std::enable_shared_from_this<InputContext> {
   /**
    * @brief setNumOfStream
    */
-  common::Error init(const core::player_ctx_sptr &player);
+  common::Error init(const player::player_ctx_sptr &player);
 
   /**
    * @brief recv event
@@ -113,7 +113,7 @@ class InputContext : public std::enable_shared_from_this<InputContext> {
    * @param [out] entry
    * @return error code
    */
-  common::Error getCurrentEntry(core::play_entry_sptr &entry);
+  common::Error getCurrentEntry(player::play_entry_sptr &entry);
 
  private:
   /**
@@ -124,18 +124,18 @@ class InputContext : public std::enable_shared_from_this<InputContext> {
   /**
    * @brief weak ptr to player context
    */
-  core::player_ctx_wptr _player_ctx;
+  player::player_ctx_wptr _player_ctx;
 
   /**
    * @brief _player_list
    */
-  core::play_list_sptr _player_list;
+  player::play_list_sptr _player_list;
 
   /**
    * @brief entry to play
    * @attention must only use in Demux Context
    */
-  core::play_entry_sptr _play_entry;
+  player::play_entry_sptr _play_entry;
 
   /**
    * @brief events

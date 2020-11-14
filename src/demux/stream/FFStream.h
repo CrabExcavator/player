@@ -48,7 +48,7 @@ class FFStream : public IStream {
    * @brief what type of output should this stream bind to
    * @return output port
    */
-  core::output_port GetOutputPort() override;
+  output::OutputPort GetOutputPort() override;
 
   /**
    * @brief feed packet
@@ -68,7 +68,7 @@ class FFStream : public IStream {
 
   std::chrono::nanoseconds time_base_{};
 
-  core::output_port op_ = core::output_port::null;
+  output::OutputPort op_ = output::OutputPort::null;
 };
 
 }

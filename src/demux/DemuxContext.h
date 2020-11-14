@@ -9,7 +9,7 @@
 #include <memory>
 #include <folly/MPMCQueue.h>
 
-#include "core/PlayList.h"
+#include "player/PlayList.h"
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 #include "common/Error.h"
@@ -31,7 +31,7 @@ class DemuxContext : public std::enable_shared_from_this<DemuxContext> {
    * @param [in] player_ctx
    * @return error code
    */
-  common::Error init(const core::player_ctx_sptr &player_ctx);
+  common::Error init(const player::player_ctx_sptr &player_ctx);
 
   /**
    * @brief one tick
@@ -49,7 +49,7 @@ class DemuxContext : public std::enable_shared_from_this<DemuxContext> {
   /**
    * @brief sync should setNumOfStream in demuxer, because demuxer know the number of stream
    */
-  core::sync_ctx_sptr _sync_ctx;
+  common::sync_ctx_sptr _sync_ctx;
 
   /**
    * @brief demuxer for entry

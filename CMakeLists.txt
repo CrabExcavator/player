@@ -41,10 +41,10 @@ set(
         src/misc/Buffer.h
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
-        src/core/SyncContext.cpp
-        src/core/PlayerContext.cpp
-        src/core/PlayList.cpp
-        src/core/PlayEntry.cpp
+        src/common/SyncContext.cpp
+        src/player/PlayerContext.cpp
+        src/player/PlayList.cpp
+        src/player/PlayEntry.cpp
         src/video/VideoOutput.cpp
         src/video/driver/DriverFactory.cpp
         src/video/driver/DriverSDL.cpp

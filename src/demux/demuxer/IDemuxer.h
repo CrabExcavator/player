@@ -27,7 +27,7 @@ class IDemuxer {
    * @param [out] streams
    * @return error code
    */
-  virtual common::Error Open(const core::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr> &streams) = 0;
+  virtual common::Error Open(const player::play_entry_sptr &entry, misc::vector_sptr<stream::stream_sptr> &streams) = 0;
 
   /**
    * @brief parse next packet && push it to stream

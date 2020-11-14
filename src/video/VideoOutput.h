@@ -64,7 +64,7 @@ class VideoOutput : public std::enable_shared_from_this<VideoOutput> {
    * @param [in] player_ctx
    * @return error code
    */
-  common::Error Init(const core::player_ctx_sptr &player_ctx);
+  common::Error Init(const player::player_ctx_sptr &player_ctx);
 
   /**
    * @brief get input context
@@ -165,7 +165,7 @@ class VideoOutput : public std::enable_shared_from_this<VideoOutput> {
 
   uint64_t version_ = 0;
 
-  core::sync_ctx_sptr sync_ctx_ = nullptr;
+  common::sync_ctx_sptr sync_ctx_ = nullptr;
 
   demux::frame::frame_sptr frame_ = nullptr;
 

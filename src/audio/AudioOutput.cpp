@@ -6,7 +6,7 @@
 #include "AudioOutput.h"
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
-#include "core/PlayerContext.h"
+#include "player/PlayerContext.h"
 #include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
 
@@ -16,7 +16,7 @@ AudioOutput::AudioOutput() : thread_("audio output") {
 
 }
 
-common::Error AudioOutput::Init(const core::player_ctx_sptr &player_ctx) {
+common::Error AudioOutput::Init(const player::player_ctx_sptr &player_ctx) {
   this->driver_ = driver::DriverFactory::create(GET_CONFIG(ao_driver));
   this->version_ = player_ctx->sync_ctx->version;
   this->sync_ctx_ = player_ctx->sync_ctx;
