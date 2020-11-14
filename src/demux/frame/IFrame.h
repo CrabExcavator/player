@@ -8,8 +8,8 @@
 
 #include <chrono>
 
-#include "audio/SampleFormat.h"
-#include "video/ImageFormat.h"
+#include "output/audio/SampleFormat.h"
+#include "output/video/ImageFormat.h"
 #include "common/Error.h"
 #include "misc/Slice.h"
 #include "misc/typeptr.h"

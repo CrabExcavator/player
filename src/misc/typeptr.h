@@ -34,6 +34,9 @@ template<typename T>
 class Chain;
 template<typename T>
 using chain_sptr = std::shared_ptr<Chain<T>>;
+
+class Runnable;
+using runnable_sptr = std::shared_ptr<Runnable>;
 }
 
 namespace player {

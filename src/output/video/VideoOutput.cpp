@@ -4,7 +4,7 @@
 //
 
 #include "VideoOutput.h"
-#include "video/driver/DriverFactory.h"
+#include "driver/DriverFactory.h"
 #include "common/Config.h"
 #include "common/SyncContext.h"
 #include "player/PlayerContext.h"

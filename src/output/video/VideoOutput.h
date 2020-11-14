@@ -11,7 +11,7 @@
 #include <folly/MPMCQueue.h>
 
 #include "ImageFormat.h"
-#include "video/driver/VideoDriver.h"
+#include "output/video/driver/VideoDriver.h"
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 #include "common/Error.h"

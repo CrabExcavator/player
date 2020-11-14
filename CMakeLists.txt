@@ -45,17 +45,18 @@ set(
         src/player/PlayerContext.cpp
         src/player/PlayList.cpp
         src/player/PlayEntry.cpp
-        src/video/VideoOutput.cpp
-        src/video/driver/DriverFactory.cpp
-        src/video/driver/DriverSDL.cpp
-        src/video/ImageFormat.cpp
-        src/audio/AudioOutput.cpp
-        src/audio/driver/DriverFactory.cpp
-        src/audio/driver/DriverPortAudio.cpp
-        src/audio/SampleFormat.cpp
+        src/output/video/VideoOutput.cpp
+        src/output/video/driver/DriverFactory.cpp
+        src/output/video/driver/DriverSDL.cpp
+        src/output/video/ImageFormat.cpp
+        src/output/audio/AudioOutput.cpp
+        src/output/audio/driver/DriverFactory.cpp
+        src/output/audio/driver/DriverPortAudio.cpp
+        src/output/audio/SampleFormat.cpp
         src/input/InputContext.cpp
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp
+        src/output/IOutput.cpp
         src/demux/DemuxContext.cpp
         src/demux/stream/FFStream.cpp
         src/demux/demuxer/FFDemuxer.cpp

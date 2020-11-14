@@ -9,8 +9,8 @@
 #include "PlayerContext.h"
 #include "common/Config.h"
 #include "input/InputContext.h"
-#include "audio/AudioOutput.h"
-#include "video/VideoOutput.h"
+#include "output/audio/AudioOutput.h"
+#include "output/video/VideoOutput.h"
 #include "demux/DemuxContext.h"
 #include "common/SyncContext.h"
 

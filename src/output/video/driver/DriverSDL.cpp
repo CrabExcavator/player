@@ -8,9 +8,9 @@
 #include <map>
 
 #include "DriverSDL.h"
-#include "video/VideoOutput.h"
+#include "output/video/VideoOutput.h"
 #include "demux/frame/IFrame.h"
-#include "video/ImageFormat.h"
+#include "output/video/ImageFormat.h"
 #include "input/InputContext.h"
 
 namespace video::driver {

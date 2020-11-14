@@ -6,9 +6,9 @@
 #include <map>
 
 #include "DriverPortAudio.h"
-#include "audio/AudioOutput.h"
+#include "output/audio/AudioOutput.h"
 #include "demux/frame/IFrame.h"
-#include "audio/SampleFormat.h"
+#include "output/audio/SampleFormat.h"
 
 namespace audio::driver {
 

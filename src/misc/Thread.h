@@ -13,8 +13,10 @@
 
 namespace misc {
 
-class Thread;
-using thread_uptr = std::unique_ptr<Thread>;
+enum class ThreadStatus {
+  Stop,
+  Run,
+};
 
 /**
  * @brief Thread
@@ -40,6 +42,7 @@ class Thread {
   Thread(Thread &&rhs) noexcept {
     this->_thread_name = std::move(rhs._thread_name);
     this->_thread = std::move(rhs._thread);
+    this->status_ = rhs.status_;
   }
 
   /**
@@ -62,6 +65,7 @@ class Thread {
    */
   explicit Thread(std::string thread_name) : _thread_name(std::move(thread_name)) {
     //LOG(INFO) << MISC_THREAD_TT << "create";
+    this->status_ = ThreadStatus::Stop;
   }
 
   /**
@@ -81,6 +85,7 @@ class Thread {
   template<typename Fp, typename ...Args>
   void run(Fp &&callable, Args &&... args) {
     //LOG(INFO) << MISC_THREAD_TT << "start";
+    this->status_ = ThreadStatus::Run;
     this->_thread = std::move(std::thread(std::forward<Fp, Args...>(callable, args...)));
   }
 
@@ -89,19 +94,20 @@ class Thread {
    */
   void join() {
     this->_thread.join();
+    this->status_ = ThreadStatus::Stop;
     //LOG(INFO) << MISC_THREAD_TT << "join";
   }
 
+  ThreadStatus GetStatus() {
+    return this->status_;
+  }
+
  private:
-  /**
-   * @brief thread name
-   */
   std::string _thread_name;
 
-  /**
-   * @brief thread
-   */
   std::thread _thread;
+
+  ThreadStatus status_ = ThreadStatus::Stop;
 };
 
 }

@@ -11,7 +11,7 @@
 #include <folly/MPMCQueue.h>
 
 #include "SampleFormat.h"
-#include "audio/driver/AudioDriver.h"
+#include "output/audio/driver/AudioDriver.h"
 #include "misc/typeptr.h"
 #include "misc/Thread.h"
 #include "common/Error.h"
