@@ -61,10 +61,10 @@ class VideoOutput : public std::enable_shared_from_this<VideoOutput> {
 
   /**
    * @brief setNumOfStream video output
-   * @param [in] player_ctx
+   * @param [in] sync_ctx
    * @return error code
    */
-  common::Error Init(const player::player_ctx_sptr &player_ctx);
+  common::Error Init(const input::input_ctx_sptr &input_ctx, const common::sync_ctx_sptr &sync_ctx);
 
   /**
    * @brief get input context

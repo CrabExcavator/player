@@ -15,7 +15,7 @@ namespace input::handler {
  */
 class Universal : public EventHandlerBase {
  public:
-  Universal() = default;
+  common::Error Init(const player::player_ctx_sptr& player_ctx);
 
   /**
    * handle event
@@ -25,6 +25,8 @@ class Universal : public EventHandlerBase {
    */
   common::Error filter(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) override;
 
+ private:
+  player::player_ctx_wptr player_ctx_;
 };
 
 }

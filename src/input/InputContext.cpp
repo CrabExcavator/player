@@ -1,101 +1,47 @@
 //
-// Created by CrabExcavator on 2020/11/1.
+// Created by CrabExcavator on 2020/11/15.
 // Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
 #include "InputContext.h"
-#include "player/PlayerContext.h"
-#include "misc/Chain.h"
-#include "handler/Universal.h"
-#include "player/PlayList.h"
 #include "misc/util.h"
+#include "misc/Chain.h"
 
 namespace input {
 
-InputContext::InputContext(InputContext &&rhs) noexcept: _events(std::move(rhs._events)) {
-
-}
-
-InputContext &InputContext::operator=(InputContext &&rhs) noexcept {
-  this->_events = rhs._events;
-  return *this;
-}
-
-common::Error InputContext::init(const player::player_ctx_sptr &player) {
-  this->_player_ctx = player;
-  this->_player_list = player->play_list;
-  this->_handler_chain = std::make_shared<misc::Chain<input_ctx_sptr>>();
-  this->_handler_chain->addLast(std::make_shared<handler::Universal>());
+common::Error InputContext::Init() {
+  this->events_.clear();
   return common::Error::SUCCESS;
 }
 
-void InputContext::receiveEvent(event ev) {
-  this->_mutex.lock();
-  DEFER([&]() {
-    this->_mutex.unlock();
-  });
-  this->_events.insert(ev);
+void InputContext::PutEvent(Event event) {
+  this->mutex_.lock();
+  DEFER([&](){this->mutex_.unlock();});
+  this->events_.insert(event);
 }
 
-bool InputContext::hasEvent(event ev) {
-  this->_mutex.lock();
-  DEFER([&]() {
-    this->_mutex.unlock();
-  });
-  return this->_events.contains(ev);
+bool InputContext::HasEvent(Event event) {
+  this->mutex_.lock();
+  DEFER([&](){this->mutex_.unlock();});
+  return this->events_.contains(event);
 }
 
-bool InputContext::pollEvent(event ev) {
-  this->_mutex.lock();
-  DEFER([&]() {
-    this->_mutex.unlock();
-  });
-  if (this->_events.contains(ev)) {
-    this->_events.erase(ev);
-    return true;
-  }
-  return false;
+void InputContext::DeleteEvent(Event event) {
+  this->mutex_.lock();
+  DEFER([&](){this->mutex_.unlock();});
+  this->events_.erase(event);
 }
 
-void InputContext::clearEvent(event ev) {
-  this->_mutex.lock();
-  DEFER([&]() {
-    this->_mutex.unlock();
-  });
-  this->_events.erase(ev);
+void InputContext::ClearAllEvent() {
+  this->mutex_.lock();
+  DEFER([&](){this->mutex_.unlock();});
+  this->events_.clear();
 }
-
-void InputContext::clearAllEvent() {
-  this->_mutex.lock();
-  DEFER([&]() {
-    this->_mutex.unlock();
-  });
-  this->_events.clear();
-}
-
-common::Error InputContext::handleEvent() {
+common::Error InputContext::HandleEvent(const handler::event_handler_chain_sptr& event_handler_) {
   auto in = std::make_shared<std::vector<input_ctx_sptr>>();
   in->emplace_back(shared_from_this());
   misc::vector_sptr<input_ctx_sptr> out = nullptr;
-  return this->_handler_chain->filter(in, out);
-}
-
-common::Error InputContext::nextEntry() {
-  this->_play_entry = this->_player_list->current();
-  this->_player_list->next();
-  if (this->_play_entry != nullptr) {
-    this->receiveEvent(input::event::entryAvailable);
-  }
-  return common::Error::SUCCESS;
-}
-
-common::Error InputContext::getCurrentEntry(player::play_entry_sptr &entry) {
-  if (this->_play_entry == nullptr) {
-    return common::Error::UNKNOWN_ERROR;
-  }
-  entry = this->_play_entry;
-  this->_play_entry = nullptr;
-  return common::Error::SUCCESS;
+  return event_handler_->filter(in, out);
 }
 
 }

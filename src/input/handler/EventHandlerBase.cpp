@@ -17,7 +17,4 @@ common::Error EventHandlerBase::close() {
   return common::Error::UNKNOWN_ERROR;
 }
 
-player::player_ctx_sptr EventHandlerBase::getPlayContext(const input_ctx_sptr &input_ctx) {
-  return input_ctx->_player_ctx.lock();
-}
 }

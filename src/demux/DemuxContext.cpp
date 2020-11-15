@@ -9,9 +9,10 @@
 #include "input/InputContext.h"
 #include "demuxer/DemuxerFactory.h"
 
-common::Error demux::DemuxContext::init(const player::player_ctx_sptr &player_ctx) {
-  this->_sync_ctx = player_ctx->sync_ctx;
-  this->_input_context = player_ctx->input_ctx;
+common::Error demux::DemuxContext::init(const input::input_ctx_sptr &input_ctx,
+                                        const common::sync_ctx_sptr &sync_ctx) {
+  this->_sync_ctx = sync_ctx;
+  this->_input_context = input_ctx;
   this->_running = true;
   this->_thread.run([&]() {
     do {} while (this->loop());
@@ -22,7 +23,7 @@ common::Error demux::DemuxContext::init(const player::player_ctx_sptr &player_ct
 bool demux::DemuxContext::loop() {
   if (this->_demuxer == nullptr) {
     player::play_entry_sptr entry = nullptr;
-    if (this->_input_context->pollEvent(input::event::entryAvailable)) {
+    if (this->_input_context->pollEvent(input::Event::entryAvailable)) {
       this->_input_context->getCurrentEntry(entry);
     }
     if (entry == nullptr) return _running;

@@ -19,14 +19,14 @@ VideoOutput::VideoOutput() : thread_("vo") {
 
 }
 
-common::Error VideoOutput::Init(const player::player_ctx_sptr &player_ctx) {
-  this->input_ctx_ = player_ctx->input_ctx;
+common::Error VideoOutput::Init(const input::input_ctx_sptr &input_ctx, const common::sync_ctx_sptr &sync_ctx) {
+  this->input_ctx_ = input_ctx;
   this->window_width_ = GET_CONFIG(window_width);
   this->window_height_ = GET_CONFIG(window_height);
   this->driver_ = driver::DriverFactory::create(GET_CONFIG(vo_driver));
   this->driver_->init(shared_from_this());
-  this->sync_ctx_ = player_ctx->sync_ctx;
-  this->version_ = player_ctx->sync_ctx->version;
+  this->sync_ctx_ = sync_ctx;
+  this->version_ = sync_ctx->version;
   this->running_ = true;
   this->thread_.run([&]() {
     do {} while (this->Loop());

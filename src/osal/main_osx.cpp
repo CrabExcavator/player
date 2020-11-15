@@ -19,8 +19,8 @@ namespace osal {
 int player_main(int argc, char *argv[]) {
   misc::Init _(argc, argv);
   auto player_context = std::make_shared<player::PlayerContext>();
-  player_context->init();
-  player_context->run();
+  player_context->Init();
+  player_context->Run();
   return 0;
 }
 

@@ -61,10 +61,10 @@ class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
 
   /**
    * @brief setNumOfStream audio output
-   * @param [in] player_ctx player context
+   * @param [in] sync_ctx player context
    * @return error code
    */
-  common::Error Init(const player::player_ctx_sptr &player_ctx);
+  common::Error Init(const common::sync_ctx_sptr &sync_ctx);
 
   /**
    * @brief stop audio playback thread

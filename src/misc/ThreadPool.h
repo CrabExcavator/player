@@ -34,7 +34,7 @@ class ThreadPool {
     auto slot = this->free_slots_.front();
     this->free_slots_.pop_front();
     assert(this->threads_[slot].GetStatus() != ThreadStatus::Run);
-    this->threads_[slot].run([&](){
+    this->threads_[slot].Run([&]() {
       runner->Run();
     });
     this->threads_[slot].join();

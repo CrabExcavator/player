@@ -10,6 +10,7 @@
 #include <folly/MPMCQueue.h>
 
 #include "misc/typeptr.h"
+#include "misc/Runnable.h"
 #include "common/Error.h"
 
 namespace player {
@@ -17,7 +18,7 @@ namespace player {
 /**
  * @brief player context
  */
-class PlayerContext : public std::enable_shared_from_this<PlayerContext> {
+class PlayerContext : public misc::Runnable, public std::enable_shared_from_this<PlayerContext> {
  public:
   /**
    * @brief default
@@ -28,57 +29,61 @@ class PlayerContext : public std::enable_shared_from_this<PlayerContext> {
    * @brief init player context && start threads
    * @return error code
    */
-  common::Error init();
+  common::Error Init();
 
   /**
    * @brief run main loop
    */
-  void run();
+  common::Error Run() override;
 
   /**
    * @brief stop main thread
    * @return error code
    */
-  common::Error stopRunning();
-
- public:
-  /**
-   * @brief sync
-   */
-  common::sync_ctx_sptr sync_ctx;
-
-  /**
-   * @brief play list
-   */
-  play_list_sptr play_list;
-
-  /**
-   * @brief input context
-   */
-  input::input_ctx_sptr input_ctx;
+  common::Error Stop();
 
  private:
   /**
    * @brief loop for one tick
    * @return is running
    */
-  bool loop();
+  bool Loop();
 
  private:
   /**
+   * @brief sync
+   */
+  common::sync_ctx_sptr sync_ctx_;
+
+  /**
+   * @brief play list
+   */
+  play_list_sptr play_list_;
+
+  /**
+   * @brief input context
+   */
+  input::input_ctx_sptr input_ctx_;
+
+  /**
+   * @brief event_handler;
+   */
+  input::handler::event_handler_chain_sptr event_handler_;
+
+  /**
    * @brief video output
    */
-  video::vo_sptr _vo;
+  video::vo_sptr vo_;
 
   /**
    * @brief audio output
    */
-  audio::ao_sptr _ao;
+  audio::ao_sptr ao_;
 
   /**
    * @brief demux context
    */
-  demux::demux_ctx_sptr _demux_ctx;
+  demux::demux_ctx_sptr demux_ctx_;
 };
 
 }

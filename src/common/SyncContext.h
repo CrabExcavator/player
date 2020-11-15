@@ -30,7 +30,7 @@ class SyncContext {
    * @param player_ctx
    * @return
    */
-  common::Error init(const player::player_ctx_sptr &player_ctx);
+  common::Error Init();
 
   /**
    * @brief setNumOfStream
@@ -115,11 +115,6 @@ class SyncContext {
    * @brief streams used in audio output
    */
   misc::vector_sptr<demux::stream::stream_sptr> _audio_streams;
-
-  /**
-   * @brief input ctx used to notify something
-   */
-  input::input_ctx_sptr _input_ctx;
 
   /**
    * @brief mutex

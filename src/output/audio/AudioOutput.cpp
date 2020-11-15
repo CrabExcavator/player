@@ -16,10 +16,10 @@ AudioOutput::AudioOutput() : thread_("audio output") {
 
 }
 
-common::Error AudioOutput::Init(const player::player_ctx_sptr &player_ctx) {
+common::Error AudioOutput::Init(const common::sync_ctx_sptr &sync_ctx) {
   this->driver_ = driver::DriverFactory::create(GET_CONFIG(ao_driver));
-  this->version_ = player_ctx->sync_ctx->version;
-  this->sync_ctx_ = player_ctx->sync_ctx;
+  this->version_ = sync_ctx->version;
+  this->sync_ctx_ = sync_ctx;
   this->running_ = true;
   this->thread_.run([&]() {
     do {} while (this->Loop());

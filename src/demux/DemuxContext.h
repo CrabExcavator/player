@@ -31,7 +31,8 @@ class DemuxContext : public std::enable_shared_from_this<DemuxContext> {
    * @param [in] player_ctx
    * @return error code
    */
-  common::Error init(const player::player_ctx_sptr &player_ctx);
+  common::Error init(const input::input_ctx_sptr &input_ctx,
+                     const common::sync_ctx_sptr &sync_ctx);
 
   /**
    * @brief one tick

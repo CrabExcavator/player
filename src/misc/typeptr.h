@@ -80,6 +80,10 @@ using demuxer_sptr = std::shared_ptr<IDemuxer>;
 namespace input {
 class InputContext;
 using input_ctx_sptr = std::shared_ptr<InputContext>;
+
+namespace handler {
+using event_handler_chain_sptr = misc::chain_sptr<input_ctx_sptr>;
+}
 }
 
 namespace video {

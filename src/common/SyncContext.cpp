@@ -14,11 +14,10 @@ SyncContext::SyncContext() : _size(0), _cnt(0), _close(true) {
 
 }
 
-common::Error SyncContext::init(const player::player_ctx_sptr &player_ctx) {
+common::Error SyncContext::Init() {
   this->_video_streams = std::make_shared<std::vector<demux::stream::stream_sptr>>();
   this->_audio_streams = std::make_shared<std::vector<demux::stream::stream_sptr>>();
   this->version = 0;
-  this->_input_ctx = player_ctx->input_ctx;
   return common::Error::SUCCESS;
 }
 

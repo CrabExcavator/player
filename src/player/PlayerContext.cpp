@@ -13,67 +13,68 @@
 #include "output/video/VideoOutput.h"
 #include "demux/DemuxContext.h"
 #include "common/SyncContext.h"
+#include "misc/Chain.h"
+#include "input/handler/Universal.h"
 
 namespace player {
 
 static std::string audio_sample = "sample.mp3";
 static std::string video_sample = "small_bunny_1080p_60fps.mp4";
 
-common::Error PlayerContext::init() {
-  this->play_list = std::make_shared<PlayList>();
-  this->play_list->addLast(std::make_shared<player::PlayEntry>
+common::Error PlayerContext::Init() {
+  auto ret = common::Error::SUCCESS;
+
+  this->play_list_ = std::make_shared<PlayList>();
+  this->play_list_->addLast(std::make_shared<player::PlayEntry>
                                (player::entry_type::file, audio_sample, 0));
-  this->sync_ctx = std::make_shared<common::SyncContext>();
-  this->input_ctx = std::make_shared<input::InputContext>();
-  this->_demux_ctx = std::make_shared<demux::DemuxContext>();
-  this->_ao = std::make_shared<audio::AudioOutput>();
-  this->_vo = std::make_shared<video::VideoOutput>();
+  this->sync_ctx_ = std::make_shared<common::SyncContext>();
+  this->input_ctx_ = std::make_shared<input::InputContext>();
+  this->demux_ctx_ = std::make_shared<demux::DemuxContext>();
+  this->ao_ = std::make_shared<audio::AudioOutput>();
+  this->vo_ = std::make_shared<video::VideoOutput>();
+  this->event_handler_ = std::make_shared<misc::Chain<input::input_ctx_sptr>>();
+  this->event_handler_->addLast(std::make_shared<input::handler::Universal>());
 
-  auto err = common::Error::SUCCESS;
-  if ((err = this->input_ctx->init(shared_from_this())) != common::Error::SUCCESS) {
+  if (common::Error::SUCCESS != (ret = this->input_ctx_->Init())) {
     LOG(ERROR) << "init input context fail";
-    return err;
-  } else if ((err = this->sync_ctx->init(shared_from_this())) != common::Error::SUCCESS) {
+  } else if (common::Error::SUCCESS != (ret = this->sync_ctx_->Init())) {
     LOG(ERROR) << "init sync context fail";
-    return err;
-  } else if ((err = this->_demux_ctx->init(shared_from_this())) != common::Error::SUCCESS) {
+  } else if (common::Error::SUCCESS != (ret = this->demux_ctx_->init(this->input_ctx_, this->sync_ctx_))) {
     LOG(ERROR) << "init demux context fail";
-    return err;
-  } else if ((err = this->_ao->Init(shared_from_this())) != common::Error::SUCCESS) {
+  } else if (common::Error::SUCCESS != (ret = this->ao_->Init(this->sync_ctx_))) {
     LOG(ERROR) << "init ao fail";
-    return err;
-  } else if ((err = this->_vo->Init(shared_from_this())) != common::Error::SUCCESS) {
+  } else if (common::Error::SUCCESS != (ret = this->vo_->Init(this->input_ctx_, this->sync_ctx_))) {
     LOG(ERROR) << "init vo fail";
-    return err;
   }
-  this->input_ctx->receiveEvent(input::event::nextEntry);
-  return err;
+
+  return ret;
 }
 
-void PlayerContext::run() {
-  do {} while (this->loop());
+common::Error PlayerContext::Run() {
+  do {} while (this->Loop());
+  return common::Error::SUCCESS;
 }
 
-bool PlayerContext::loop() {
-  auto err = common::Error::SUCCESS;
-  if ((err = this->input_ctx->handleEvent()) != common::Error::SUCCESS) {
-    if (err != common::Error::exit) {
-      LOG(WARNING) << "exit with err code " << static_cast<int64_t>(err);
-    }
-    return false;
-  }
+common::Error PlayerContext::Stop() {
+  this->demux_ctx_->stopRunning();
+  this->ao_->StopRunning();
+  this->vo_->StopRunning();
+  return common::Error::SUCCESS;
+}
+
+bool PlayerContext::Loop() {
+  auto ret = common::Error::SUCCESS;
 
   /// some vo function must be called in main loop
-  this->_vo->LoopInMainThread();
+  this->vo_->LoopInMainThread();
 
-  return true;
-}
+  if (common::Error::SUCCESS != (ret = this->input_ctx_->HandleEvent(this->event_handler_))) {
+    if (ret != common::Error::exit) {
+      LOG(WARNING) << "exit with err code " << static_cast<int64_t>(ret);
+    }
+  }
 
-common::Error PlayerContext::stopRunning() {
-  this->_demux_ctx->stopRunning();
-  this->_ao->StopRunning();
-  this->_vo->StopRunning();
-  return common::Error::SUCCESS;
+  return ret == common::Error::SUCCESS;
 }
 
 }
