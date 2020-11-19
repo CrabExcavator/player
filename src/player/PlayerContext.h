@@ -12,6 +12,7 @@
 #include "misc/typeptr.h"
 #include "misc/Runnable.h"
 #include "common/Error.h"
+#include "misc/Future.h"
 
 namespace player {
 
@@ -84,6 +85,11 @@ class PlayerContext : public misc::Runnable, public std::enable_shared_from_this
    * @brief demux context
    */
   demux::demux_ctx_sptr demux_ctx_;
+
+  /**
+   * @brief all runners
+   */
+  std::vector<misc::future_node_sptr> runners;
 };
 
 }

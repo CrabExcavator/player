@@ -6,7 +6,6 @@
 #include "AudioOutput.h"
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
-#include "player/PlayerContext.h"
 #include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
 
@@ -24,6 +23,11 @@ common::Error AudioOutput::Init(const common::sync_ctx_sptr &sync_ctx) {
   this->thread_.run([&]() {
     do {} while (this->Loop());
   });
+  return common::Error::SUCCESS;
+}
+
+common::Error AudioOutput::Run() {
+  do {} while (this->Loop());
   return common::Error::SUCCESS;
 }
 

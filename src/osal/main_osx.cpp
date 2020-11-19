@@ -17,10 +17,18 @@ namespace osal {
  * @return error code i guess
  */
 int player_main(int argc, char *argv[]) {
+  auto ret = common::Error::SUCCESS;
+
   misc::Init _(argc, argv);
   auto player_context = std::make_shared<player::PlayerContext>();
-  player_context->Init();
-  player_context->Run();
+  if (common::Error::SUCCESS != (ret = player_context->Init())) {
+    LOG(INFO) << "player ctx Init fail";
+  } else if (common::Error::SUCCESS != (ret = player_context->Run())) {
+    LOG(INFO) << "player ctx run fail";
+  } else {
+    LOG(INFO) << "success return";
+  }
+  
   return 0;
 }
 

@@ -15,13 +15,14 @@
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 #include "common/Error.h"
+#include "misc/Runnable.h"
 
 namespace video {
 
 /**
  * @brief video output
  */
-class VideoOutput : public std::enable_shared_from_this<VideoOutput> {
+class VideoOutput : public misc::Runnable, public std::enable_shared_from_this<VideoOutput> {
  public:
   /**
    * @brief default
@@ -57,7 +58,7 @@ class VideoOutput : public std::enable_shared_from_this<VideoOutput> {
   /**
    * @brief default
    */
-  ~VideoOutput() = default;
+  ~VideoOutput() override = default;
 
   /**
    * @brief setNumOfStream video output
@@ -65,6 +66,12 @@ class VideoOutput : public std::enable_shared_from_this<VideoOutput> {
    * @return error code
    */
   common::Error Init(const input::input_ctx_sptr &input_ctx, const common::sync_ctx_sptr &sync_ctx);
+
+  /**
+   * @brief run
+   * @return error code
+   */
+  common::Error Run() override;
 
   /**
    * @brief get input context

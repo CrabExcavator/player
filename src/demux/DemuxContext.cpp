@@ -9,7 +9,9 @@
 #include "input/InputContext.h"
 #include "demuxer/DemuxerFactory.h"
 
-common::Error demux::DemuxContext::init(const input::input_ctx_sptr &input_ctx,
+namespace demux {
+
+common::Error DemuxContext::init(const input::input_ctx_sptr &input_ctx,
                                         const common::sync_ctx_sptr &sync_ctx) {
   this->_sync_ctx = sync_ctx;
   this->_input_context = input_ctx;
@@ -20,7 +22,12 @@ common::Error demux::DemuxContext::init(const input::input_ctx_sptr &input_ctx,
   return common::Error::SUCCESS;
 }
 
-bool demux::DemuxContext::loop() {
+common::Error DemuxContext::Run() {
+  do {} while (loop());
+  return common::Error::SUCCESS;
+}
+
+bool DemuxContext::loop() {
   if (this->_demuxer == nullptr) {
     player::play_entry_sptr entry = nullptr;
     if (this->_input_context->pollEvent(input::Event::entryAvailable)) {
@@ -45,8 +52,10 @@ bool demux::DemuxContext::loop() {
   return _running;
 }
 
-common::Error demux::DemuxContext::stopRunning() {
+common::Error DemuxContext::stopRunning() {
   this->_running = false;
   this->_thread.join();
   return common::Error::SUCCESS;
+}
+
 }

@@ -15,13 +15,14 @@
 #include "misc/typeptr.h"
 #include "misc/Thread.h"
 #include "common/Error.h"
+#include "misc/Runnable.h"
 
 namespace audio {
 
 /**
  * @brief Audio output
  */
-class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
+class AudioOutput : public misc::Runnable, public std::enable_shared_from_this<AudioOutput> {
  public:
   /**
    * @brief constructor do nothing
@@ -57,7 +58,7 @@ class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
   /**
    * @brief default deConstructor
    */
-  ~AudioOutput() = default;
+  ~AudioOutput() override = default;
 
   /**
    * @brief setNumOfStream audio output
@@ -65,6 +66,8 @@ class AudioOutput : public std::enable_shared_from_this<AudioOutput> {
    * @return error code
    */
   common::Error Init(const common::sync_ctx_sptr &sync_ctx);
+
+  common::Error Run() override;
 
   /**
    * @brief stop audio playback thread

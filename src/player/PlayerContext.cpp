@@ -51,6 +51,9 @@ common::Error PlayerContext::Init() {
 }
 
 common::Error PlayerContext::Run() {
+  this->runners.emplace_back(misc::Future::CreateFutureNode(this->demux_ctx_));
+  this->runners.emplace_back(misc::Future::CreateFutureNode(this->ao_));
+  this->runners.emplace_back(misc::Future::CreateFutureNode(this->vo_));
   do {} while (this->Loop());
   return common::Error::SUCCESS;
 }

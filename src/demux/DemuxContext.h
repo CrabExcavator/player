@@ -13,13 +13,14 @@
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 #include "common/Error.h"
+#include "misc/Runnable.h"
 
 namespace demux {
 
 /**
  * @brief runtime demux
  */
-class DemuxContext : public std::enable_shared_from_this<DemuxContext> {
+class DemuxContext : public misc::Runnable, public std::enable_shared_from_this<DemuxContext> {
  public:
   /**
    * @brief default
@@ -33,6 +34,8 @@ class DemuxContext : public std::enable_shared_from_this<DemuxContext> {
    */
   common::Error init(const input::input_ctx_sptr &input_ctx,
                      const common::sync_ctx_sptr &sync_ctx);
+
+  common::Error Run() override;
 
   /**
    * @brief one tick

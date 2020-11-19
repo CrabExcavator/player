@@ -34,6 +34,11 @@ common::Error VideoOutput::Init(const input::input_ctx_sptr &input_ctx, const co
   return common::Error::SUCCESS;
 }
 
+common::Error VideoOutput::Run() {
+  do {} while (this->Loop());
+  return common::Error::SUCCESS;
+}
+
 input::input_ctx_sptr VideoOutput::GetInputCtx() {
   return this->input_ctx_;
 }
