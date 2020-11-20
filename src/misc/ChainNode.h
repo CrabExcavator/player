@@ -26,7 +26,7 @@ class ChainNode {
    * @param [out] out list of typename T
    * @return error code
    */
-  virtual common::Error filter(const vector_sptr<T> &in, vector_sptr<T> &out) = 0;
+  virtual common::Error Filter(const vector_sptr<T> &in, vector_sptr<T> &out) = 0;
 
   /**
    * @brief flush
@@ -34,13 +34,13 @@ class ChainNode {
    * @param [out] out list of typename T
    * @return error code
    */
-  virtual common::Error flush(const vector_sptr<T> &in, vector_sptr<T> &out) = 0;
+  virtual common::Error Flush(const vector_sptr<T> &in, vector_sptr<T> &out) = 0;
 
   /**
    * @brief close
    * @return error code
    */
-  virtual common::Error close() = 0;
+  virtual common::Error Close() = 0;
 };
 
 }

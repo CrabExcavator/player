@@ -12,7 +12,7 @@
 #include "AudioDriver.h"
 #include "misc/Buffer.h"
 
-namespace audio::driver {
+namespace output::audio::driver {
 
 /**
  * @brief the PortAudio impl of audio driver
@@ -34,28 +34,28 @@ class DriverPortAudio : public AudioDriver {
    * @param [in] ao audio output
    * @return error code
    */
-  common::Error init(ao_sptr ao) override;
+  common::Error Init(ao_sptr ao) override;
 
   /**
    * @brief put a frame in buffer if possible
    * @param [in] ao audio output
    * @return error code
    */
-  common::Error play(ao_sptr ao) override;
+  common::Error Play(ao_sptr ao) override;
 
   /**
    * @brief stop audio playback
    * @param [in] ao audio output
    * @return error code
    */
-  common::Error stop(ao_sptr ao) override;
+  common::Error Stop(ao_sptr ao) override;
 
   /**
    * @brief do nothing for now
    * @param [in] ao audio output
    * @return error code
    */
-  common::Error reConfig(ao_sptr ao) override;
+  common::Error ReConfig(ao_sptr ao) override;
 
   /**
    * @brief [todo] return list of devices
@@ -63,7 +63,7 @@ class DriverPortAudio : public AudioDriver {
    * @param [out] list of devices
    * @return error code
    */
-  common::Error getDevices(ao_sptr ao, misc::vector_sptr<std::string> &devices) override;
+  common::Error GetDevices(ao_sptr ao, misc::vector_sptr<std::string> &devices) override;
 
  private:
   /**
@@ -111,12 +111,12 @@ class DriverPortAudio : public AudioDriver {
   /**
    * @brief PaStream Handle
    */
-  PaStream *_stream = nullptr;
+  PaStream *stream_ = nullptr;
 
   /**
    * @brief buffer to pass bytes to PortAudio playback callback
    */
-  misc::Buffer<uint8_t, 65536> _buffer;
+  misc::Buffer<uint8_t, 65536> buffer_;
 };
 
 }

@@ -13,51 +13,22 @@
 #include "SampleFormat.h"
 #include "output/audio/driver/AudioDriver.h"
 #include "misc/typeptr.h"
-#include "misc/Thread.h"
 #include "common/Error.h"
-#include "misc/Runnable.h"
+#include "misc/Ticker.h"
+#include "output/IOutput.h"
 
-namespace audio {
+namespace output::audio {
 
 /**
  * @brief Audio output
  */
-class AudioOutput : public misc::Runnable, public std::enable_shared_from_this<AudioOutput> {
+class AudioOutput : public IOutput, public std::enable_shared_from_this<AudioOutput> {
  public:
-  /**
-   * @brief constructor do nothing
-   */
-  AudioOutput();
-
-  /**
-   * @brief delete
-   * @param rhs
-   */
+  AudioOutput() = default;
   AudioOutput(const AudioOutput &rhs) = delete;
-
-  /**
-   * @brief delete
-   * @param rhs
-   */
   AudioOutput(AudioOutput &&rhs) = delete;
-
-  /**
-   * @brief delete
-   * @param rhs
-   * @return
-   */
   AudioOutput &operator=(const AudioOutput &rhs) = delete;
-
-  /**
-   * @brief delete
-   * @param rhs
-   * @return
-   */
   AudioOutput &operator=(AudioOutput &&rhs) = delete;
-
-  /**
-   * @brief default deConstructor
-   */
   ~AudioOutput() override = default;
 
   /**
@@ -73,7 +44,7 @@ class AudioOutput : public misc::Runnable, public std::enable_shared_from_this<A
    * @brief stop audio playback thread
    * @return error code
    */
-  common::Error StopRunning();
+  common::Error Stop();
 
  public:
 
@@ -107,19 +78,14 @@ class AudioOutput : public misc::Runnable, public std::enable_shared_from_this<A
    */
   int sample_rate_ = 0;
 
- private:
-  bool Loop();
+ protected:
+  bool LoopImpl() override;
 
  private:
   /**
    * @brief flag to mark is audio playback thread running
    */
   bool running_ = false;
-
-  /**
-   * @brief audio playback thread
-   */
-  misc::Thread thread_;
 
   /**
    * @brief impl of driver

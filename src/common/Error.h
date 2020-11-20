@@ -39,8 +39,8 @@ enum class Error : std::int64_t {
 
   /// no error
   SUCCESS = 0, /**< enum value 0 */
-  exit, /**< enum value 1 */
-  eof, /**< enum value 2 */
+  EXIT, /**< enum value 1 */
+  END, /**< enum value 2 */
   UN_READ, /**< enum value 3 */
   noStream, /**< enum value 4 */
 };

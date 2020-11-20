@@ -7,15 +7,18 @@
 #define PLAYER_SRC_OUTPUT_IOUTPUT_H_
 
 #include "misc/Runnable.h"
-#include "misc/ThreadPool.h"
+#include "misc/Looper.h"
 
 namespace output {
 
-class IOutput : public misc::Runnable {
+class IOutput : public misc::Runnable, public misc::Looper<60> {
  public:
   ~IOutput() override = default;
 
   common::Error Run() override = 0;
+
+ protected:
+  bool LoopImpl() override = 0;
 };
 
 }

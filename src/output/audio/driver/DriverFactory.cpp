@@ -8,7 +8,7 @@
 #include "DriverFactory.h"
 #include "DriverPortAudio.h"
 
-namespace audio::driver {
+namespace output::audio::driver {
 
 audio_driver_uptr DriverFactory::create(const std::string &driver_name) {
   return std::make_unique<DriverPortAudio>();

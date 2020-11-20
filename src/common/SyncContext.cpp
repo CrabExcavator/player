@@ -6,7 +6,6 @@
 #include "SyncContext.h"
 #include "misc/util.h"
 #include "demux/stream/IStream.h"
-#include "player/PlayerContext.h"
 
 namespace common {
 

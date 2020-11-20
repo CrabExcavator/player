@@ -81,11 +81,11 @@ common::Error DriverSDL::waitEvents(vo_sptr vo) {
   while (SDL_WaitEventTimeout(&ev, timeout_ms)) {
     timeout_ms = 0;
     auto input_ctx = vo->GetInputCtx();
-    switch (ev.type) {
-      case SDL_QUIT:input_ctx->receiveEvent(input::Event::exit);
-        break;
-      default:break;
-    }
+//    switch (ev.type) {
+//      case SDL_QUIT:input_ctx->receiveEvent(input::Event::exit);
+//        break;
+//      default:break;
+//    }
   }
   return common::Error::SUCCESS;
 }

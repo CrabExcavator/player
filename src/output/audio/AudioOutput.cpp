@@ -8,64 +8,48 @@
 #include "common/Config.h"
 #include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
+#include "common/Slots.h"
 
-namespace audio {
-
-AudioOutput::AudioOutput() : thread_("audio output") {
-
-}
+namespace output::audio {
 
 common::Error AudioOutput::Init(const common::sync_ctx_sptr &sync_ctx) {
   this->driver_ = driver::DriverFactory::create(GET_CONFIG(ao_driver));
   this->version_ = sync_ctx->version;
   this->sync_ctx_ = sync_ctx;
   this->running_ = true;
-  this->thread_.run([&]() {
-    do {} while (this->Loop());
-  });
+  this->AdjustHZ(GET_CONFIG(default_ticker_hz));
   return common::Error::SUCCESS;
 }
 
 common::Error AudioOutput::Run() {
+  auto ret = common::Error::SUCCESS;
+
   do {} while (this->Loop());
-  return common::Error::SUCCESS;
+  return ret;
 }
 
-common::Error AudioOutput::StopRunning() {
+common::Error AudioOutput::Stop() {
   this->running_ = false;
-  this->thread_.join();
   return common::Error::SUCCESS;
 }
 
-bool AudioOutput::Loop() {
+bool AudioOutput::LoopImpl() {
   if (this->running_) {
     /// force reConfig
     if (this->need_re_config_) {
-      this->driver_->reConfig(shared_from_this());
+      this->driver_->ReConfig(shared_from_this());
       this->need_re_config_ = false;
     }
 
     if (this->frame_ != nullptr && !this->frame_->IsLast()) {
-      /**
-       * we can not just dive into playback code with sync reason
-       * sync with other output
-       * @todo use audio clock for sync reason
-       */
-      //_sync->wait();
 
       /// start playback
       this->frame_playing_ = this->frame_;
-      this->driver_->play(shared_from_this());
+      this->driver_->Play(shared_from_this());
       this->frame_playing_ = nullptr;
       /// end playback
 
       this->frame_ = nullptr;
-    }
-
-    /// update output version
-    if (this->version_ != this->sync_ctx_->version) {
-      this->sync_ctx_->getAudioStream(this->stream_);
-      this->version_ = this->sync_ctx_->version;
     }
 
     if (this->stream_ != nullptr &&
@@ -79,7 +63,7 @@ bool AudioOutput::Loop() {
         this->num_of_channel_ = this->frame_->GetNumOfChannel();
         this->size_of_sample_ = this->frame_->GetSampleSize();
         this->sample_rate_ = this->frame_->GetSampleRate();
-        this->driver_->init(shared_from_this());
+        this->driver_->Init(shared_from_this());
       }
 
       /**
@@ -89,6 +73,14 @@ bool AudioOutput::Loop() {
       if (this->frame_->IsLast()) {
         /// @todo do something
         this->stream_ = nullptr;
+      }
+    }
+
+    /// audio output ctl
+    common::Signal signal;
+    if (GET_FROM_SLOT(AUDIO_OUTPUT_CTL_SLOT, signal)) {
+      if (common::Signal::NEXT_STREAM == signal) {
+        this->stream_ = BLOCKING_GET_FROM_SLOT(AUDIO_OUTPUT_STREAM_SLOT);
       }
     }
   }

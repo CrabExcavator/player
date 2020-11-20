@@ -13,6 +13,7 @@
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 #include "common/Error.h"
+#include "misc/Looper.h"
 #include "misc/Runnable.h"
 
 namespace demux {
@@ -20,7 +21,7 @@ namespace demux {
 /**
  * @brief runtime demux
  */
-class DemuxContext : public misc::Runnable, public std::enable_shared_from_this<DemuxContext> {
+class DemuxContext : public misc::Runnable, public misc::Looper<60>, public std::enable_shared_from_this<DemuxContext> {
  public:
   /**
    * @brief default
@@ -32,48 +33,44 @@ class DemuxContext : public misc::Runnable, public std::enable_shared_from_this<
    * @param [in] player_ctx
    * @return error code
    */
-  common::Error init(const input::input_ctx_sptr &input_ctx,
+  common::Error Init(const input::input_ctx_sptr &input_ctx,
                      const common::sync_ctx_sptr &sync_ctx);
 
-  common::Error Run() override;
-
   /**
-   * @brief one tick
-   * @return false if end
+   * @brief run
+   * @return error code
    */
-  bool loop();
+  common::Error Run() override;
 
   /**
    * @brief stop demux thread
    * @return error code
    */
-  common::Error stopRunning();
+  common::Error Stop();
+
+ protected:
+  bool LoopImpl() override;
 
  private:
   /**
    * @brief sync should setNumOfStream in demuxer, because demuxer know the number of stream
    */
-  common::sync_ctx_sptr _sync_ctx;
+  common::sync_ctx_sptr sync_ctx_;
 
   /**
    * @brief demuxer for entry
    */
-  demuxer::demuxer_sptr _demuxer;
+  demuxer::demuxer_sptr demuxer_;
 
   /**
    * @brief input context
    */
-  input::input_ctx_sptr _input_context;
+  input::input_ctx_sptr input_context_;
 
   /**
    * @brief flag to mark is demux thread running
    */
-  bool _running = false;
-
-  /**
-   * @brief demux thread
-   */
-  misc::Thread _thread;
+  bool running_ = false;
 };
 
 }

@@ -42,7 +42,7 @@ common::Error InputContext::HandleEvent(const handler::event_handler_chain_sptr&
   auto in = std::make_shared<std::vector<input_ctx_sptr>>();
   in->emplace_back(shared_from_this());
   misc::vector_sptr<input_ctx_sptr> out = nullptr;
-  return event_handler_->filter(in, out);
+  return event_handler_->Filter(in, out);
 }
 
 }

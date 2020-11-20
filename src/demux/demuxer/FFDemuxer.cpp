@@ -51,7 +51,7 @@ common::Error FFDemuxer::Open(const player::play_entry_sptr &entry, misc::vector
 
 common::Error FFDemuxer::Epoch() {
   if (av_read_frame(this->av_format_ctx_.get(), this->av_packet_.get()) < 0) {
-    return common::Error::eof;
+    return common::Error::END;
   }
   this->streams_->at(this->av_packet_->stream_index)->Feed(this->av_packet_);
   av_packet_unref(this->av_packet_.get());

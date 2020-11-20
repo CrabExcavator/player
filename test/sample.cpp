@@ -25,7 +25,7 @@ TEST(SAMPLE, TO_STRING) {
 #include <chrono>
 
 TEST(SAMPLE, CHRONO) {
-    LOG(INFO) << static_cast<int>(common::Error::eof);
+    LOG(INFO) << static_cast<int>(common::Error::END);
     double raw = 2.23;
     auto seconds = std::chrono::duration<double>(raw);
     auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(seconds);

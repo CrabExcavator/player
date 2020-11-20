@@ -40,7 +40,7 @@ class FFFrame : public IFrame {
 
   int GetHeight() override;
 
-  audio::SampleFormat GetSampleFormat() override;
+  output::audio::SampleFormat GetSampleFormat() override;
 
   int GetSampleSize() override;
 
@@ -59,7 +59,7 @@ class FFFrame : public IFrame {
 
   video::ImageFormatAttribute* image_format_attribute_;
 
-  audio::SampleFormatAttribute* sample_format_attribute_;
+  output::audio::SampleFormatAttribute* sample_format_attribute_;
 };
 
 }

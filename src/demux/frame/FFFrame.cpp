@@ -10,8 +10,8 @@
 
 namespace demux::frame {
 
-static std::map<AVSampleFormat, audio::SampleFormat> AVSampleFormatMap = {
-    {AV_SAMPLE_FMT_FLTP, audio::SampleFormat::FLTP}
+static std::map<AVSampleFormat, output::audio::SampleFormat> AVSampleFormatMap = {
+    {AV_SAMPLE_FMT_FLTP, output::audio::SampleFormat::FLTP}
 };
 
 static std::map<AVPixelFormat, video::ImageFormat> AVImageFormatMap = {
@@ -109,16 +109,16 @@ int FFFrame::GetHeight() {
   return this->av_frame_->height;
 }
 
-audio::SampleFormat FFFrame::GetSampleFormat() {
+output::audio::SampleFormat FFFrame::GetSampleFormat() {
   if (this->sample_format_attribute_ == nullptr) {
     auto av_sample_format = static_cast<AVSampleFormat>(this->av_frame_->format);
     if (AVSampleFormatMap.contains(av_sample_format)) {
       this->sample_format_attribute_ =
-          audio::SampleFormatAttributeMap[AVSampleFormatMap[av_sample_format]];
+          output::audio::SampleFormatAttributeMap[AVSampleFormatMap[av_sample_format]];
     }
   }
   return this->sample_format_attribute_ == nullptr
-  ? audio::SampleFormat::UNKNOWN : this->sample_format_attribute_->sample_format;
+  ? output::audio::SampleFormat::UNKNOWN : this->sample_format_attribute_->sample_format;
 }
 
 int FFFrame::GetSampleSize() {
@@ -126,7 +126,7 @@ int FFFrame::GetSampleSize() {
     auto av_sample_format = static_cast<AVSampleFormat>(this->av_frame_->format);
     if (AVSampleFormatMap.contains(av_sample_format)) {
       this->sample_format_attribute_ =
-          audio::SampleFormatAttributeMap[AVSampleFormatMap[av_sample_format]];
+          output::audio::SampleFormatAttributeMap[AVSampleFormatMap[av_sample_format]];
     }
   }
   return this->sample_format_attribute_ == nullptr

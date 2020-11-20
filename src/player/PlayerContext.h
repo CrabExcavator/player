@@ -13,13 +13,15 @@
 #include "misc/Runnable.h"
 #include "common/Error.h"
 #include "misc/Future.h"
+#include "misc/Ticker.h"
+#include "misc/Looper.h"
 
 namespace player {
 
 /**
  * @brief player context
  */
-class PlayerContext : public misc::Runnable, public std::enable_shared_from_this<PlayerContext> {
+class PlayerContext : public misc::Runnable, public misc::Looper<60>, public std::enable_shared_from_this<PlayerContext> {
  public:
   /**
    * @brief default
@@ -43,23 +45,18 @@ class PlayerContext : public misc::Runnable, public std::enable_shared_from_this
    */
   common::Error Stop();
 
- private:
+ protected:
   /**
    * @brief loop for one tick
    * @return is running
    */
-  bool Loop();
+  bool LoopImpl() override;
 
  private:
   /**
    * @brief sync
    */
   common::sync_ctx_sptr sync_ctx_;
-
-  /**
-   * @brief play list
-   */
-  play_list_sptr play_list_;
 
   /**
    * @brief input context
@@ -79,7 +76,7 @@ class PlayerContext : public misc::Runnable, public std::enable_shared_from_this
   /**
    * @brief audio output
    */
-  audio::ao_sptr ao_;
+  output::audio::ao_sptr ao_;
 
   /**
    * @brief demux context

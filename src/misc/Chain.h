@@ -57,7 +57,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    * @param [in] node
    * @return pointer to *this
    */
-  chain_sptr<T> addLast(chain_node_sptr<T> node) {
+  chain_sptr<T> AddLast(chain_node_sptr<T> node) {
     this->_queue.emplace_back(std::move(node));
     return this->shared_from_this();
   }
@@ -67,7 +67,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    * @param [in] node
    * @return pointer to *this
    */
-  chain_sptr<T> addFirst(chain_node_sptr<T> node) {
+  chain_sptr<T> AddFirst(chain_node_sptr<T> node) {
     this->_queue.emplace_front(std::move(node));
     return this->shared_from_this();
   }
@@ -79,13 +79,13 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    * @param [out] out list of typename T
    * @return error code
    */
-  common::Error filter(vector_sptr<T> in, vector_sptr<T> &out) {
+  common::Error Filter(vector_sptr<T> in, vector_sptr<T> &out) {
     assert(out == nullptr);
     auto err = common::Error::SUCCESS;
     auto current = in;
     auto next = out;
     for (auto &node : this->_queue) {
-      err = node->filter(current, next);
+      err = node->Filter(current, next);
       if (err != common::Error::SUCCESS) {
         return err;
       }
@@ -102,13 +102,13 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    * @param [out] out list of typename T
    * @return error code
    */
-  common::Error flush(vector_sptr<T> &out) {
+  common::Error Flush(vector_sptr<T> &out) {
     assert(out == nullptr);
     auto err = common::Error::SUCCESS;
     vector_sptr<T> current = nullptr;
     auto next = out;
     for (auto &node : this->_queue) {
-      err = node->flush(current, next);
+      err = node->Flush(current, next);
       if (err != common::Error::SUCCESS) {
         return err;
       }
@@ -123,7 +123,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    * @brief close chain
    * @return error code
    */
-  common::Error close() {
+  common::Error Close() {
     auto err = common::Error::SUCCESS;
     for (auto &node : this->_queue) {
       if (err != common::Error::SUCCESS) {

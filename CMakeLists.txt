@@ -42,6 +42,7 @@ set(
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
         src/common/SyncContext.cpp
+        src/common/Slots.cpp
         src/player/PlayerContext.cpp
         src/player/PlayList.cpp
         src/player/PlayEntry.cpp
@@ -94,9 +95,6 @@ set(
         TEST_SOURCE
         ${COMMON_SOURCE}
         test/sample.cpp
-        test/Pocket.cpp
-        test/PlayList.cpp
-        test/Chain.cpp
 )
 set(
         TEST_LIB

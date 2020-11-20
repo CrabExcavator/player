@@ -8,7 +8,7 @@
 
 #include "AudioDriver.h"
 
-namespace audio::driver {
+namespace output::audio::driver {
 
 /**
  * @brief the factory to create audio driver

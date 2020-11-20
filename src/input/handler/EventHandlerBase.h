@@ -22,7 +22,7 @@ class EventHandlerBase : public misc::ChainNode<input_ctx_sptr> {
    * @param [in] in input context
    * @return input context
    */
-  common::Error filter(const misc::vector_sptr<input_ctx_sptr> &in,
+  common::Error Filter(const misc::vector_sptr<input_ctx_sptr> &in,
                        misc::vector_sptr<input_ctx_sptr> &out) override = 0;
 
   /**
@@ -31,12 +31,12 @@ class EventHandlerBase : public misc::ChainNode<input_ctx_sptr> {
    * @param in
    * @return
    */
-  common::Error flush(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) override;
+  common::Error Flush(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) override;
 
   /**
    * @deprecated
    */
-  common::Error close() override;
+  common::Error Close() override;
 };
 
 }

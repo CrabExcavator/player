@@ -8,7 +8,7 @@
 
 #include <map>
 
-namespace audio {
+namespace output::audio {
 
 /**
  * @brief sample format supported by player

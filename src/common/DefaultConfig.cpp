@@ -15,5 +15,6 @@ DEFINE_POCKET(std::string, ao_driver, "SDL2");
 DEFINE_POCKET(std::string, vo_driver, "PortAudio");
 DEFINE_POCKET(player::play_method, default_play_method, player::play_method::entry_end);
 DEFINE_POCKET(int, default_queue_size, 64);
+DEFINE_POCKET(int, default_ticker_hz, 60);
 
 }

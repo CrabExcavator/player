@@ -96,6 +96,9 @@ using video_driver_uptr = std::unique_ptr<VideoDriver>;
 }
 }
 
+
+namespace output {
+
 namespace audio {
 class AudioOutput;
 using ao_sptr = std::shared_ptr<AudioOutput>;
@@ -104,6 +107,8 @@ namespace driver {
 class AudioDriver;
 using audio_driver_uptr = std::unique_ptr<AudioDriver>;
 }
+}
+
 }
 
 #endif //PLAYER_TYPEPTR_H

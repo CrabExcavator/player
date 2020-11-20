@@ -9,11 +9,11 @@
 namespace input::handler {
 
 common::Error
-EventHandlerBase::flush(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) {
+EventHandlerBase::Flush(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) {
   return common::Error::UNKNOWN_ERROR;
 }
 
-common::Error EventHandlerBase::close() {
+common::Error EventHandlerBase::Close() {
   return common::Error::UNKNOWN_ERROR;
 }
 

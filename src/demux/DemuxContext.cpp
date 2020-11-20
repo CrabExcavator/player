@@ -4,57 +4,57 @@
 //
 
 #include "DemuxContext.h"
-#include "player/PlayerContext.h"
-#include "common/SyncContext.h"
 #include "input/InputContext.h"
 #include "demuxer/DemuxerFactory.h"
+#include "common/Slots.h"
+#include "common/Config.h"
+#include "demux/stream/IStream.h"
+#include "output/OutputPort.h"
+#include "common/Signal.h"
 
 namespace demux {
 
-common::Error DemuxContext::init(const input::input_ctx_sptr &input_ctx,
-                                        const common::sync_ctx_sptr &sync_ctx) {
-  this->_sync_ctx = sync_ctx;
-  this->_input_context = input_ctx;
-  this->_running = true;
-  this->_thread.run([&]() {
-    do {} while (this->loop());
-  });
-  return common::Error::SUCCESS;
+common::Error DemuxContext::Init(const input::input_ctx_sptr &input_ctx,
+                                 const common::sync_ctx_sptr &sync_ctx) {
+  auto ret = common::Error::SUCCESS;
+
+  this->sync_ctx_ = sync_ctx;
+  this->input_context_ = input_ctx;
+  this->running_ = true;
+  this->AdjustHZ(GET_CONFIG(default_ticker_hz));
+  return ret;
 }
 
 common::Error DemuxContext::Run() {
-  do {} while (loop());
+  do {} while (Loop());
   return common::Error::SUCCESS;
 }
 
-bool DemuxContext::loop() {
-  if (this->_demuxer == nullptr) {
-    player::play_entry_sptr entry = nullptr;
-    if (this->_input_context->pollEvent(input::Event::entryAvailable)) {
-      this->_input_context->getCurrentEntry(entry);
-    }
-    if (entry == nullptr) return _running;
-    this->_demuxer = demuxer::DemuxerFactory::create("av"); /// @todo put in config
+bool DemuxContext::LoopImpl() {
+  if (this->demuxer_ == nullptr) {
+    auto entry = BLOCKING_GET_FROM_SLOT(ENTRY_SLOT);
+    if (entry == nullptr) return running_;
+    this->demuxer_ = demuxer::DemuxerFactory::create("av");
     misc::vector_sptr<stream::stream_sptr> streams = nullptr;
-    this->_demuxer->Open(entry, streams);
+    this->demuxer_->Open(entry, streams);
     for (auto &stream : *streams) {
-      this->_sync_ctx->addStream(stream);
+      if (output::OutputPort::audio == stream->GetOutputPort()) {
+        BLOCKING_PUSH_TO_SLOT(AUDIO_OUTPUT_STREAM_SLOT, stream);
+        BLOCKING_PUSH_TO_SLOT(AUDIO_OUTPUT_CTL_SLOT, common::Signal::NEXT_STREAM);
+      }
     }
-    /// sync context to next version
-    this->_sync_ctx->close();
-    this->_sync_ctx->version++;
   }
-  auto err = this->_demuxer->Epoch();
-  if (err == common::Error::eof) {
-    this->_demuxer->Close();
-    this->_demuxer = nullptr;
+  if (common::Error::SUCCESS != this->demuxer_->Epoch()) {
+    this->demuxer_->Close();
+    this->demuxer_ = nullptr;
   }
-  return _running;
+  return running_;
 }
 
-common::Error DemuxContext::stopRunning() {
-  this->_running = false;
-  this->_thread.join();
+common::Error DemuxContext::Stop() {
+  this->running_ = false;
+  /// because GET_FROM_SLOT may be blocking
+  BLOCKING_PUSH_TO_SLOT(ENTRY_SLOT, nullptr);
   return common::Error::SUCCESS;
 }
 

@@ -23,7 +23,7 @@ class Universal : public EventHandlerBase {
    * @param out
    * @return
    */
-  common::Error filter(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) override;
+  common::Error Filter(const misc::vector_sptr<input_ctx_sptr> &in, misc::vector_sptr<input_ctx_sptr> &out) override;
 
  private:
   player::player_ctx_wptr player_ctx_;

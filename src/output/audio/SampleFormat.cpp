@@ -5,7 +5,7 @@
 
 #include "SampleFormat.h"
 
-namespace audio {
+namespace output::audio {
 
 std::map<SampleFormat, SampleFormatAttribute*> SampleFormatAttributeMap = {
     {SampleFormat::FLTP, new SampleFormatAttribute{

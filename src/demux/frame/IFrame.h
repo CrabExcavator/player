@@ -59,8 +59,8 @@ class IFrame {
 
   //////////////////////////////          audio          //////////////////////////////
 
-  virtual audio::SampleFormat GetSampleFormat() {
-    return audio::SampleFormat::UNKNOWN;
+  virtual output::audio::SampleFormat GetSampleFormat() {
+    return output::audio::SampleFormat::UNKNOWN;
   }
 
   virtual int GetSampleSize() {
