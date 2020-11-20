@@ -74,11 +74,11 @@ class Config {
    */
   template<typename T>
   T get(const misc::Pocket<T> &pocket) {
-    std::lock_guard _(this->_mutex);
+    std::lock_guard _(_mutex);
     const auto &key = pocket.getKey();
     // todo add additional type support
-//            if (this->_dic->contains(key)) {
-//                return misc::Pocket<T>::cast(this->_dic->at(key));
+//            if (_dic->contains(key)) {
+//                return misc::Pocket<T>::cast(_dic->at(key));
 //            }
     return pocket.getValue();
   }

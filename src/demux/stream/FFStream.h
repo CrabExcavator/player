@@ -68,7 +68,7 @@ class FFStream : public IStream {
 
   std::chrono::nanoseconds time_base_{};
 
-  output::OutputPort op_ = output::OutputPort::null;
+  output::OutputPort op_ = output::OutputPort::EMPTY;
 };
 
 }

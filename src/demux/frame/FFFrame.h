@@ -34,7 +34,7 @@ class FFFrame : public IFrame {
 
   int64_t GetPts() override;
 
-  video::ImageFormat GetImageFormat() override;
+  output::video::ImageFormat GetImageFormat() override;
 
   int GetWidth() override;
 
@@ -57,7 +57,7 @@ class FFFrame : public IFrame {
 
   AVFrame *av_frame_;
 
-  video::ImageFormatAttribute* image_format_attribute_;
+  output::video::ImageFormatAttribute* image_format_attribute_;
 
   output::audio::SampleFormatAttribute* sample_format_attribute_;
 };

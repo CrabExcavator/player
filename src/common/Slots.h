@@ -22,17 +22,17 @@ class Slot {
   Slot() : slot_(1024) {}
 
   void BlockingPush(T ele) {
-    this->slot_.blockingWrite(ele);
+    slot_.blockingWrite(ele);
   }
 
   T BlockingGet() {
     T ele;
-    this->slot_.blockingRead(ele);
+    slot_.blockingRead(ele);
     return ele;
   }
 
   bool Get(T &ele) {
-    return this->slot_.read(ele);
+    return slot_.read(ele);
   }
 
  private:
@@ -47,11 +47,16 @@ class Slot {
 
 #define GET_FROM_SLOT(slot_num, ele) common::slot_##slot_num.Get(ele)
 
-#define ENTRY_SLOT 100
+#define ENTRY_SLOT 101
 DECLARE_SLOT(ENTRY_SLOT, player::play_entry_sptr);
 
-#define AUDIO_OUTPUT_CTL_SLOT 201
-#define AUDIO_OUTPUT_STREAM_SLOT 202
+#define VIDEO_OUTPUT_CTL_SLOT 201
+#define VIDEO_OUTPUT_STREAM_SLOT 302
+DECLARE_SLOT(VIDEO_OUTPUT_CTL_SLOT, common::Signal);
+DECLARE_SLOT(VIDEO_OUTPUT_STREAM_SLOT, demux::stream::stream_sptr);
+
+#define AUDIO_OUTPUT_CTL_SLOT 301
+#define AUDIO_OUTPUT_STREAM_SLOT 302
 DECLARE_SLOT(AUDIO_OUTPUT_CTL_SLOT, common::Signal);
 DECLARE_SLOT(AUDIO_OUTPUT_STREAM_SLOT, demux::stream::stream_sptr);
 

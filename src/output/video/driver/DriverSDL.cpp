@@ -13,7 +13,7 @@
 #include "output/video/ImageFormat.h"
 #include "input/InputContext.h"
 
-namespace video::driver {
+namespace output::video::driver {
 
 static const std::map<video::ImageFormat, SDL_PixelFormatEnum> formats = {
     {video::ImageFormat::yuv420p, SDL_PIXELFORMAT_IYUV}
@@ -27,8 +27,8 @@ static SDL_PixelFormatEnum getFormat(video::ImageFormat imgfmt) {
 }
 
 DriverSDL::~DriverSDL() {
-  this->_renderer = nullptr;
-  this->_window = nullptr;
+  _renderer = nullptr;
+  _window = nullptr;
   SDL_Quit();
 }
 
@@ -44,34 +44,40 @@ common::Error DriverSDL::init(vo_sptr vo) {
   if (window == nullptr) {
     return common::Error::videoDriverInitFail;
   }
-  this->_window.swap(window);
+  _window.swap(window);
   renderer_uptr renderer{
-      SDL_CreateRenderer(this->_window.get(), -1,
+      SDL_CreateRenderer(_window.get(), -1,
                          SDL_RENDERER_ACCELERATED),
       SDL_DestroyRenderer
   };
   if (renderer == nullptr) {
     return common::Error::videoDriverInitFail;
   }
-  this->_renderer.swap(renderer);
-  this->reConfig(vo);
+  _renderer.swap(renderer);
+  reConfig(vo);
   return common::Error::SUCCESS;
 }
 
 common::Error DriverSDL::drawImage(vo_sptr vo) {
-  SDL_RenderClear(this->_renderer.get());
-//  SDL_SetTextureBlendMode(this->_texture.get(), SDL_BLENDMODE_NONE);
-//  if (vo->frame_rendering_ != nullptr) {
-//    void *pixels = nullptr;
-//    int pitch = 0;
-//    SDL_LockTexture(this->_texture.get(), nullptr, &pixels, &pitch);
-//    memcpy(pixels, vo->frame_rendering_->pixels,
-//           vo->img_pitch_ * vo->img_height_ + vo->img_pitch_ * vo->img_height_ / 4 + vo->img_pitch_ * vo->img_height_ / 4);
-//    SDL_UnlockTexture(this->_texture.get());
-//
-//    SDL_RenderCopy(this->_renderer.get(), this->_texture.get(), nullptr, nullptr);
-//    SDL_RenderPresent(this->_renderer.get());
-//  }
+  SDL_RenderClear(_renderer.get());
+  SDL_SetTextureBlendMode(_texture.get(), SDL_BLENDMODE_NONE);
+  if (vo->frame_rendering_ != nullptr) {
+    void *pixels = nullptr;
+    int pitch = 0;
+    SDL_LockTexture(_texture.get(), nullptr, &pixels, &pitch);
+    misc::vector_sptr<common::Slice> data = nullptr;
+    vo->frame_rendering_->GetData(data);
+
+    /// @todo put in fmt translate func
+    for (auto &aData : *data) {
+      memcpy(pixels, aData.GetPtr(), aData.GetLength());
+      pixels = (void*)((uint8_t*)pixels + aData.GetLength());
+    }
+
+    SDL_UnlockTexture(_texture.get());
+    SDL_RenderCopy(_renderer.get(), _texture.get(), nullptr, nullptr);
+    SDL_RenderPresent(_renderer.get());
+  }
   return common::Error::SUCCESS;
 }
 
@@ -81,24 +87,24 @@ common::Error DriverSDL::waitEvents(vo_sptr vo) {
   while (SDL_WaitEventTimeout(&ev, timeout_ms)) {
     timeout_ms = 0;
     auto input_ctx = vo->GetInputCtx();
-//    switch (ev.type) {
-//      case SDL_QUIT:input_ctx->receiveEvent(input::Event::exit);
-//        break;
-//      default:break;
-//    }
+    switch (ev.type) {
+      case SDL_QUIT:input_ctx->PutEvent(input::Event::EXIT);
+        break;
+      default:break;
+    }
   }
   return common::Error::SUCCESS;
 }
 
 common::Error DriverSDL::reConfig(vo_sptr vo) {
   auto texture_fmt = getFormat(vo->image_format_);
-  SDL_SetRenderDrawColor(this->_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
   texture_uptr texture{
-      SDL_CreateTexture(this->_renderer.get(), texture_fmt,
+      SDL_CreateTexture(_renderer.get(), texture_fmt,
                         SDL_TEXTUREACCESS_STREAMING, vo->img_pitch_, vo->img_height_),
       SDL_DestroyTexture
   };
-  this->_texture.swap(texture);
+  _texture.swap(texture);
   return common::Error::SUCCESS;
 }
 

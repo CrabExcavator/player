@@ -195,8 +195,8 @@ class PlayList : public std::enable_shared_from_this<PlayList> {
    * @brief if play list size == 1, change current to that entry
    */
   inline void _check_first_entry() {
-    if (this->_entries.size() == 1) {
-      this->_current = this->_entries.begin();
+    if (_entries.size() == 1) {
+      _current = _entries.begin();
     }
   }
 
@@ -204,8 +204,8 @@ class PlayList : public std::enable_shared_from_this<PlayList> {
    * @brief if play list is empty, change current to null
    */
   inline void _check_empty_entry() {
-    if (this->_entries.empty()) {
-      this->_current = this->_entries.end();
+    if (_entries.empty()) {
+      _current = _entries.end();
     }
   }
 
@@ -214,8 +214,8 @@ class PlayList : public std::enable_shared_from_this<PlayList> {
    * @param [in] entry
    */
   inline void _check_is_current(std::list<play_entry_sptr>::iterator entry) {
-    if (this->_current == entry) {
-      this->_current = this->_entries.end();
+    if (_current == entry) {
+      _current = _entries.end();
     }
   }
 

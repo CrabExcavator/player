@@ -10,32 +10,32 @@
 namespace input {
 
 common::Error InputContext::Init() {
-  this->events_.clear();
+  events_.clear();
   return common::Error::SUCCESS;
 }
 
 void InputContext::PutEvent(Event event) {
-  this->mutex_.lock();
-  DEFER([&](){this->mutex_.unlock();});
-  this->events_.insert(event);
+  mutex_.lock();
+  DEFER([&](){mutex_.unlock();});
+  events_.insert(event);
 }
 
 bool InputContext::HasEvent(Event event) {
-  this->mutex_.lock();
-  DEFER([&](){this->mutex_.unlock();});
-  return this->events_.contains(event);
+  mutex_.lock();
+  DEFER([&](){mutex_.unlock();});
+  return events_.contains(event);
 }
 
 void InputContext::DeleteEvent(Event event) {
-  this->mutex_.lock();
-  DEFER([&](){this->mutex_.unlock();});
-  this->events_.erase(event);
+  mutex_.lock();
+  DEFER([&](){mutex_.unlock();});
+  events_.erase(event);
 }
 
 void InputContext::ClearAllEvent() {
-  this->mutex_.lock();
-  DEFER([&](){this->mutex_.unlock();});
-  this->events_.clear();
+  mutex_.lock();
+  DEFER([&](){mutex_.unlock();});
+  events_.clear();
 }
 
 common::Error InputContext::HandleEvent(const handler::event_handler_chain_sptr& event_handler_) {

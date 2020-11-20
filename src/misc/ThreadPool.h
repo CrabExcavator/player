@@ -22,25 +22,25 @@ class ThreadPool {
  public:
   ThreadPool() {
     for (int i = 0 ; i < Size ; i++) {
-      this->free_slots_.add(i);
+      free_slots_.add(i);
     }
   }
 
   common::Error Dispatch(const runnable_sptr& runner) {
     std::unique_lock<std::mutex> lock(mutex_);
-    this->condition_variable_.wait_for(lock, [&](){
-      return !this->free_slots_.empty();
+    condition_variable_.wait_for(lock, [&](){
+      return !free_slots_.empty();
     });
-    auto slot = this->free_slots_.front();
-    this->free_slots_.pop_front();
-    assert(this->threads_[slot].GetStatus() != ThreadStatus::Run);
-    this->threads_[slot].Run([&]() {
+    auto slot = free_slots_.front();
+    free_slots_.pop_front();
+    assert(threads_[slot].GetStatus() != ThreadStatus::Run);
+    threads_[slot].Run([&]() {
       runner->Run();
     });
-    this->threads_[slot].join();
-    this->free_slots_.push_back(slot);
+    threads_[slot].join();
+    free_slots_.push_back(slot);
     lock.unlock();
-    this->condition_variable_.notify_one();
+    condition_variable_.notify_one();
   }
 
  private:

@@ -13,7 +13,7 @@
 #include "VideoDriver.h"
 #include "misc/typeptr.h"
 
-namespace video::driver {
+namespace output::video::driver {
 
 /**
  * @brief video driver of sdl

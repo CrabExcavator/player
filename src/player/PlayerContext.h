@@ -54,11 +54,6 @@ class PlayerContext : public misc::Runnable, public misc::Looper<60>, public std
 
  private:
   /**
-   * @brief sync
-   */
-  common::sync_ctx_sptr sync_ctx_;
-
-  /**
    * @brief input context
    */
   input::input_ctx_sptr input_ctx_;
@@ -71,7 +66,7 @@ class PlayerContext : public misc::Runnable, public misc::Looper<60>, public std
   /**
    * @brief video output
    */
-  video::vo_sptr vo_;
+  output::video::vo_sptr vo_;
 
   /**
    * @brief audio output

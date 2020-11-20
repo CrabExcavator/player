@@ -14,8 +14,8 @@ static std::map<AVSampleFormat, output::audio::SampleFormat> AVSampleFormatMap =
     {AV_SAMPLE_FMT_FLTP, output::audio::SampleFormat::FLTP}
 };
 
-static std::map<AVPixelFormat, video::ImageFormat> AVImageFormatMap = {
-    {AV_PIX_FMT_YUV420P, video::ImageFormat::yuv420p}
+static std::map<AVPixelFormat, output::video::ImageFormat> AVImageFormatMap = {
+    {AV_PIX_FMT_YUV420P, output::video::ImageFormat::yuv420p}
 };
 
 FFFrame::FFFrame() :
@@ -42,25 +42,25 @@ common::Error FFFrame::Init(AVFrame *av_frame, bool first, bool last) {
   if (common::Error::SUCCESS != ret) {
     // do nothing
   } else {
-    this->av_frame_ = av_frame;
-    this->first_ = first;
-    this->last_ = last;
+    av_frame_ = av_frame;
+    first_ = first;
+    last_ = last;
   }
 
   return ret;
 }
 
 FFFrame::~FFFrame() {
-  av_frame_free(&this->av_frame_);
-  this->av_frame_ = nullptr;
+  av_frame_free(&av_frame_);
+  av_frame_ = nullptr;
 }
 
 bool FFFrame::IsFirst() {
-  return this->first_;
+  return first_;
 }
 
 bool FFFrame::IsLast() {
-  return this->last_;
+  return last_;
 }
 
 common::Error FFFrame::GetData(misc::vector_sptr<common::Slice> &data) {
@@ -75,10 +75,22 @@ common::Error FFFrame::GetData(misc::vector_sptr<common::Slice> &data) {
   if (common::Error::SUCCESS != ret) {
     // do nothing
   } else {
-    int i = 0;
-    for(; this->av_frame_->data[i] != nullptr ; i++) {
-      common::Slice slice(this->av_frame_->data[i], this->av_frame_->linesize[i]);
-      data->emplace_back(slice);
+    if (nullptr != image_format_attribute_) {
+      if (output::video::ImageFormat::yuv420p == image_format_attribute_->image_format) {
+        int size_y = av_frame_->height * av_frame_->linesize[0];
+        int size_uv = ((av_frame_->height + 1) / 2) * ((av_frame_->linesize[0] + 1) / 2);
+        common::Slice slice_y(av_frame_->data[0], size_y);
+        common::Slice slice_u(av_frame_->data[1], size_uv);
+        common::Slice slice_v(av_frame_->data[2], size_uv);
+        data->emplace_back(slice_y);
+        data->emplace_back(slice_u);
+        data->emplace_back(slice_v);
+      }
+    } else if (nullptr != sample_format_attribute_) {
+      for (int i = 0; av_frame_->data[i] != nullptr && i < AV_NUM_DATA_POINTERS; i++) {
+        common::Slice slice(av_frame_->data[i], av_frame_->linesize[i]);
+        data->emplace_back(slice);
+      }
     }
   }
 
@@ -86,63 +98,63 @@ common::Error FFFrame::GetData(misc::vector_sptr<common::Slice> &data) {
 }
 
 int64_t FFFrame::GetPts() {
-  return this->av_frame_->pts;
+  return av_frame_->pts;
 }
 
-video::ImageFormat FFFrame::GetImageFormat() {
-  if (this->image_format_attribute_ == nullptr) {
-    auto av_image_format = static_cast<AVPixelFormat>(this->av_frame_->format);
+output::video::ImageFormat FFFrame::GetImageFormat() {
+  if (image_format_attribute_ == nullptr) {
+    auto av_image_format = static_cast<AVPixelFormat>(av_frame_->format);
     if (AVImageFormatMap.contains(av_image_format)) {
-      this->image_format_attribute_ =
-          video::ImageFormatAttributeMap[AVImageFormatMap[av_image_format]];
+      image_format_attribute_ =
+          output::video::ImageFormatAttributeMap[AVImageFormatMap[av_image_format]];
     }
   }
-  return this->image_format_attribute_ == nullptr
-  ? video::ImageFormat::unknown : this->image_format_attribute_->image_format;
+  return image_format_attribute_ == nullptr
+  ? output::video::ImageFormat::unknown : image_format_attribute_->image_format;
 }
 
 int FFFrame::GetWidth() {
-  return this->av_frame_->width;
+  return av_frame_->width;
 }
 
 int FFFrame::GetHeight() {
-  return this->av_frame_->height;
+  return av_frame_->height;
 }
 
 output::audio::SampleFormat FFFrame::GetSampleFormat() {
-  if (this->sample_format_attribute_ == nullptr) {
-    auto av_sample_format = static_cast<AVSampleFormat>(this->av_frame_->format);
+  if (sample_format_attribute_ == nullptr) {
+    auto av_sample_format = static_cast<AVSampleFormat>(av_frame_->format);
     if (AVSampleFormatMap.contains(av_sample_format)) {
-      this->sample_format_attribute_ =
+      sample_format_attribute_ =
           output::audio::SampleFormatAttributeMap[AVSampleFormatMap[av_sample_format]];
     }
   }
-  return this->sample_format_attribute_ == nullptr
-  ? output::audio::SampleFormat::UNKNOWN : this->sample_format_attribute_->sample_format;
+  return sample_format_attribute_ == nullptr
+  ? output::audio::SampleFormat::UNKNOWN : sample_format_attribute_->sample_format;
 }
 
 int FFFrame::GetSampleSize() {
-  if (this->sample_format_attribute_ == nullptr) {
-    auto av_sample_format = static_cast<AVSampleFormat>(this->av_frame_->format);
+  if (sample_format_attribute_ == nullptr) {
+    auto av_sample_format = static_cast<AVSampleFormat>(av_frame_->format);
     if (AVSampleFormatMap.contains(av_sample_format)) {
-      this->sample_format_attribute_ =
+      sample_format_attribute_ =
           output::audio::SampleFormatAttributeMap[AVSampleFormatMap[av_sample_format]];
     }
   }
-  return this->sample_format_attribute_ == nullptr
-  ? 0 : this->sample_format_attribute_->sample_size;
+  return sample_format_attribute_ == nullptr
+  ? 0 : sample_format_attribute_->sample_size;
 }
 
 int FFFrame::GetNumOfChannel() {
-  return this->av_frame_->channels;
+  return av_frame_->channels;
 }
 
 int FFFrame::GetNumOfSample() {
-  return this->av_frame_->nb_samples;
+  return av_frame_->nb_samples;
 }
 
 int FFFrame::GetSampleRate() {
-  return this->av_frame_->sample_rate;
+  return av_frame_->sample_rate;
 }
 
 }

@@ -11,6 +11,9 @@ namespace common {
 
 DEFINE_SLOT(ENTRY_SLOT, player::play_entry_sptr);
 
+DEFINE_SLOT(VIDEO_OUTPUT_CTL_SLOT, common::Signal);
+DEFINE_SLOT(VIDEO_OUTPUT_STREAM_SLOT, demux::stream::stream_sptr);
+
 DEFINE_SLOT(AUDIO_OUTPUT_CTL_SLOT, common::Signal);
 DEFINE_SLOT(AUDIO_OUTPUT_STREAM_SLOT, demux::stream::stream_sptr);
 

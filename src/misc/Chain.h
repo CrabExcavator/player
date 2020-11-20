@@ -58,7 +58,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    * @return pointer to *this
    */
   chain_sptr<T> AddLast(chain_node_sptr<T> node) {
-    this->_queue.emplace_back(std::move(node));
+    _queue.emplace_back(std::move(node));
     return this->shared_from_this();
   }
 
@@ -68,7 +68,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    * @return pointer to *this
    */
   chain_sptr<T> AddFirst(chain_node_sptr<T> node) {
-    this->_queue.emplace_front(std::move(node));
+    _queue.emplace_front(std::move(node));
     return this->shared_from_this();
   }
 
@@ -84,7 +84,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
     auto err = common::Error::SUCCESS;
     auto current = in;
     auto next = out;
-    for (auto &node : this->_queue) {
+    for (auto &node : _queue) {
       err = node->Filter(current, next);
       if (err != common::Error::SUCCESS) {
         return err;
@@ -107,7 +107,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
     auto err = common::Error::SUCCESS;
     vector_sptr<T> current = nullptr;
     auto next = out;
-    for (auto &node : this->_queue) {
+    for (auto &node : _queue) {
       err = node->Flush(current, next);
       if (err != common::Error::SUCCESS) {
         return err;
@@ -125,7 +125,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
    */
   common::Error Close() {
     auto err = common::Error::SUCCESS;
-    for (auto &node : this->_queue) {
+    for (auto &node : _queue) {
       if (err != common::Error::SUCCESS) {
         err = node->Close();
       }

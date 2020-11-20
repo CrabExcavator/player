@@ -14,8 +14,8 @@ namespace common {
 class Config;
 using config_sptr = std::shared_ptr<Config>;
 
-class SyncContext;
-using sync_ctx_sptr = std::shared_ptr<SyncContext>;
+//class SyncContext;
+//using sync_ctx_sptr = std::shared_ptr<SyncContext>;
 }
 
 namespace misc {
@@ -86,6 +86,8 @@ using event_handler_chain_sptr = misc::chain_sptr<input_ctx_sptr>;
 }
 }
 
+namespace output {
+
 namespace video {
 class VideoOutput;
 using vo_sptr = std::shared_ptr<VideoOutput>;
@@ -95,9 +97,6 @@ class VideoDriver;
 using video_driver_uptr = std::unique_ptr<VideoDriver>;
 }
 }
-
-
-namespace output {
 
 namespace audio {
 class AudioOutput;

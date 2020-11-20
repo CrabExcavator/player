@@ -35,8 +35,8 @@ static std::map<SampleFormat, uint> unitSizeMap = {
 };
 
 DriverPortAudio::~DriverPortAudio() {
-  this->buffer_.close();
-  Pa_StopStream(this->stream_);
+  buffer_.close();
+  Pa_StopStream(stream_);
   Pa_Terminate();
 }
 
@@ -59,7 +59,7 @@ common::Error DriverPortAudio::Init(ao_sptr ao) {
   unit_size = unitSizeMap.at(ao->sample_format_);
 
   if (Pa_OpenStream(
-      &this->stream_,
+      &stream_,
       nullptr,
       &outputParameters,
       ao->sample_rate_,
@@ -71,7 +71,7 @@ common::Error DriverPortAudio::Init(ao_sptr ao) {
     return common::Error::audioDriverInitFail;
   }
 
-  if (Pa_SetStreamFinishedCallback(this->stream_,
+  if (Pa_SetStreamFinishedCallback(stream_,
                                    &DriverPortAudio::paStreamFinished) != paNoError) {
     return common::Error::audioDriverInitFail;
   }
@@ -89,7 +89,7 @@ common::Error DriverPortAudio::Play(ao_sptr ao) {
             // do nothing
           } else {
             for (auto aData : *data) {
-              this->buffer_.put(aData.GetPtr(), cur, ao->size_of_sample_);
+              buffer_.put(aData.GetPtr(), cur, ao->size_of_sample_);
             }
           }
           cur += ao->size_of_sample_;
@@ -100,15 +100,15 @@ common::Error DriverPortAudio::Play(ao_sptr ao) {
         break;
       }
     }
-    if (Pa_IsStreamStopped(this->stream_)) {
-      Pa_StartStream(this->stream_);
+    if (Pa_IsStreamStopped(stream_)) {
+      Pa_StartStream(stream_);
     }
   }
   return common::Error::SUCCESS;
 }
 
 common::Error DriverPortAudio::Stop(ao_sptr ao) {
-  Pa_StopStream(this->stream_);
+  Pa_StopStream(stream_);
   return common::Error::SUCCESS;
 }
 
@@ -131,7 +131,7 @@ int DriverPortAudio::paCallback(const void *inputBuffer, void *outputBuffer, uns
 
 int DriverPortAudio::paCallbackMethod(const void *inputBuffer, void *outputBuffer, unsigned long samplesPerBuffer,
                                       const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags) {
-  this->buffer_.get(static_cast<uint8_t *>(outputBuffer), 0, num_of_channel * unit_size * samplesPerBuffer);
+  buffer_.get(static_cast<uint8_t *>(outputBuffer), 0, num_of_channel * unit_size * samplesPerBuffer);
   return paContinue;
 }
 

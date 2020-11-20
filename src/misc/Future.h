@@ -28,7 +28,7 @@ class FutureNode {
 
  public:
   common::Error Join() {
-    this->thread_.join();
+    thread_.join();
     return error_;
   }
 
@@ -41,8 +41,8 @@ class FutureNode {
   }
 
   common::Error Init(misc::runnable_sptr runner) {
-    this->runner_ = std::move(runner);
-    this->thread_ = std::thread([&](){
+    runner_ = std::move(runner);
+    thread_ = std::thread([&](){
       error_ = runner_->Run();
     });
     return common::Error::SUCCESS;

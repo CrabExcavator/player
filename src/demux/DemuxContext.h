@@ -33,8 +33,7 @@ class DemuxContext : public misc::Runnable, public misc::Looper<60>, public std:
    * @param [in] player_ctx
    * @return error code
    */
-  common::Error Init(const input::input_ctx_sptr &input_ctx,
-                     const common::sync_ctx_sptr &sync_ctx);
+  common::Error Init(const input::input_ctx_sptr &input_ctx);
 
   /**
    * @brief run
@@ -52,11 +51,6 @@ class DemuxContext : public misc::Runnable, public misc::Looper<60>, public std:
   bool LoopImpl() override;
 
  private:
-  /**
-   * @brief sync should setNumOfStream in demuxer, because demuxer know the number of stream
-   */
-  common::sync_ctx_sptr sync_ctx_;
-
   /**
    * @brief demuxer for entry
    */

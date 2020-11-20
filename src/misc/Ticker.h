@@ -19,30 +19,30 @@ class Ticker {
   common::Error Init(uint64_t hz) {
     auto ret = common::Error::SUCCESS;
 
-    this->hz_ = hz;
-    this->tick_ = 0;
-    this->tick_duration_ =
+    hz_ = hz;
+    tick_ = 0;
+    tick_duration_ =
         std::chrono::duration_cast<std::chrono::nanoseconds>
-            (std::chrono::duration<double>(1.0/this->hz_));
-    this->last_tick_point_ = std::chrono::steady_clock::now();
+            (std::chrono::duration<double>(1.0/hz_));
+    last_tick_point_ = std::chrono::steady_clock::now();
     return ret;
   }
 
   void Wait() {
-    std::this_thread::sleep_until(this->last_tick_point_ + this->tick_duration_);
-    this->last_tick_point_ = std::chrono::steady_clock::now();
+    std::this_thread::sleep_until(last_tick_point_ + tick_duration_);
+    last_tick_point_ = std::chrono::steady_clock::now();
   }
 
   void AdjustHZ(uint64_t hz) {
-    this->hz_ = hz;
+    hz_ = hz;
   }
 
   uint64_t HZ() {
-    return this->hz_;
+    return hz_;
   }
 
   uint64_t CurrentTick() {
-    return this->tick_;
+    return tick_;
   }
 
  private:

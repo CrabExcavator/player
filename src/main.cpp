@@ -3,10 +3,23 @@
 // Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
-namespace osal {
-extern int player_main(int argc, char *argv[]);
-}
+#include <glog/logging.h>
+
+#include "player/PlayerContext.h"
+#include "misc/Init.h"
 
 int main(int argc, char *argv[]) {
-  return osal::player_main(argc, argv);
+  auto ret = common::Error::SUCCESS;
+
+  misc::Init _(argc, argv);
+  auto player_context = std::make_shared<player::PlayerContext>();
+  if (common::Error::SUCCESS != (ret = player_context->Init())) {
+    LOG(INFO) << "player ctx Init fail";
+  } else if (common::Error::SUCCESS != (ret = player_context->Run())) {
+    LOG(INFO) << "player ctx run fail";
+  } else {
+    LOG(INFO) << "success return";
+  }
+
+  return 0;
 }

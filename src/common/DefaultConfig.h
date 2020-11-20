@@ -52,7 +52,7 @@ class DefaultConfig {
    */
   static misc::Pocket<int> default_queue_size;
 
-  static misc::Pocket<int> default_ticker_hz;
+  static misc::Pocket<int> default_tick_hz;
 
 };
 

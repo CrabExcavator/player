@@ -8,7 +8,7 @@
 
 #include <map>
 
-namespace video {
+namespace output::video {
 
 /**
  * @brief image format supported by player

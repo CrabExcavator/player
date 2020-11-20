@@ -8,7 +8,6 @@
 
 #include <cstdint>
 
-#include "common/SyncContext.h"
 #include "misc/typeptr.h"
 
 namespace output {
@@ -17,9 +16,9 @@ namespace output {
  * @brief enum output
  */
 enum class OutputPort {
-  null = 0, /**< enum value is 0 */
-  video = 1, /**< enum value is 1 */
-  audio = 2, /**< enum value is 2 */
+  EMPTY = 0, /**< enum value is 0 */
+  VIDEO = 1, /**< enum value is 1 */
+  AUDIO = 2, /**< enum value is 2 */
 };
 
 }

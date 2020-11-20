@@ -20,24 +20,24 @@ class Slice {
   Slice(const Slice &rhs) = default;
 
   Slice(Slice &&rhs) noexcept {
-    this->ptr_ = rhs.ptr_;
-    this->length_ = rhs.length_;
+    ptr_ = rhs.ptr_;
+    length_ = rhs.length_;
   }
 
   Slice &operator = (const Slice &rhs) = default;
 
   Slice &operator = (Slice &&rhs) noexcept {
-    this->ptr_ = rhs.ptr_;
-    this->length_ = rhs.length_;
+    ptr_ = rhs.ptr_;
+    length_ = rhs.length_;
     return *this;
   }
 
   uint8_t *GetPtr() {
-    return this->ptr_;
+    return ptr_;
   }
 
   uint64_t GetLength() const {
-    return this->length_;
+    return length_;
   }
 
   common::Error Copy(uint8_t *buffer) {

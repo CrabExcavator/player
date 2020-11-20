@@ -43,8 +43,8 @@ class IFrame {
 
   //////////////////////////////          video          //////////////////////////////
 
-  virtual video::ImageFormat GetImageFormat() {
-    return video::ImageFormat::unknown;
+  virtual output::video::ImageFormat GetImageFormat() {
+    return output::video::ImageFormat::unknown;
   }
 
   virtual int GetWidth() {

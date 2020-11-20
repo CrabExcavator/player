@@ -36,7 +36,7 @@ class Buffer {
    * @param rhs
    */
   Buffer(const Buffer &rhs) {
-    this->_array = rhs._array;
+    _array = rhs._array;
   }
 
   /**
@@ -44,7 +44,7 @@ class Buffer {
    * @param rhs
    */
   Buffer(Buffer &&rhs) noexcept {
-    this->_array = std::move(rhs._array);
+    _array = std::move(rhs._array);
   }
 
   /**
@@ -53,7 +53,7 @@ class Buffer {
    * @return
    */
   Buffer &operator=(const Buffer &rhs) {
-    this->_array = rhs._array;
+    _array = rhs._array;
   }
 
   /**
@@ -62,7 +62,7 @@ class Buffer {
    * @return
    */
   Buffer &operator=(Buffer &&rhs) noexcept {
-    this->_array = std::move(rhs._array);
+    _array = std::move(rhs._array);
   }
 
   /**
@@ -73,25 +73,25 @@ class Buffer {
    */
   template<typename INT1, typename INT2>
   void put(const T *src, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(this->_mutex);
-    while (!this->_close) {
+    std::unique_lock<std::mutex> lock(_mutex);
+    while (!_close) {
       auto flag =
-          this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return this->_put_cond(numOfEle); });
-      if (this->_close) return;
+          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _put_cond(numOfEle); });
+      if (_close) return;
       if (flag) {
         break;
       } else {
         continue;
       }
     }
-    int nxt_tail = this->_tail + numOfEle;
+    int nxt_tail = _tail + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      this->_array[(this->_tail + i) % Size] = src[beginOfEle + i];
+      _array[(_tail + i) % Size] = src[beginOfEle + i];
     }
-    this->_tail = nxt_tail % Size;
-    this->_buffered_ele += numOfEle;
+    _tail = nxt_tail % Size;
+    _buffered_ele += numOfEle;
     lock.unlock();
-    this->_cond.notify_one();
+    _cond.notify_one();
   }
 
   /**
@@ -103,25 +103,25 @@ class Buffer {
    */
   template<typename INT1, typename INT2, size_t oSize>
   void put(const std::array<T, oSize> &src, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(this->_mutex);
-    while (!this->_close) {
+    std::unique_lock<std::mutex> lock(_mutex);
+    while (!_close) {
       auto flag =
-          this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return this->_put_cond(numOfEle); });
-      if (this->_close) return;
+          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _put_cond(numOfEle); });
+      if (_close) return;
       if (flag) {
         break;
       } else {
         continue;
       }
     }
-    int nxt_tail = this->_tail + numOfEle;
+    int nxt_tail = _tail + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      this->_array[(this->_tail + i) % Size] = src[(beginOfEle + i) % oSize];
+      _array[(_tail + i) % Size] = src[(beginOfEle + i) % oSize];
     }
-    this->_tail = nxt_tail % Size;
-    this->_buffered_ele += numOfEle;
+    _tail = nxt_tail % Size;
+    _buffered_ele += numOfEle;
     lock.unlock();
-    this->_cond.notify_one();
+    _cond.notify_one();
   }
 
   /**
@@ -132,25 +132,25 @@ class Buffer {
    */
   template<typename INT1, typename INT2>
   void get(T *dst, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(this->_mutex);
-    while (!this->_close) {
+    std::unique_lock<std::mutex> lock(_mutex);
+    while (!_close) {
       auto flag =
-          this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return this->_get_cond(numOfEle); });
-      if (this->_close) return;
+          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _get_cond(numOfEle); });
+      if (_close) return;
       if (flag) {
         break;
       } else {
         continue;
       }
     }
-    int nxt_head = this->_head + numOfEle;
+    int nxt_head = _head + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      dst[beginOfEle + i] = this->_array[(this->_head + i) % Size];
+      dst[beginOfEle + i] = _array[(_head + i) % Size];
     }
-    this->_head = nxt_head % Size;
-    this->_buffered_ele -= numOfEle;
+    _head = nxt_head % Size;
+    _buffered_ele -= numOfEle;
     lock.unlock();
-    this->_cond.notify_one();
+    _cond.notify_one();
   }
 
   /**
@@ -162,44 +162,44 @@ class Buffer {
    */
   template<typename INT1, typename INT2, size_t oSize>
   void get(std::array<T, oSize> &dst, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(this->_mutex);
-    while (!this->_close) {
+    std::unique_lock<std::mutex> lock(_mutex);
+    while (!_close) {
       auto flag =
-          this->_cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return this->_get_cond(numOfEle); });
-      if (this->_close) return;
+          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _get_cond(numOfEle); });
+      if (_close) return;
       if (flag) {
         break;
       } else {
         continue;
       }
     }
-    int nxt_head = this->_head + numOfEle;
+    int nxt_head = _head + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      dst[(beginOfEle + i) % oSize] = this->_array[(this->_head + i) % Size];
+      dst[(beginOfEle + i) % oSize] = _array[(_head + i) % Size];
     }
-    this->_head = nxt_head % Size;
-    this->_buffered_ele -= numOfEle;
+    _head = nxt_head % Size;
+    _buffered_ele -= numOfEle;
     lock.unlock();
-    this->_cond.notify_one();
+    _cond.notify_one();
   }
 
   /**
    * @brief clear all ele
    */
   void clear() {
-    this->_mutex.lock();
-    DEFER([&]() { this->_mutex.unlock(); });
-    this->_close = false;
-    this->_head = 0;
-    this->_tail = 0;
-    this->_buffered_ele = 0;
+    _mutex.lock();
+    DEFER([&]() { _mutex.unlock(); });
+    _close = false;
+    _head = 0;
+    _tail = 0;
+    _buffered_ele = 0;
   }
 
   /**
    * @brief close buffer and release all choke thread
    */
   void close() {
-    this->_close = true;
+    _close = true;
   }
 
   /**
@@ -207,7 +207,7 @@ class Buffer {
    * @return size of buffer
    */
   int size() {
-    return this->_buffered_ele;
+    return _buffered_ele;
   }
 
  private:
@@ -217,7 +217,7 @@ class Buffer {
    * @return
    */
   inline bool _get_cond(int numOfEle) {
-    return this->_buffered_ele >= numOfEle;
+    return _buffered_ele >= numOfEle;
   }
 
   /**
@@ -226,7 +226,7 @@ class Buffer {
    * @return
    */
   inline bool _put_cond(int numOfEle) {
-    return numOfEle + this->_buffered_ele <= Size;
+    return numOfEle + _buffered_ele <= Size;
   }
 
  private:

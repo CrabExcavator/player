@@ -69,8 +69,8 @@ class Pocket {
     if (this == &rhs) {
       return *this;
     }
-    this->_key = rhs._key;
-    this->_value = rhs._value;
+    _key = rhs._key;
+    _value = rhs._value;
     return *this;
   }
 
@@ -80,8 +80,8 @@ class Pocket {
    * @return
    */
   Pocket<T> &operator=(Pocket<T> &&rhs) noexcept {
-    this->_key = std::move(rhs._key);
-    this->_value = std::move(rhs._value);
+    _key = std::move(rhs._key);
+    _value = std::move(rhs._value);
     return *this;
   }
 
@@ -95,7 +95,7 @@ class Pocket {
    * @return key
    */
   [[nodiscard]] const std::string &getKey() const {
-    return this->_key;
+    return _key;
   }
 
   /**
@@ -103,7 +103,7 @@ class Pocket {
    * @return value
    */
   const T &getValue() const {
-    return this->_value;
+    return _value;
   }
 
  private:

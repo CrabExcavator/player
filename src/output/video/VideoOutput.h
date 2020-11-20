@@ -15,19 +15,19 @@
 #include "misc/Thread.h"
 #include "misc/typeptr.h"
 #include "common/Error.h"
-#include "misc/Runnable.h"
+#include "output/IOutput.h"
 
-namespace video {
+namespace output::video {
 
 /**
  * @brief video output
  */
-class VideoOutput : public misc::Runnable, public std::enable_shared_from_this<VideoOutput> {
+ class VideoOutput : public output::IOutput, public std::enable_shared_from_this<VideoOutput> {
  public:
   /**
    * @brief default
    */
-  VideoOutput();
+  VideoOutput() = default;
 
   /**
    * @brief delete
@@ -65,7 +65,7 @@ class VideoOutput : public misc::Runnable, public std::enable_shared_from_this<V
    * @param [in] sync_ctx
    * @return error code
    */
-  common::Error Init(const input::input_ctx_sptr &input_ctx, const common::sync_ctx_sptr &sync_ctx);
+  common::Error Init(const input::input_ctx_sptr &input_ctx);
 
   /**
    * @brief run
@@ -86,10 +86,10 @@ class VideoOutput : public misc::Runnable, public std::enable_shared_from_this<V
   common::Error LoopInMainThread();
 
   /**
-   * @brief stop video output thread
+   * @brief stop video output
    * @return error code
    */
-  common::Error StopRunning();
+  common::Error Stop();
 
  public:
   /**
@@ -132,18 +132,13 @@ class VideoOutput : public misc::Runnable, public std::enable_shared_from_this<V
    * @brief loop in tick
    * @return running
    */
-  bool Loop();
+  bool LoopImpl() override;
 
  private:
   /**
    * @brief flag to mark running
    */
   bool running_ = false;
-
-  /**
-   * @brief thread
-   */
-  misc::Thread thread_;
 
   /**
    * @brief video driver
@@ -169,10 +164,6 @@ class VideoOutput : public misc::Runnable, public std::enable_shared_from_this<V
    * @brief input context
    */
   input::input_ctx_sptr input_ctx_;
-
-  uint64_t version_ = 0;
-
-  common::sync_ctx_sptr sync_ctx_ = nullptr;
 
   demux::frame::frame_sptr frame_ = nullptr;
 

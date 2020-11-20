@@ -15,7 +15,7 @@ namespace input {
  */
 enum class Event : std::uint64_t {
   /// internal
-  exit = 0x0000, /**< enum value 0x0000 */
+  EXIT = 0x0000, /**< enum value 0x0000 */
 };
 
 }

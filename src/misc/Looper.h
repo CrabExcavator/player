@@ -16,7 +16,7 @@ template <uint64_t hz>
 class Looper {
  public:
   Looper() {
-    this->ticker_.Init(hz);
+    ticker_.Init(hz);
   }
 
   virtual ~Looper() = default;
@@ -25,12 +25,12 @@ class Looper {
   virtual bool LoopImpl() = 0;
 
   bool Loop() {
-    this->ticker_.Wait();
-    return this->LoopImpl();
+    ticker_.Wait();
+    return LoopImpl();
   }
 
   void AdjustHZ(uint64_t _hz) {
-    this->ticker_.AdjustHZ(_hz);
+    ticker_.AdjustHZ(_hz);
   }
 
  private:

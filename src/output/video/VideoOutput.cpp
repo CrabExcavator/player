@@ -6,126 +6,111 @@
 #include "VideoOutput.h"
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
-#include "common/SyncContext.h"
 #include "player/PlayerContext.h"
 #include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
+#include "common/Slots.h"
 
-namespace video {
+namespace output::video {
 
-static common::sync_ctx_sptr _sync = nullptr;
+common::Error VideoOutput::Init(const input::input_ctx_sptr &input_ctx) {
+  auto ret = common::Error::SUCCESS;
+  input_ctx_ = input_ctx;
+  window_width_ = GET_CONFIG(window_width);
+  window_height_ = GET_CONFIG(window_height);
+  driver_ = driver::DriverFactory::create(GET_CONFIG(vo_driver));
+  running_ = true;
 
-VideoOutput::VideoOutput() : thread_("vo") {
+  if (common::Error::SUCCESS != driver_->init(shared_from_this())) {
+    ret = common::Error::UNKNOWN_ERROR;
+  } else {
+    AdjustHZ(GET_CONFIG(default_tick_hz));
+  }
 
-}
-
-common::Error VideoOutput::Init(const input::input_ctx_sptr &input_ctx, const common::sync_ctx_sptr &sync_ctx) {
-  this->input_ctx_ = input_ctx;
-  this->window_width_ = GET_CONFIG(window_width);
-  this->window_height_ = GET_CONFIG(window_height);
-  this->driver_ = driver::DriverFactory::create(GET_CONFIG(vo_driver));
-  this->driver_->init(shared_from_this());
-  this->sync_ctx_ = sync_ctx;
-  this->version_ = sync_ctx->version;
-  this->running_ = true;
-  this->thread_.run([&]() {
-    do {} while (this->Loop());
-  });
-  return common::Error::SUCCESS;
+  return ret;
 }
 
 common::Error VideoOutput::Run() {
-  do {} while (this->Loop());
+  do {} while (LoopImpl());
+  return common::Error::SUCCESS;
+}
+
+common::Error VideoOutput::Stop() {
+  running_ = false;
   return common::Error::SUCCESS;
 }
 
 input::input_ctx_sptr VideoOutput::GetInputCtx() {
-  return this->input_ctx_;
+  return input_ctx_;
 }
 
-bool VideoOutput::Loop() {
-  if (this->running_) {
+bool VideoOutput::LoopImpl() {
+  if (running_) {
     /// force reConfig
-    if (this->need_re_config_) {
-      this->driver_->reConfig(shared_from_this());
-      this->need_re_config_ = false;
+    if (need_re_config_) {
+      driver_->reConfig(shared_from_this());
+      need_re_config_ = false;
     }
 
-    if (this->frame_ != nullptr && !this->frame_->IsLast()) {
+    if (nullptr != frame_ && !frame_->IsLast()) {
       /**
        * we can not just dive into playback code with sync reason
        * sync with system clock
        */
-      auto rendering_time = (this->frame_->GetPts() - this->last_pts_) * this->time_base_ + this->last_tick_;
+      auto rendering_time = (frame_->GetPts() - last_pts_) * time_base_ + last_tick_;
       std::this_thread::sleep_until(rendering_time);
-      this->last_tick_ = std::chrono::steady_clock::now();
-      this->last_pts_ = this->frame_->GetPts();
-
-      /**
-       * we can not just dive into playback code with sync reason
-       * sync with other output
-       */
-      //_sync->wait();
+      last_tick_ = std::chrono::steady_clock::now();
+      last_pts_ = frame_->GetPts();
 
       /// playback
-      this->frame_rendering_ = this->frame_;
-      this->driver_->drawImage(shared_from_this());
-      this->frame_rendering_ = nullptr;
+      frame_rendering_ = frame_;
+      driver_->drawImage(shared_from_this());
+      frame_rendering_ = nullptr;
       /// playback
 
-      this->frame_ = nullptr;
+      frame_ = nullptr;
     }
 
-    if (this->version_ != this->sync_ctx_->version) {
-      this->sync_ctx_->getVideoStream(this->stream_);
-      this->version_ = this->sync_ctx_->version;
-    }
-
-    if (this->stream_ != nullptr && this->stream_->Read(this->frame_) == common::Error::SUCCESS) {
-      /**
-       * setNumOfStream driver if some args not match, idk is it ok putting in first frame
-       */
-      if (this->frame_->GetImageFormat() != this->image_format_) {
-        this->image_format_ = this->frame_->GetImageFormat();
-        this->driver_->reConfig(shared_from_this());
-      }
-      if (this->frame_->GetHeight() != this->img_height_ || this->frame_->GetWidth() != this->img_pitch_) {
-        this->img_height_ = this->frame_->GetHeight();
-        this->img_pitch_ = this->frame_->GetWidth();
-        this->driver_->reConfig(shared_from_this());
-      }
-
+    if (nullptr != stream_ &&
+        common::Error::SUCCESS == stream_->Read(frame_)) {
       /**
        * we should do something for first frame
        * @attention the first frame always carry data
        */
-      if (this->frame_->IsFirst()) {
-        this->last_tick_ = std::chrono::steady_clock::now() + std::chrono::seconds(1);
-        this->last_pts_ = 0;
-        this->time_base_ = this->stream_->GetTimeBase();
+      if (frame_->IsFirst()) {
+        image_format_ = frame_->GetImageFormat();
+        driver_->reConfig(shared_from_this());
+        img_height_ = frame_->GetHeight();
+        img_pitch_ = frame_->GetWidth();
+        driver_->reConfig(shared_from_this());
+        last_tick_ = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+        last_pts_ = 0;
+        time_base_ = stream_->GetTimeBase();
       }
 
       /**
        * we should do something for last frame
        * @attention the last frame never carry data
        */
-      if (this->frame_->IsLast()) {
+      if (frame_->IsLast()) {
         /// @todo do something
-        this->stream_ = nullptr;
+        stream_ = nullptr;
+      }
+    }
+
+    /// video output ctl
+    common::Signal signal;
+    if (GET_FROM_SLOT(VIDEO_OUTPUT_CTL_SLOT, signal)) {
+      if (common::Signal::NEXT_STREAM == signal) {
+        stream_ = BLOCKING_GET_FROM_SLOT(VIDEO_OUTPUT_STREAM_SLOT);
       }
     }
   }
-  return this->running_;
+  return running_;
 }
 
 common::Error VideoOutput::LoopInMainThread() {
-  this->driver_->waitEvents(shared_from_this());
-  return common::Error::SUCCESS;
-}
-
-common::Error VideoOutput::StopRunning() {
-  this->running_ = false;
-  this->thread_.join();
+  driver_->waitEvents(shared_from_this());
   return common::Error::SUCCESS;
 }
 

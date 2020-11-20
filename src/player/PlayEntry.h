@@ -76,7 +76,7 @@ class PlayEntry {
    * @return
    */
   bool operator<(const PlayEntry &rhs) const {
-    return (this->type < rhs.type) || (this->type == rhs.type && this->uri < rhs.uri);
+    return (type < rhs.type) || (type == rhs.type && uri < rhs.uri);
   }
 
  public:

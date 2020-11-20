@@ -36,7 +36,7 @@ class AudioOutput : public IOutput, public std::enable_shared_from_this<AudioOut
    * @param [in] sync_ctx player context
    * @return error code
    */
-  common::Error Init(const common::sync_ctx_sptr &sync_ctx);
+  common::Error Init();
 
   common::Error Run() override;
 
@@ -91,10 +91,6 @@ class AudioOutput : public IOutput, public std::enable_shared_from_this<AudioOut
    * @brief impl of driver
    */
   audio::driver::audio_driver_uptr driver_ = nullptr;
-
-  uint64_t version_ = 0;
-
-  common::sync_ctx_sptr sync_ctx_ = nullptr;
 
   demux::frame::frame_sptr frame_ = nullptr;
 

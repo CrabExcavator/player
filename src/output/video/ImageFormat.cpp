@@ -5,7 +5,7 @@
 
 #include "ImageFormat.h"
 
-namespace video {
+namespace output::video {
 
 std::map<ImageFormat, ImageFormatAttribute *> ImageFormatAttributeMap = {
     {ImageFormat::yuv420p, new ImageFormatAttribute{

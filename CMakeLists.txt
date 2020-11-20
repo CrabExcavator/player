@@ -41,7 +41,6 @@ set(
         src/misc/Buffer.h
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
-        src/common/SyncContext.cpp
         src/common/Slots.cpp
         src/player/PlayerContext.cpp
         src/player/PlayList.cpp
@@ -54,10 +53,10 @@ set(
         src/output/audio/driver/DriverFactory.cpp
         src/output/audio/driver/DriverPortAudio.cpp
         src/output/audio/SampleFormat.cpp
+        src/output/IOutput.cpp
         src/input/InputContext.cpp
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp
-        src/output/IOutput.cpp
         src/demux/DemuxContext.cpp
         src/demux/stream/FFStream.cpp
         src/demux/demuxer/FFDemuxer.cpp
@@ -84,7 +83,6 @@ set(
         RELEASE_SOURCE
         ${COMMON_SOURCE}
         src/main.cpp
-        src/osal/main_osx.cpp
 )
 set(
         RELEASE_LIB
