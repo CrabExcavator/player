@@ -53,7 +53,6 @@ set(
         src/output/audio/driver/DriverFactory.cpp
         src/output/audio/driver/DriverPortAudio.cpp
         src/output/audio/SampleFormat.cpp
-        src/output/IOutput.cpp
         src/input/InputContext.cpp
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp

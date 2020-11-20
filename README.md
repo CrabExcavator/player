@@ -10,7 +10,8 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + ~~doc support(use doxygen)~~
 + ~~error code~~
 + ~~event handler~~
-+ dispatch Stream to Output
++ ~~dispatch Stream to Output~~
++ resample
 + video sync with audio
 + serializer
 + config

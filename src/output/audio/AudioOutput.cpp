@@ -15,7 +15,7 @@ namespace output::audio {
 common::Error AudioOutput::Init() {
   driver_ = driver::DriverFactory::create(GET_CONFIG(ao_driver));
   running_ = true;
-  AdjustHZ(GET_CONFIG(default_tick_hz));
+  AdjustHZ(UINT64_MAX);
   return common::Error::SUCCESS;
 }
 
@@ -61,6 +61,7 @@ bool AudioOutput::LoopImpl() {
         num_of_channel_ = frame_->GetNumOfChannel();
         size_of_sample_ = frame_->GetSampleSize();
         sample_rate_ = frame_->GetSampleRate();
+        LOG(INFO) << num_of_channel_ << " " << size_of_sample_ << " " << sample_rate_;
         driver_->Init(shared_from_this());
       }
 
