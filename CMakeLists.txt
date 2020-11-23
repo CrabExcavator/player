@@ -53,6 +53,7 @@ set(
         src/output/audio/driver/DriverFactory.cpp
         src/output/audio/driver/DriverPortAudio.cpp
         src/output/audio/SampleFormat.cpp
+        src/output/audio/ChannelLayout.cpp
         src/input/InputContext.cpp
         src/input/handler/EventHandlerBase.cpp
         src/input/handler/Universal.cpp
@@ -60,8 +61,8 @@ set(
         src/demux/stream/FFStream.cpp
         src/demux/demuxer/FFDemuxer.cpp
         src/demux/demuxer/DemuxerFactory.cpp
-        src/demux/frame/IFrame.cpp
         src/demux/frame/FFFrame.cpp
+        src/tool/resample/FFResample.cpp
 )
 set(
         COMMON_LIB

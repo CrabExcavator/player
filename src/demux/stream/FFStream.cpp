@@ -10,11 +10,6 @@
 
 namespace demux::stream {
 
-/// @todo put in misc/avheader.h
-static void avcodec_free_context_wrapper(AVCodecContext *ctx) {
-  avcodec_free_context(&ctx);
-}
-
 common::Error FFStream::Init(const AVStream *stream) {
   auto codecParm = stream->codecpar;
   if (codecParm->codec_type == AVMEDIA_TYPE_AUDIO) {

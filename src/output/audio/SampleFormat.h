@@ -6,6 +6,7 @@
 #ifndef PLAYER_SAMPLE_FORMAT_H
 #define PLAYER_SAMPLE_FORMAT_H
 
+#include <cstdint>
 #include <map>
 
 namespace output::audio {
