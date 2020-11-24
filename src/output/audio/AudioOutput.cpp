@@ -41,12 +41,7 @@ bool AudioOutput::LoopImpl() {
     }
 
     if (frame_ != nullptr && !frame_->IsLast()) {
-      /// resample
-      misc::vector_sptr<misc::Slice> data = nullptr, resample_data = nullptr;
-      frame_->GetData(data);
-      tool::resample::resample_output_sptr resample_output = nullptr;
       frame_->DoResample(resample_);
-      frame_->GetData(resample_data);
 
       /// start playback
       frame_playing_ = frame_;
@@ -73,6 +68,7 @@ bool AudioOutput::LoopImpl() {
         driver_->GetDesc(shared_from_this(), dst_desc);
         auto ff_resample = std::make_shared<tool::resample::FFResample>();
         src_desc = dst_desc;
+        src_desc.sample_rate = frame_->GetSampleRate();
         src_desc.number_of_channel = num_of_channel_;
         src_desc.number_of_sample = frame_->GetNumOfSample();
         src_desc.linesize = frame_->GetAudioLineSize();

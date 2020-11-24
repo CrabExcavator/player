@@ -6,7 +6,6 @@
 #include "VideoOutput.h"
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
-#include "player/PlayerContext.h"
 #include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
 #include "common/Slots.h"

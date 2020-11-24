@@ -93,9 +93,10 @@ common::Error FFResample::operator()(const uint8_t **src_data,
   auto ff_resample_output = std::make_shared<FFResampleOutput>();
   uint8_t **dst_data = nullptr;
 
-  /// src_sample_rate * src_number_of_sample = dst_sample_rate * dst_number_of_sample
+  /// src_sample_rate / src_number_of_sample = dst_sample_rate / dst_number_of_sample
   dst_.number_of_sample =
-      av_rescale_rnd(number_of_sample, dst_.sample_rate, src_.sample_rate, AV_ROUND_UP);
+      av_rescale_rnd(swr_get_delay(swr_ctx_.get(), src_.sample_rate) + number_of_sample,
+                     dst_.sample_rate, src_.sample_rate, AV_ROUND_UP);
   if (0 > av_samples_alloc_array_and_samples(&dst_data,
                                              &dst_.linesize,
                                              dst_.number_of_channel,

@@ -11,7 +11,8 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + ~~error code~~
 + ~~event handler~~
 + ~~dispatch Stream to Output~~
-+ resample
++ ~~resample~~
++ demux too slow!
 + video sync with audio
 + serializer
 + config

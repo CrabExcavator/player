@@ -14,6 +14,12 @@
 
 namespace tool::resample {
 
+/**
+ * @brief this is struct used to describe input frame and resample output
+ *
+ * sample_format, layout, sample_rate in used for Resample Init
+ * number_of_channel, number_of_sample, linesize if used for resampling func
+ */
 struct Desc {
   output::audio::SampleFormat sample_format;
   output::audio::ChannelLayout layout;
