@@ -9,6 +9,10 @@
 #include <memory>
 #include <functional>
 extern "C" {
+#include <libavutil/avutil.h>
+#include <libavutil/opt.h>
+#include <libavutil/channel_layout.h>
+#include <libavutil/samplefmt.h>
 #include <libavcodec/codec.h>
 #include <libavformat/avformat.h>
 #include <libswresample/swresample.h>

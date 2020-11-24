@@ -110,4 +110,16 @@ using audio_driver_uptr = std::unique_ptr<AudioDriver>;
 
 }
 
+namespace tool {
+
+namespace resample {
+class IResample;
+using resample_sptr = std::shared_ptr<IResample>;
+
+class IResampleOutput;
+using resample_output_sptr = std::shared_ptr<IResampleOutput>;
+}
+
+}
+
 #endif //PLAYER_TYPEPTR_H

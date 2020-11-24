@@ -29,11 +29,6 @@ static std::map<SampleFormat, PaSampleFormat> sampleMap = {
     {SampleFormat::FLTP, paFloat32}
 };
 
-/// @todo move to other place
-static std::map<SampleFormat, uint> unitSizeMap = {
-    {SampleFormat::FLTP, 4}
-};
-
 DriverPortAudio::~DriverPortAudio() {
   buffer_.close();
   Pa_StopStream(stream_);
@@ -55,8 +50,7 @@ common::Error DriverPortAudio::Init(ao_sptr ao) {
   outputParameters.sampleFormat = sampleMap.at(ao->sample_format_);
   outputParameters.suggestedLatency = deviceInfo->defaultLowOutputLatency;
   outputParameters.hostApiSpecificStreamInfo = nullptr;
-  ao->num_of_channel_ = outputParameters.channelCount;
-  unit_size = unitSizeMap.at(ao->sample_format_);
+  unit_size = ao->size_of_sample_;
 
   if (Pa_OpenStream(
       &stream_,
@@ -84,7 +78,7 @@ common::Error DriverPortAudio::Play(ao_sptr ao) {
       case SampleFormat::FLTP: {
         int cur = 0;
         for (int sample = 0; sample < ao->frame_playing_->GetNumOfSample(); sample++) {
-          misc::vector_sptr<common::Slice> data = nullptr;
+          misc::vector_sptr<misc::Slice> data = nullptr;
           if (common::Error::SUCCESS != ao->frame_playing_->GetData(data)) {
             // do nothing
           } else {
@@ -117,6 +111,15 @@ common::Error DriverPortAudio::ReConfig(ao_sptr ao) {
 }
 
 common::Error DriverPortAudio::GetDevices(ao_sptr ao, misc::vector_sptr<std::string> &devices) {
+  return common::Error::SUCCESS;
+}
+
+common::Error DriverPortAudio::GetDesc(ao_sptr ao, tool::resample::Desc &desc) {
+  desc.number_of_channel = num_of_channel;
+  desc.sample_format = ao->sample_format_;
+  desc.sample_rate = ao->sample_rate_;
+  desc.layout = ChannelLayout::STEREO;
+
   return common::Error::SUCCESS;
 }
 

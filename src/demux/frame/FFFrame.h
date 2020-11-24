@@ -8,6 +8,7 @@
 
 #include "IFrame.h"
 #include "misc/avheader.h"
+#include "tool/resample/IResample.h"
 
 namespace demux::frame {
 
@@ -30,7 +31,7 @@ class FFFrame : public IFrame {
 
   bool IsLast() override;
 
-  common::Error GetData(misc::vector_sptr<common::Slice>& data) override;
+  common::Error GetData(misc::vector_sptr<misc::Slice>& data) override;
 
   int64_t GetPts() override;
 
@@ -50,6 +51,12 @@ class FFFrame : public IFrame {
 
   int GetSampleRate() override;
 
+  int GetAudioLineSize() override;
+
+  output::audio::ChannelLayout GetChannelLayout() override;
+
+  common::Error DoResample(tool::resample::resample_sptr &resample) override;
+
  private:
   bool first_;
 
@@ -60,6 +67,12 @@ class FFFrame : public IFrame {
   output::video::ImageFormatAttribute* image_format_attribute_;
 
   output::audio::SampleFormatAttribute* sample_format_attribute_;
+
+  tool::resample::resample_output_sptr resample_output_;
+
+  misc::vector_sptr<misc::Slice> resample_data_;
+
+  tool::resample::Desc resample_desc_;
 };
 
 }

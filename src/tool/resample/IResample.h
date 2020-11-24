@@ -8,20 +8,38 @@
 
 #include "output/audio/SampleFormat.h"
 #include "output/audio/ChannelLayout.h"
+#include "common/Error.h"
+#include "misc/Slice.h"
+#include "misc/typeptr.h"
 
 namespace tool::resample {
 
-struct Dest {
+struct Desc {
   output::audio::SampleFormat sample_format;
   output::audio::ChannelLayout layout;
+  int sample_rate;
   int number_of_channel;
   int number_of_sample;
-  int sample_rate;
   int linesize;
 };
 
-class IResample {
+class IResampleOutput {
+ public:
+  virtual ~IResampleOutput() = default;
 
+  virtual common::Error GetData(misc::vector_sptr<misc::Slice> &out) = 0;
+
+  virtual common::Error GetDesc(Desc &desc) = 0;
+};
+
+class IResample {
+ public:
+  virtual ~IResample() = default;
+
+  virtual common::Error operator() (const uint8_t **src_data,
+      int number_of_sample,
+      int line_size,
+      resample_output_sptr &resample_output) = 0;
 };
 
 }

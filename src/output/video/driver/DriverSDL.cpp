@@ -65,7 +65,7 @@ common::Error DriverSDL::drawImage(vo_sptr vo) {
     void *pixels = nullptr;
     int pitch = 0;
     SDL_LockTexture(_texture.get(), nullptr, &pixels, &pitch);
-    misc::vector_sptr<common::Slice> data = nullptr;
+    misc::vector_sptr<misc::Slice> data = nullptr;
     vo->frame_rendering_->GetData(data);
 
     /// @todo put in fmt translate func

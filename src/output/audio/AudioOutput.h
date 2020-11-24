@@ -95,6 +95,8 @@ class AudioOutput : public IOutput, public std::enable_shared_from_this<AudioOut
   demux::frame::frame_sptr frame_ = nullptr;
 
   demux::stream::stream_sptr stream_ = nullptr;
+
+  tool::resample::resample_sptr resample_ = nullptr;
 };
 
 }

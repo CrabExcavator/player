@@ -18,6 +18,8 @@ enum class ChannelLayout : std::int64_t {
   UNKNOWN = 0, /**< enum value 0 */
   STEREO, /**< enum value 1 */
   SURROUND, /**< enum value 2 */
+  _5POINT1,
+  _5POINT1_BACK,
 };
 
 struct ChannelLayoutAttribute {

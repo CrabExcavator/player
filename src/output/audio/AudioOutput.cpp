@@ -9,6 +9,7 @@
 #include "demux/frame/IFrame.h"
 #include "demux/stream/IStream.h"
 #include "common/Slots.h"
+#include "tool/resample/FFResample.h"
 
 namespace output::audio {
 
@@ -40,6 +41,12 @@ bool AudioOutput::LoopImpl() {
     }
 
     if (frame_ != nullptr && !frame_->IsLast()) {
+      /// resample
+      misc::vector_sptr<misc::Slice> data = nullptr, resample_data = nullptr;
+      frame_->GetData(data);
+      tool::resample::resample_output_sptr resample_output = nullptr;
+      frame_->DoResample(resample_);
+      frame_->GetData(resample_data);
 
       /// start playback
       frame_playing_ = frame_;
@@ -61,8 +68,17 @@ bool AudioOutput::LoopImpl() {
         num_of_channel_ = frame_->GetNumOfChannel();
         size_of_sample_ = frame_->GetSampleSize();
         sample_rate_ = frame_->GetSampleRate();
-        LOG(INFO) << num_of_channel_ << " " << size_of_sample_ << " " << sample_rate_;
         driver_->Init(shared_from_this());
+        tool::resample::Desc dst_desc{}, src_desc{};
+        driver_->GetDesc(shared_from_this(), dst_desc);
+        auto ff_resample = std::make_shared<tool::resample::FFResample>();
+        src_desc = dst_desc;
+        src_desc.number_of_channel = num_of_channel_;
+        src_desc.number_of_sample = frame_->GetNumOfSample();
+        src_desc.linesize = frame_->GetAudioLineSize();
+        src_desc.layout = frame_->GetChannelLayout();
+        ff_resample->Init(src_desc, dst_desc);
+        resample_ = ff_resample;
       }
 
       /**

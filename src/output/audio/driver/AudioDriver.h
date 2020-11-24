@@ -10,6 +10,7 @@
 
 #include "misc/typeptr.h"
 #include "common/Error.h"
+#include "tool/resample/IResample.h"
 
 namespace output::audio::driver {
 
@@ -64,6 +65,15 @@ class AudioDriver {
    */
   virtual common::Error GetDevices(ao_sptr ao,
                                    misc::vector_sptr<std::string> &devices) = 0;
+
+  /**
+   * @brief get output desc
+   * @param [in] ao audio output
+   * @param [out] desc descriptor of output device
+   * @return error code
+   */
+  virtual common::Error GetDesc(ao_sptr ao,
+                                tool::resample::Desc &desc) = 0;
 };
 
 }

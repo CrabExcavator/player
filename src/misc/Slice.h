@@ -8,7 +8,7 @@
 
 #include <cstdint>
 
-namespace common {
+namespace misc {
 
 class Slice {
  public:
@@ -36,7 +36,7 @@ class Slice {
     return ptr_;
   }
 
-  uint64_t GetLength() const {
+  [[nodiscard]] uint64_t GetLength() const {
     return length_;
   }
 

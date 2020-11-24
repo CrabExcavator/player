@@ -9,6 +9,7 @@
 #include <chrono>
 
 #include "output/audio/SampleFormat.h"
+#include "output/audio/ChannelLayout.h"
 #include "output/video/ImageFormat.h"
 #include "common/Error.h"
 #include "misc/Slice.h"
@@ -35,7 +36,7 @@ class IFrame {
    * @param [out] data
    * @return error code
    */
-  virtual common::Error GetData(misc::vector_sptr<common::Slice>& data) = 0;
+  virtual common::Error GetData(misc::vector_sptr<misc::Slice>& data) = 0;
 
   virtual int64_t GetPts() = 0;
 
@@ -77,6 +78,18 @@ class IFrame {
 
   virtual int GetSampleRate() {
     return 0;
+  }
+
+  virtual int GetAudioLineSize() {
+    return 0;
+  }
+
+  virtual output::audio::ChannelLayout GetChannelLayout() {
+    return output::audio::ChannelLayout::UNKNOWN;
+  }
+
+  virtual common::Error DoResample(tool::resample::resample_sptr &resample) {
+    return common::Error::UNKNOWN_ERROR;
   }
 
 };

@@ -82,7 +82,6 @@ set(
 set(
         RELEASE_SOURCE
         ${COMMON_SOURCE}
-        src/main.cpp
 )
 set(
         RELEASE_LIB
@@ -91,12 +90,11 @@ set(
 
 set(
         TEST_SOURCE
-        ${COMMON_SOURCE}
         test/sample.cpp
+        test/resample.cpp
 )
 set(
         TEST_LIB
-        ${COMMON_LIB}
         GTest::GTest
         GTest::Main
 )
@@ -104,11 +102,14 @@ set(
 
 ########## target ##########
 # release
-add_executable(player ${RELEASE_SOURCE})
-set_target_properties(player PROPERTIES LINK_FLAGS "-Wall -Wextra -Werror")
-target_link_libraries(player ${RELEASE_LIB})
+add_library(libplayer ${RELEASE_SOURCE})
+set_target_properties(libplayer PROPERTIES LINK_FLAGS "-Wall -Wextra -Werror")
+target_link_libraries(libplayer ${RELEASE_LIB})
+
+add_executable(player src/main.cpp)
+target_link_libraries(player libplayer)
 
 # test
 add_executable(unit_test ${TEST_SOURCE})
-target_link_libraries(unit_test ${TEST_LIB})
+target_link_libraries(unit_test  ${TEST_LIB} libplayer)
 ########## target ##########

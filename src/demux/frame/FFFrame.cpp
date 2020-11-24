@@ -7,6 +7,7 @@
 #include <glog/logging.h>
 
 #include "FFFrame.h"
+#include "tool/resample/IResample.h"
 
 namespace demux::frame {
 
@@ -18,12 +19,15 @@ static std::map<AVPixelFormat, output::video::ImageFormat> AVImageFormatMap = {
     {AV_PIX_FMT_YUV420P, output::video::ImageFormat::yuv420p}
 };
 
-FFFrame::FFFrame() :
-av_frame_(nullptr),
-first_(false),
-last_(false),
-sample_format_attribute_(nullptr),
-image_format_attribute_(nullptr) {}
+FFFrame::FFFrame():
+    av_frame_(nullptr),
+    first_(false),
+    last_(false),
+    sample_format_attribute_(nullptr),
+    image_format_attribute_(nullptr),
+    resample_output_(nullptr),
+    resample_data_(nullptr),
+    resample_desc_() {}
 
 common::Error FFFrame::Init(AVFrame *av_frame, bool first, bool last) {
   auto ret = common::Error::SUCCESS;
@@ -63,14 +67,14 @@ bool FFFrame::IsLast() {
   return last_;
 }
 
-common::Error FFFrame::GetData(misc::vector_sptr<common::Slice> &data) {
+common::Error FFFrame::GetData(misc::vector_sptr<misc::Slice> &data) {
   auto ret = common::Error::SUCCESS;
 
   assert(data == nullptr);
   if (data != nullptr) {
     ret = common::Error::INVALID_ARGS;
   }
-  data = std::make_shared<std::vector<common::Slice>>();
+  data = std::make_shared<std::vector<misc::Slice>>();
 
   if (common::Error::SUCCESS != ret) {
     // do nothing
@@ -79,17 +83,21 @@ common::Error FFFrame::GetData(misc::vector_sptr<common::Slice> &data) {
       if (output::video::ImageFormat::yuv420p == image_format_attribute_->image_format) {
         int size_y = av_frame_->height * av_frame_->linesize[0];
         int size_uv = ((av_frame_->height + 1) / 2) * ((av_frame_->linesize[0] + 1) / 2);
-        common::Slice slice_y(av_frame_->data[0], size_y);
-        common::Slice slice_u(av_frame_->data[1], size_uv);
-        common::Slice slice_v(av_frame_->data[2], size_uv);
+        misc::Slice slice_y(av_frame_->data[0], size_y);
+        misc::Slice slice_u(av_frame_->data[1], size_uv);
+        misc::Slice slice_v(av_frame_->data[2], size_uv);
         data->emplace_back(slice_y);
         data->emplace_back(slice_u);
         data->emplace_back(slice_v);
       }
     } else if (nullptr != sample_format_attribute_) {
-      for (int i = 0; av_frame_->data[i] != nullptr && i < AV_NUM_DATA_POINTERS; i++) {
-        common::Slice slice(av_frame_->data[i], av_frame_->linesize[i]);
-        data->emplace_back(slice);
+      if (nullptr != resample_output_) {
+        data = resample_data_;
+      } else {
+        for (int i = 0; av_frame_->data[i] != nullptr && i < AV_NUM_DATA_POINTERS; i++) {
+          misc::Slice slice(av_frame_->data[i], GetAudioLineSize());
+          data->emplace_back(slice);
+        }
       }
     }
   }
@@ -122,6 +130,9 @@ int FFFrame::GetHeight() {
 }
 
 output::audio::SampleFormat FFFrame::GetSampleFormat() {
+  if (nullptr != resample_output_) {
+    return resample_desc_.sample_format;
+  }
   if (sample_format_attribute_ == nullptr) {
     auto av_sample_format = static_cast<AVSampleFormat>(av_frame_->format);
     if (AVSampleFormatMap.contains(av_sample_format)) {
@@ -146,15 +157,52 @@ int FFFrame::GetSampleSize() {
 }
 
 int FFFrame::GetNumOfChannel() {
-  return av_frame_->channels;
+  return nullptr == resample_output_ ? av_frame_->channels : resample_desc_.number_of_channel;
 }
 
 int FFFrame::GetNumOfSample() {
-  return av_frame_->nb_samples;
+  return nullptr == resample_output_ ? av_frame_->nb_samples : resample_desc_.number_of_sample;
 }
 
 int FFFrame::GetSampleRate() {
-  return av_frame_->sample_rate;
+  return nullptr == resample_output_ ? av_frame_->sample_rate : resample_desc_.sample_rate;
+}
+
+int FFFrame::GetAudioLineSize() {
+  return nullptr == resample_output_ ? av_frame_->linesize[0] : resample_desc_.linesize;
+}
+
+output::audio::ChannelLayout FFFrame::GetChannelLayout() {
+  auto ret = output::audio::ChannelLayout::UNKNOWN;
+
+  if (nullptr != resample_output_) {
+    ret = resample_desc_.layout;
+  } else {
+    if (AV_CH_LAYOUT_STEREO == av_frame_->channel_layout) {
+      ret = output::audio::ChannelLayout::STEREO;
+    } else if (AV_CH_LAYOUT_SURROUND == av_frame_->channel_layout) {
+      ret = output::audio::ChannelLayout::SURROUND;
+    } else if (AV_CH_LAYOUT_5POINT1 == av_frame_->channel_layout) {
+      ret = output::audio::ChannelLayout::_5POINT1;
+    } else if (AV_CH_LAYOUT_5POINT1_BACK == av_frame_->channel_layout) {
+      ret = output::audio::ChannelLayout::_5POINT1_BACK;
+    }
+  }
+  return ret;
+}
+common::Error FFFrame::DoResample(tool::resample::resample_sptr &resample) {
+  auto ret = common::Error::SUCCESS;
+
+  resample_output_ = nullptr;
+  if (common::Error::SUCCESS !=
+  (ret = (*resample)((const uint8_t **)av_frame_->data,
+      av_frame_->nb_samples, GetAudioLineSize(), resample_output_))) {
+    LOG(WARNING) << "resample fail";
+  } else {
+    resample_output_->GetData(resample_data_);
+    resample_output_->GetDesc(resample_desc_);
+  }
+  return ret;
 }
 
 }

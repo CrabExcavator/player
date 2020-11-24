@@ -65,6 +65,8 @@ class DriverPortAudio : public AudioDriver {
    */
   common::Error GetDevices(ao_sptr ao, misc::vector_sptr<std::string> &devices) override;
 
+  common::Error GetDesc(ao_sptr ao, tool::resample::Desc &desc) override;
+
  private:
   /**
    * @brief PortAudio terminate callback wrapper
