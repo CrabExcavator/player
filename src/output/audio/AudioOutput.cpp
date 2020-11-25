@@ -41,7 +41,9 @@ bool AudioOutput::LoopImpl() {
     }
 
     if (frame_ != nullptr && !frame_->IsLast()) {
-      frame_->DoResample(resample_);
+      if (!frame_->IsFirst()) {
+        frame_->DoResample(resample_);
+      }
 
       /// start playback
       frame_playing_ = frame_;
@@ -59,13 +61,16 @@ bool AudioOutput::LoopImpl() {
        * @attention the first frame always carry data
        */
       if (frame_->IsFirst()) {
+        // init audio output
         sample_format_ = frame_->GetSampleFormat();
         num_of_channel_ = frame_->GetNumOfChannel();
         size_of_sample_ = frame_->GetSampleSize();
         sample_rate_ = frame_->GetSampleRate();
         driver_->Init(shared_from_this());
+        // get desc
         tool::resample::Desc dst_desc{}, src_desc{};
         driver_->GetDesc(shared_from_this(), dst_desc);
+        // init resample
         auto ff_resample = std::make_shared<tool::resample::FFResample>();
         src_desc = dst_desc;
         src_desc.sample_rate = frame_->GetSampleRate();
@@ -75,6 +80,13 @@ bool AudioOutput::LoopImpl() {
         src_desc.layout = frame_->GetChannelLayout();
         ff_resample->Init(src_desc, dst_desc);
         resample_ = ff_resample;
+        // open driver && resample && reInit
+        frame_->DoResample(resample_);
+        sample_format_ = frame_->GetSampleFormat();
+        num_of_channel_ = frame_->GetNumOfChannel();
+        size_of_sample_ = frame_->GetSampleSize();
+        sample_rate_ = frame_->GetSampleRate();
+        driver_->Open(shared_from_this());
       }
 
       /**

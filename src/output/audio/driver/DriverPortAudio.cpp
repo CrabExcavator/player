@@ -36,40 +36,42 @@ DriverPortAudio::~DriverPortAudio() {
 }
 
 common::Error DriverPortAudio::Init(ao_sptr ao) {
-  if (Pa_Initialize() != paNoError) {
-    return common::Error::audioDriverInitFail;
-  }
+  auto ret = common::Error::SUCCESS;
 
-  /// setNumOfStream outputParameters
+  if (paNoError != Pa_Initialize()) {
+    ret = common::Error::audioDriverInitFail;
+  }
+  return ret;
+}
+
+common::Error DriverPortAudio::Open(ao_sptr ao) {
+  auto ret = common::Error::SUCCESS;
+
   auto device = Pa_GetDefaultOutputDevice();
   auto deviceInfo = Pa_GetDeviceInfo(device);
   PaStreamParameters outputParameters;
-  outputParameters.device = Pa_GetDefaultOutputDevice();
-  num_of_channel = std::min(ao->num_of_channel_, deviceInfo->maxOutputChannels);
-  outputParameters.channelCount = num_of_channel;
+  outputParameters.device = device;
+  outputParameters.channelCount = ao->num_of_channel_;
   outputParameters.sampleFormat = sampleMap.at(ao->sample_format_);
   outputParameters.suggestedLatency = deviceInfo->defaultLowOutputLatency;
   outputParameters.hostApiSpecificStreamInfo = nullptr;
   unit_size = ao->size_of_sample_;
-
-  if (Pa_OpenStream(
-      &stream_,
-      nullptr,
-      &outputParameters,
-      ao->sample_rate_,
-      paFramesPerBufferUnspecified,
-      paClipOff,
-      &DriverPortAudio::paCallback,
-      this
-  ) != paNoError) {
-    return common::Error::audioDriverInitFail;
+  if (paNoError != Pa_OpenStream(&stream_,
+                    nullptr,
+                    &outputParameters,
+                    ao->sample_rate_,
+                    paFramesPerBufferUnspecified,
+                    paClipOff,
+                    &DriverPortAudio::paCallback,
+                    this) != paNoError) {
+    LOG(WARNING) << "pa open stream fail";
+    ret = common::Error::audioDriverInitFail;
+  } else if (paNoError != Pa_SetStreamFinishedCallback(stream_,
+                                                       &DriverPortAudio::paStreamFinished)) {
+    LOG(WARNING) << "pa set stream finished callback";
+    ret = common::Error::audioDriverInitFail;
   }
-
-  if (Pa_SetStreamFinishedCallback(stream_,
-                                   &DriverPortAudio::paStreamFinished) != paNoError) {
-    return common::Error::audioDriverInitFail;
-  }
-  return common::Error::SUCCESS;
+  return ret;
 }
 
 common::Error DriverPortAudio::Play(ao_sptr ao) {
@@ -115,12 +117,16 @@ common::Error DriverPortAudio::GetDevices(ao_sptr ao, misc::vector_sptr<std::str
 }
 
 common::Error DriverPortAudio::GetDesc(ao_sptr ao, tool::resample::Desc &desc) {
+  auto ret = common::Error::SUCCESS;
+
+  auto device = Pa_GetDefaultOutputDevice();
+  auto deviceInfo = Pa_GetDeviceInfo(device);
+  num_of_channel = std::min(ao->num_of_channel_, deviceInfo->maxOutputChannels);
   desc.number_of_channel = num_of_channel;
   desc.sample_format = ao->sample_format_;
   desc.sample_rate = ao->sample_rate_;
   desc.layout = ChannelLayout::STEREO;
-
-  return common::Error::SUCCESS;
+  return ret;
 }
 
 int DriverPortAudio::paCallback(const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer,

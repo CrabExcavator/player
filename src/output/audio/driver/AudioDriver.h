@@ -37,6 +37,13 @@ class AudioDriver {
   virtual common::Error Init(ao_sptr ao) = 0;
 
   /**
+   * @brief open audio device
+   * @param [in] ao audio output
+   * @return error code
+   */
+  virtual common::Error Open(ao_sptr ao) = 0;
+
+  /**
    * @brief playback one frame
    * @param [in] ao audio output
    * @return error code

@@ -36,6 +36,8 @@ class DriverPortAudio : public AudioDriver {
    */
   common::Error Init(ao_sptr ao) override;
 
+  common::Error Open(ao_sptr ao) override;
+
   /**
    * @brief put a frame in buffer if possible
    * @param [in] ao audio output

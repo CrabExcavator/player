@@ -82,7 +82,7 @@ common::Error DriverSDL::drawImage(vo_sptr vo) {
 }
 
 common::Error DriverSDL::waitEvents(vo_sptr vo) {
-  int timeout_ms = 100;
+  int timeout_ms = 10;
   SDL_Event ev;
   while (SDL_WaitEventTimeout(&ev, timeout_ms)) {
     timeout_ms = 0;
