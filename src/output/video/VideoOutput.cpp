@@ -30,7 +30,7 @@ common::Error VideoOutput::Init(const input::input_ctx_sptr &input_ctx) {
 }
 
 common::Error VideoOutput::Run() {
-  do {} while (LoopImpl());
+  do {} while (Loop());
   return common::Error::SUCCESS;
 }
 

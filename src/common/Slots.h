@@ -21,17 +21,17 @@ class Slot {
  public:
   Slot() : slot_(1024) {}
 
-  void BlockingPush(T ele) {
+  inline void BlockingPush(T ele) {
     slot_.blockingWrite(ele);
   }
 
-  T BlockingGet() {
+  inline T BlockingGet() {
     T ele;
     slot_.blockingRead(ele);
     return ele;
   }
 
-  bool Get(T &ele) {
+  inline bool Get(T &ele) {
     return slot_.read(ele);
   }
 
