@@ -12,11 +12,11 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + ~~event handler~~
 + ~~dispatch Stream to Output~~
 + ~~resample~~
++ ao & vo ReConfig
 + thread pool for decode & blit & resample
 + video sync with audio
 + serializer
 + config
-+ ao & vo reconfig
 + play list
 + REPL
 + osd

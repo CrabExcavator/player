@@ -62,6 +62,7 @@ set(
         src/demux/demuxer/FFDemuxer.cpp
         src/demux/demuxer/DemuxerFactory.cpp
         src/demux/frame/FFFrame.cpp
+        src/demux/frame/ResampledFrame.cpp
         src/tool/resample/FFResample.cpp
 )
 set(

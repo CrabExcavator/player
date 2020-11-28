@@ -13,6 +13,19 @@
 
 namespace output::audio {
 
+AudioOutput::AudioOutput():
+frame_playing_(nullptr),
+sample_format_(SampleFormat::UNKNOWN),
+num_of_channel_(0),
+size_of_sample_(0),
+sample_rate_(0),
+channel_layout_(ChannelLayout::UNKNOWN),
+running_(false),
+driver_(nullptr),
+frame_(nullptr),
+stream_(nullptr),
+resample_(nullptr){}
+
 common::Error AudioOutput::Init() {
   driver_ = driver::DriverFactory::create(GET_CONFIG(ao_driver));
   running_ = true;
@@ -34,15 +47,11 @@ common::Error AudioOutput::Stop() {
 
 bool AudioOutput::LoopImpl() {
   if (running_) {
-    /// force reConfig
-    if (need_re_config_) {
-      driver_->ReConfig(shared_from_this());
-      need_re_config_ = false;
-    }
-
     if (frame_ != nullptr && !frame_->IsLast()) {
       if (!frame_->IsFirst()) {
-        frame_->DoResample(resample_);
+        tool::resample::resample_output_sptr resample_output = nullptr;
+        frame_->DoResample(resample_, resample_output);
+
       }
 
       /// start playback
@@ -66,22 +75,23 @@ bool AudioOutput::LoopImpl() {
         num_of_channel_ = frame_->GetNumOfChannel();
         size_of_sample_ = frame_->GetSampleSize();
         sample_rate_ = frame_->GetSampleRate();
+        channel_layout_ = frame_->GetChannelLayout();
         driver_->Init(shared_from_this());
         // get desc
         tool::resample::Desc dst_desc{}, src_desc{};
         driver_->GetDesc(shared_from_this(), dst_desc);
         // init resample
         auto ff_resample = std::make_shared<tool::resample::FFResample>();
-        src_desc = dst_desc;
+        src_desc.sample_format = frame_->GetSampleFormat();
         src_desc.sample_rate = frame_->GetSampleRate();
-        src_desc.number_of_channel = num_of_channel_;
-        src_desc.number_of_sample = frame_->GetNumOfSample();
+        src_desc.number_of_channel = frame_->GetNumOfChannel();
         src_desc.linesize = frame_->GetAudioLineSize();
         src_desc.layout = frame_->GetChannelLayout();
         ff_resample->Init(src_desc, dst_desc);
         resample_ = ff_resample;
         // open driver && resample && reInit
-        frame_->DoResample(resample_);
+        tool::resample::resample_output_sptr resample_output = nullptr;
+        frame_->DoResample(resample_, resample_output);
         sample_format_ = frame_->GetSampleFormat();
         num_of_channel_ = frame_->GetNumOfChannel();
         size_of_sample_ = frame_->GetSampleSize();

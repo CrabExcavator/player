@@ -122,9 +122,9 @@ common::Error DriverPortAudio::GetDesc(ao_sptr ao, tool::resample::Desc &desc) {
   auto device = Pa_GetDefaultOutputDevice();
   auto deviceInfo = Pa_GetDeviceInfo(device);
   num_of_channel = std::min(ao->num_of_channel_, deviceInfo->maxOutputChannels);
-  desc.number_of_channel = num_of_channel;
   desc.sample_format = ao->sample_format_;
   desc.sample_rate = ao->sample_rate_;
+  desc.number_of_channel = num_of_channel;
   desc.layout = ChannelLayout::STEREO;
   return ret;
 }

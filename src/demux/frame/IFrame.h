@@ -88,7 +88,8 @@ class IFrame {
     return output::audio::ChannelLayout::UNKNOWN;
   }
 
-  virtual common::Error DoResample(tool::resample::resample_sptr &resample) {
+  virtual common::Error DoResample(const tool::resample::resample_sptr &resample,
+                                   tool::resample::resample_output_sptr &resample_output) {
     return common::Error::UNKNOWN_ERROR;
   }
 

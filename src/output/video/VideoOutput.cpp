@@ -12,6 +12,22 @@
 
 namespace output::video {
 
+VideoOutput::VideoOutput():
+frame_rendering_(nullptr),
+image_format_(ImageFormat::unknown),
+window_width_(1920),
+window_height_(1080),
+img_pitch_(1920),
+img_height_(1080),
+running_(false),
+driver_(nullptr),
+input_ctx_(nullptr),
+frame_(nullptr),
+stream_(nullptr),
+last_tick_(),
+time_base_(),
+last_pts_(0){}
+
 common::Error VideoOutput::Init(const input::input_ctx_sptr &input_ctx) {
   auto ret = common::Error::SUCCESS;
   input_ctx_ = input_ctx;
@@ -45,12 +61,6 @@ input::input_ctx_sptr VideoOutput::GetInputCtx() {
 
 bool VideoOutput::LoopImpl() {
   if (running_) {
-    /// force reConfig
-    if (need_re_config_) {
-      driver_->reConfig(shared_from_this());
-      need_re_config_ = false;
-    }
-
     if (nullptr != frame_ && !frame_->IsLast()) {
       /**
        * we can not just dive into playback code with sync reason
@@ -63,7 +73,7 @@ bool VideoOutput::LoopImpl() {
 
       /// playback
       frame_rendering_ = frame_;
-      driver_->drawImage(shared_from_this());
+      //driver_->drawImage(shared_from_this());
       frame_rendering_ = nullptr;
       /// playback
 
@@ -78,7 +88,6 @@ bool VideoOutput::LoopImpl() {
        */
       if (frame_->IsFirst()) {
         image_format_ = frame_->GetImageFormat();
-        driver_->reConfig(shared_from_this());
         img_height_ = frame_->GetHeight();
         img_pitch_ = frame_->GetWidth();
         driver_->reConfig(shared_from_this());

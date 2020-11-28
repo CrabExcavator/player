@@ -190,17 +190,20 @@ output::audio::ChannelLayout FFFrame::GetChannelLayout() {
   }
   return ret;
 }
-common::Error FFFrame::DoResample(tool::resample::resample_sptr &resample) {
-  auto ret = common::Error::SUCCESS;
 
-  resample_output_ = nullptr;
+common::Error FFFrame::DoResample(const tool::resample::resample_sptr &resample,
+                                  tool::resample::resample_output_sptr &resample_output) {
+  auto ret = common::Error::SUCCESS;
+  assert(resample_output == nullptr);
+
+  //resample_output_ = nullptr;
   if (common::Error::SUCCESS !=
   (ret = (*resample)((const uint8_t **)av_frame_->data,
-      av_frame_->nb_samples, GetAudioLineSize(), resample_output_))) {
+      av_frame_->nb_samples, GetAudioLineSize(), resample_output))) {
     LOG(WARNING) << "resample fail";
   } else {
-    resample_output_->GetData(resample_data_);
-    resample_output_->GetDesc(resample_desc_);
+    //resample_output_->GetData(resample_data_);
+    //resample_output_->GetDesc(resample_desc_);
   }
   return ret;
 }
