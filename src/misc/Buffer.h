@@ -36,7 +36,7 @@ class Buffer {
    * @param rhs
    */
   Buffer(const Buffer &rhs) {
-    _array = rhs._array;
+    array_ = rhs.array_;
   }
 
   /**
@@ -44,7 +44,7 @@ class Buffer {
    * @param rhs
    */
   Buffer(Buffer &&rhs) noexcept {
-    _array = std::move(rhs._array);
+    array_ = std::move(rhs.array_);
   }
 
   /**
@@ -53,7 +53,7 @@ class Buffer {
    * @return
    */
   Buffer &operator=(const Buffer &rhs) {
-    _array = rhs._array;
+    array_ = rhs.array_;
   }
 
   /**
@@ -62,7 +62,7 @@ class Buffer {
    * @return
    */
   Buffer &operator=(Buffer &&rhs) noexcept {
-    _array = std::move(rhs._array);
+    array_ = std::move(rhs.array_);
   }
 
   /**
@@ -73,25 +73,18 @@ class Buffer {
    */
   template<typename INT1, typename INT2>
   void put(const T *src, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(_mutex);
-    while (!_close) {
-      auto flag =
-          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _put_cond(numOfEle); });
-      if (_close) return;
-      if (flag) {
-        break;
-      } else {
-        continue;
-      }
-    }
-    int nxt_tail = _tail + numOfEle;
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || PutCond(numOfEle);
+    });
+    int nxt_tail = tail_ + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      _array[(_tail + i) % Size] = src[beginOfEle + i];
+      array_[(tail_ + i) % Size] = src[beginOfEle + i];
     }
-    _tail = nxt_tail % Size;
-    _buffered_ele += numOfEle;
+    tail_ = nxt_tail % Size;
+    buffered_ele_ += numOfEle;
     lock.unlock();
-    _cond.notify_one();
+    cond_.notify_one();
   }
 
   /**
@@ -103,25 +96,18 @@ class Buffer {
    */
   template<typename INT1, typename INT2, size_t oSize>
   void put(const std::array<T, oSize> &src, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(_mutex);
-    while (!_close) {
-      auto flag =
-          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _put_cond(numOfEle); });
-      if (_close) return;
-      if (flag) {
-        break;
-      } else {
-        continue;
-      }
-    }
-    int nxt_tail = _tail + numOfEle;
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || PutCond(numOfEle);
+    });
+    int nxt_tail = tail_ + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      _array[(_tail + i) % Size] = src[(beginOfEle + i) % oSize];
+      array_[(tail_ + i) % Size] = src[(beginOfEle + i) % oSize];
     }
-    _tail = nxt_tail % Size;
-    _buffered_ele += numOfEle;
+    tail_ = nxt_tail % Size;
+    buffered_ele_ += numOfEle;
     lock.unlock();
-    _cond.notify_one();
+    cond_.notify_one();
   }
 
   /**
@@ -132,25 +118,18 @@ class Buffer {
    */
   template<typename INT1, typename INT2>
   void get(T *dst, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(_mutex);
-    while (!_close) {
-      auto flag =
-          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _get_cond(numOfEle); });
-      if (_close) return;
-      if (flag) {
-        break;
-      } else {
-        continue;
-      }
-    }
-    int nxt_head = _head + numOfEle;
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || GetCond(numOfEle);
+    });
+    int nxt_head = head_ + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      dst[beginOfEle + i] = _array[(_head + i) % Size];
+      dst[beginOfEle + i] = array_[(head_ + i) % Size];
     }
-    _head = nxt_head % Size;
-    _buffered_ele -= numOfEle;
+    head_ = nxt_head % Size;
+    buffered_ele_ -= numOfEle;
     lock.unlock();
-    _cond.notify_one();
+    cond_.notify_one();
   }
 
   /**
@@ -162,44 +141,38 @@ class Buffer {
    */
   template<typename INT1, typename INT2, size_t oSize>
   void get(std::array<T, oSize> &dst, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(_mutex);
-    while (!_close) {
-      auto flag =
-          _cond.wait_for(lock, std::chrono::milliseconds(500), [&]() { return _get_cond(numOfEle); });
-      if (_close) return;
-      if (flag) {
-        break;
-      } else {
-        continue;
-      }
-    }
-    int nxt_head = _head + numOfEle;
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || GetCond(numOfEle);
+    });
+    int nxt_head = head_ + numOfEle;
     for (int i = 0; i < numOfEle; i++) {
-      dst[(beginOfEle + i) % oSize] = _array[(_head + i) % Size];
+      dst[(beginOfEle + i) % oSize] = array_[(head_ + i) % Size];
     }
-    _head = nxt_head % Size;
-    _buffered_ele -= numOfEle;
+    head_ = nxt_head % Size;
+    buffered_ele_ -= numOfEle;
     lock.unlock();
-    _cond.notify_one();
+    cond_.notify_one();
   }
 
   /**
    * @brief clear all ele
    */
   void clear() {
-    _mutex.lock();
-    DEFER([&]() { _mutex.unlock(); });
-    _close = false;
-    _head = 0;
-    _tail = 0;
-    _buffered_ele = 0;
+    mutex_.lock();
+    DEFER([&]() { mutex_.unlock(); });
+    close_ = false;
+    head_ = 0;
+    tail_ = 0;
+    buffered_ele_ = 0;
   }
 
   /**
    * @brief close buffer and release all choke thread
    */
   void close() {
-    _close = true;
+    close_ = true;
+    cond_.notify_all();
   }
 
   /**
@@ -207,7 +180,7 @@ class Buffer {
    * @return size of buffer
    */
   int size() {
-    return _buffered_ele;
+    return buffered_ele_;
   }
 
  private:
@@ -216,8 +189,8 @@ class Buffer {
    * @param numOfEle
    * @return
    */
-  inline bool _get_cond(int numOfEle) {
-    return _buffered_ele >= numOfEle;
+  inline bool GetCond(int numOfEle) {
+    return buffered_ele_ >= numOfEle;
   }
 
   /**
@@ -225,45 +198,45 @@ class Buffer {
    * @param numOfEle
    * @return
    */
-  inline bool _put_cond(int numOfEle) {
-    return numOfEle + _buffered_ele <= Size;
+  inline bool PutCond(int numOfEle) {
+    return numOfEle + buffered_ele_ <= Size;
   }
 
  private:
   /**
    * @brief is buffer close
    */
-  std::atomic<bool> _close = false;
+  std::atomic<bool> close_ = false;
 
   /**
    * @brief mutex
    */
-  std::mutex _mutex;
+  std::mutex mutex_;
 
   /**
    * @brief cond
    */
-  std::condition_variable _cond;
+  std::condition_variable cond_;
 
   /**
    * @brief head of ele
    */
-  int _head = 0;
+  int head_ = 0;
 
   /**
    * @brief tail of ele
    */
-  int _tail = 0;
+  int tail_ = 0;
 
   /**
    * @brief size of buffered ele
    */
-  int _buffered_ele = 0;
+  int buffered_ele_ = 0;
 
   /**
    * @brief ele array
    */
-  std::array<T, Size> _array;
+  std::array<T, Size> array_;
 };
 
 }

@@ -35,6 +35,7 @@ class AudioOutput : public IOutput, public std::enable_shared_from_this<AudioOut
  public:
   demux::frame::frame_sptr frame_playing_ = nullptr;
 
+  /// audio output desc
   SampleFormat sample_format_;
   int num_of_channel_;
   int size_of_sample_;
@@ -45,7 +46,7 @@ class AudioOutput : public IOutput, public std::enable_shared_from_this<AudioOut
   bool LoopImpl() override;
 
  private:
-  bool running_;
+  std::atomic<bool> running_;
   audio::driver::audio_driver_uptr driver_;
   demux::frame::frame_sptr frame_;
   demux::stream::stream_sptr stream_;

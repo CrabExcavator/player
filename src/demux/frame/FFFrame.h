@@ -60,20 +60,10 @@ class FFFrame : public IFrame {
 
  private:
   bool first_;
-
   bool last_;
-
   AVFrame *av_frame_;
-
   output::video::ImageFormatAttribute* image_format_attribute_;
-
   output::audio::SampleFormatAttribute* sample_format_attribute_;
-
-  tool::resample::resample_output_sptr resample_output_;
-
-  misc::vector_sptr<misc::Slice> resample_data_;
-
-  tool::resample::Desc resample_desc_;
 };
 
 }

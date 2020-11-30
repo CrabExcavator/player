@@ -64,7 +64,7 @@ class DemuxContext : public misc::Runnable, public misc::Looper<60>, public std:
   /**
    * @brief flag to mark is demux thread running
    */
-  bool running_ = false;
+  std::atomic<bool> running_ = false;
 };
 
 }

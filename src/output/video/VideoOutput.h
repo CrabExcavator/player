@@ -37,6 +37,7 @@ class VideoOutput : public output::IOutput, public std::enable_shared_from_this<
  public:
   demux::frame::frame_sptr frame_rendering_;
 
+  /// video output desc
   ImageFormat image_format_;
   int window_width_;
   int window_height_;
@@ -47,7 +48,7 @@ class VideoOutput : public output::IOutput, public std::enable_shared_from_this<
   bool LoopImpl() override;
 
  private:
-  bool running_;
+  std::atomic<bool> running_;
   driver::video_driver_uptr driver_;
   input::input_ctx_sptr input_ctx_;
   demux::frame::frame_sptr frame_;

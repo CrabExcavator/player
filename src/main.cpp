@@ -20,6 +20,5 @@ int main(int argc, char *argv[]) {
   } else {
     LOG(INFO) << "success return";
   }
-
-  return 0;
+  return common::Error::SUCCESS == ret ? 0 : -1;
 }

@@ -7,6 +7,7 @@
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
 #include "demux/frame/IFrame.h"
+#include "demux/frame/ResampledFrame.h"
 #include "demux/stream/IStream.h"
 #include "common/Slots.h"
 #include "tool/resample/FFResample.h"
@@ -48,11 +49,11 @@ common::Error AudioOutput::Stop() {
 bool AudioOutput::LoopImpl() {
   if (running_) {
     if (frame_ != nullptr && !frame_->IsLast()) {
-      if (!frame_->IsFirst()) {
-        tool::resample::resample_output_sptr resample_output = nullptr;
-        frame_->DoResample(resample_, resample_output);
-
-      }
+      tool::resample::resample_output_sptr resample_output = nullptr;
+      frame_->DoResample(resample_, resample_output);
+      auto resample_frame = std::make_shared<demux::frame::ResampledFrame>();
+      resample_frame->Init(frame_, resample_output);
+      frame_ = resample_frame;
 
       /// start playback
       frame_playing_ = frame_;

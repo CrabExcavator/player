@@ -24,10 +24,7 @@ FFFrame::FFFrame():
     first_(false),
     last_(false),
     sample_format_attribute_(nullptr),
-    image_format_attribute_(nullptr),
-    resample_output_(nullptr),
-    resample_data_(nullptr),
-    resample_desc_() {}
+    image_format_attribute_(nullptr) {}
 
 common::Error FFFrame::Init(AVFrame *av_frame, bool first, bool last) {
   auto ret = common::Error::SUCCESS;
@@ -91,13 +88,9 @@ common::Error FFFrame::GetData(misc::vector_sptr<misc::Slice> &data) {
         data->emplace_back(slice_v);
       }
     } else if (nullptr != sample_format_attribute_) {
-      if (nullptr != resample_output_) {
-        data = resample_data_;
-      } else {
-        for (int i = 0; av_frame_->data[i] != nullptr && i < AV_NUM_DATA_POINTERS; i++) {
-          misc::Slice slice(av_frame_->data[i], GetAudioLineSize());
-          data->emplace_back(slice);
-        }
+      for (int i = 0; av_frame_->data[i] != nullptr && i < AV_NUM_DATA_POINTERS; i++) {
+        misc::Slice slice(av_frame_->data[i], GetAudioLineSize());
+        data->emplace_back(slice);
       }
     }
   }
@@ -130,9 +123,6 @@ int FFFrame::GetHeight() {
 }
 
 output::audio::SampleFormat FFFrame::GetSampleFormat() {
-  if (nullptr != resample_output_) {
-    return resample_desc_.sample_format;
-  }
   if (sample_format_attribute_ == nullptr) {
     auto av_sample_format = static_cast<AVSampleFormat>(av_frame_->format);
     if (AVSampleFormatMap.contains(av_sample_format)) {
@@ -157,36 +147,32 @@ int FFFrame::GetSampleSize() {
 }
 
 int FFFrame::GetNumOfChannel() {
-  return nullptr == resample_output_ ? av_frame_->channels : resample_desc_.number_of_channel;
+  return av_frame_->channels;
 }
 
 int FFFrame::GetNumOfSample() {
-  return nullptr == resample_output_ ? av_frame_->nb_samples : resample_desc_.number_of_sample;
+  return av_frame_->nb_samples;
 }
 
 int FFFrame::GetSampleRate() {
-  return nullptr == resample_output_ ? av_frame_->sample_rate : resample_desc_.sample_rate;
+  return av_frame_->sample_rate;
 }
 
 int FFFrame::GetAudioLineSize() {
-  return nullptr == resample_output_ ? av_frame_->linesize[0] : resample_desc_.linesize;
+  return av_frame_->linesize[0];
 }
 
 output::audio::ChannelLayout FFFrame::GetChannelLayout() {
   auto ret = output::audio::ChannelLayout::UNKNOWN;
 
-  if (nullptr != resample_output_) {
-    ret = resample_desc_.layout;
-  } else {
-    if (AV_CH_LAYOUT_STEREO == av_frame_->channel_layout) {
-      ret = output::audio::ChannelLayout::STEREO;
-    } else if (AV_CH_LAYOUT_SURROUND == av_frame_->channel_layout) {
-      ret = output::audio::ChannelLayout::SURROUND;
-    } else if (AV_CH_LAYOUT_5POINT1 == av_frame_->channel_layout) {
-      ret = output::audio::ChannelLayout::_5POINT1;
-    } else if (AV_CH_LAYOUT_5POINT1_BACK == av_frame_->channel_layout) {
-      ret = output::audio::ChannelLayout::_5POINT1_BACK;
-    }
+  if (AV_CH_LAYOUT_STEREO == av_frame_->channel_layout) {
+    ret = output::audio::ChannelLayout::STEREO;
+  } else if (AV_CH_LAYOUT_SURROUND == av_frame_->channel_layout) {
+    ret = output::audio::ChannelLayout::SURROUND;
+  } else if (AV_CH_LAYOUT_5POINT1 == av_frame_->channel_layout) {
+    ret = output::audio::ChannelLayout::_5POINT1;
+  } else if (AV_CH_LAYOUT_5POINT1_BACK == av_frame_->channel_layout) {
+    ret = output::audio::ChannelLayout::_5POINT1_BACK;
   }
   return ret;
 }
@@ -196,14 +182,10 @@ common::Error FFFrame::DoResample(const tool::resample::resample_sptr &resample,
   auto ret = common::Error::SUCCESS;
   assert(resample_output == nullptr);
 
-  //resample_output_ = nullptr;
   if (common::Error::SUCCESS !=
   (ret = (*resample)((const uint8_t **)av_frame_->data,
       av_frame_->nb_samples, GetAudioLineSize(), resample_output))) {
     LOG(WARNING) << "resample fail";
-  } else {
-    //resample_output_->GetData(resample_data_);
-    //resample_output_->GetDesc(resample_desc_);
   }
   return ret;
 }

@@ -17,7 +17,7 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + video sync with audio
 + serializer
 + config
-+ play list
++ object pool
 + REPL
 + osd
 + seek
