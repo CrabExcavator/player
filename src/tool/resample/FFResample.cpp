@@ -41,6 +41,12 @@ common::Error FFResampleOutput::GetDesc(Desc &desc) {
   return ret;
 }
 
+FFResample::~FFResample() {
+  if (nullptr != swr_ctx_) {
+    swr_ctx_ = nullptr;
+  }
+}
+
 common::Error FFResample::Init(Desc src, Desc dst) {
   auto ret = common::Error::SUCCESS;
   /// @todo verify pass-in arguments
@@ -104,8 +110,11 @@ common::Error FFResample::operator()(const uint8_t **src_data,
                                              SampleFormatTranslate(dst_.sample_format),
                                              0)) {
     ret = common::Error::OUT_OF_MEMORY;
-  } else if (0 > swr_convert(swr_ctx_.get(), dst_data, dst_.number_of_sample,
-                             src_data, number_of_sample)) {
+  } else if (0 > (dst_.number_of_sample = swr_convert(swr_ctx_.get(),
+                                                      dst_data,
+                                                      dst_.number_of_sample,
+                                                      src_data,
+                                                      number_of_sample))) {
     LOG(WARNING) << "swr convert fail";
     ret = common::Error::UNKNOWN_ERROR;
   } else {
@@ -134,20 +143,6 @@ AVSampleFormat FFResample::SampleFormatTranslate(output::audio::SampleFormat sam
     ret = AV_SAMPLE_FMT_FLTP;
   }
   return ret;
-}
-
-void FFResample::fill_samples(double *dst, int nb_samples, int nb_channels, int sample_rate, double *t) {
-  int i, j;
-  double tincr = 1.0 / sample_rate, *dstp = dst;
-  const double c = 2 * M_PI * 440.0;
-  /* generate sin tone with 440Hz frequency and duplicated channels */
-  for (i = 0; i < nb_samples; i++) {
-    *dstp = sin(c * *t);
-    for (j = 1; j < nb_channels; j++)
-      dstp[j] = dstp[0];
-    dstp += nb_channels;
-    *t += tincr;
-  }
 }
 
 }

@@ -31,6 +31,9 @@ It's free media player that aiming at supporting Iot device or embedded in other
     + CAUSE: Buffer(for ) is read with fixed size but bytes in Buffer is not enough
     + HOW TO FIX: at last frame we should make up audio callback buffer
 
++ resample need flush
+    + [refer](https://blog.csdn.net/qq_34305316/article/details/106459849)
+
 ## TEST
 
 ### Unit Test

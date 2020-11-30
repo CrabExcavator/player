@@ -31,6 +31,8 @@ class FFResampleOutput : public IResampleOutput {
 
 class FFResample : public IResample {
  public:
+  ~FFResample() override;
+
   common::Error Init(Desc src, Desc dst);
 
   common::Error operator () (const uint8_t **src_data,
@@ -42,8 +44,6 @@ class FFResample : public IResample {
   static uint64_t ChannelLayoutTranslate(output::audio::ChannelLayout channel_layout);
 
   static AVSampleFormat SampleFormatTranslate(output::audio::SampleFormat sample_format);
-
-  static void fill_samples(double *dst, int nb_samples, int nb_channels, int sample_rate, double *t);
 
  private:
   swr_ctx_uptr swr_ctx_;
