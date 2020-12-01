@@ -6,7 +6,6 @@
 #include "AudioOutput.h"
 #include "driver/DriverFactory.h"
 #include "common/Config.h"
-#include "demux/frame/IFrame.h"
 #include "demux/frame/ResampledFrame.h"
 #include "demux/stream/IStream.h"
 #include "common/Slots.h"

@@ -78,7 +78,7 @@ class Buffer {
       return close_ || PutCond(numOfEle);
     });
     int nxt_tail = tail_ + numOfEle;
-    for (int i = 0; i < numOfEle; i++) {
+    for (INT2 i = 0; i < numOfEle; i++) {
       array_[(tail_ + i) % Size] = src[beginOfEle + i];
     }
     tail_ = nxt_tail % Size;
@@ -101,7 +101,7 @@ class Buffer {
       return close_ || PutCond(numOfEle);
     });
     int nxt_tail = tail_ + numOfEle;
-    for (int i = 0; i < numOfEle; i++) {
+    for (INT2 i = 0; i < numOfEle; i++) {
       array_[(tail_ + i) % Size] = src[(beginOfEle + i) % oSize];
     }
     tail_ = nxt_tail % Size;
@@ -123,7 +123,7 @@ class Buffer {
       return close_ || GetCond(numOfEle);
     });
     int nxt_head = head_ + numOfEle;
-    for (int i = 0; i < numOfEle; i++) {
+    for (INT2 i = 0; i < numOfEle; i++) {
       dst[beginOfEle + i] = array_[(head_ + i) % Size];
     }
     head_ = nxt_head % Size;
@@ -146,7 +146,7 @@ class Buffer {
       return close_ || GetCond(numOfEle);
     });
     int nxt_head = head_ + numOfEle;
-    for (int i = 0; i < numOfEle; i++) {
+    for (INT2 i = 0; i < numOfEle; i++) {
       dst[(beginOfEle + i) % oSize] = array_[(head_ + i) % Size];
     }
     head_ = nxt_head % Size;
