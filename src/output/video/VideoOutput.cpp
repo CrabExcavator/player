@@ -73,7 +73,7 @@ bool VideoOutput::LoopImpl() {
 
       /// playback
       frame_rendering_ = frame_;
-      //driver_->drawImage(shared_from_this());
+      driver_->drawImage(shared_from_this());
       frame_rendering_ = nullptr;
       /// playback
 

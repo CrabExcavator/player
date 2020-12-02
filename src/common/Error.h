@@ -14,6 +14,10 @@ namespace common {
  * @brief error code used by player, error lt 0 is exception
  */
 enum class Error : std::int64_t {
+  SDL_ERR_UNKNOWN = -15000, /**< enum value -15000 */
+  SDL_ERR_INIT, /**< enum value -14999 */
+  SDL_ERR_CREATE_WINDOW, /**< enum value -14998 */
+  SDL_ERR_CREATE_RENDERER, /**< enum value -14997 */
 
   /// error code of demux
   demuxUnknownError = -5000, /**< enum value -5000 */

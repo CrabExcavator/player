@@ -7,11 +7,12 @@
 
 #include "DriverFactory.h"
 #include "DriverPortAudio.h"
+#include "DriverSDL.h"
 
 namespace output::audio::driver {
 
 audio_driver_uptr DriverFactory::create(const std::string &driver_name) {
-  return std::make_unique<DriverPortAudio>();
+  return std::make_unique<DriverSDL>();
 }
 
 }

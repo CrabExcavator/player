@@ -42,6 +42,7 @@ set(
         src/common/Config.cpp
         src/common/DefaultConfig.cpp
         src/common/Slots.cpp
+        src/common/GlobalInstanceManager.cpp
         src/player/PlayerContext.cpp
         src/player/PlayList.cpp
         src/player/PlayEntry.cpp
@@ -52,6 +53,7 @@ set(
         src/output/audio/AudioOutput.cpp
         src/output/audio/driver/DriverFactory.cpp
         src/output/audio/driver/DriverPortAudio.cpp
+        src/output/audio/driver/DriverSDL.cpp
         src/output/audio/SampleFormat.cpp
         src/output/audio/ChannelLayout.cpp
         src/input/InputContext.cpp
@@ -64,6 +66,7 @@ set(
         src/demux/frame/FFFrame.cpp
         src/demux/frame/ResampledFrame.cpp
         src/tool/resample/FFResample.cpp
+        src/tool/sdl/SDLManager.cpp
 )
 set(
         COMMON_LIB

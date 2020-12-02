@@ -56,13 +56,13 @@ common::Error PlayerContext::Run() {
   runners.emplace_back(misc::Future::CreateFutureNode(vo_));
   BLOCKING_PUSH_TO_SLOT(ENTRY_SLOT,
                         std::make_shared<player::PlayEntry>
-                   (player::entry_type::file, video_sample, 0));
+                   (player::entry_type::file, audio_sample, 0));
   do {} while (Loop());
   return ret;
 }
 
 common::Error PlayerContext::Stop() {
-  auto ret =common::Error::SUCCESS;
+  auto ret = common::Error::SUCCESS;
 
   demux_ctx_->Stop();
   ao_->Stop();
@@ -84,7 +84,7 @@ bool PlayerContext::LoopImpl() {
       LOG(WARNING) << "exit with err code " << static_cast<int64_t>(ret);
     }
   }
-  return ret == common::Error::SUCCESS;
+  return common::Error::SUCCESS == ret;
 }
 
 }

@@ -79,7 +79,7 @@ output::audio::SampleFormat ResampledFrame::GetSampleFormat() {
 }
 
 int ResampledFrame::GetSampleSize() {
-  if (nullptr != sample_format_attribute_) {
+  if (nullptr == sample_format_attribute_) {
     auto sample_format = GetSampleFormat();
     sample_format_attribute_ = output::audio::SampleFormatAttributeMap[sample_format];
   }
