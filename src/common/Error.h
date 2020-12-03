@@ -40,6 +40,9 @@ enum class Error : std::int64_t {
   UNKNOWN_ERROR = -1000, /**< enum value -1000 */
   OUT_OF_MEMORY = -999, /**< enum value -999 */
   INVALID_ARGS = -998, /**< enum value -998 */
+  INITED_TWICE, /**< enum value -997 */
+  NOT_INITED, /**< enum value -996 */
+  TIME_OUT,
 
   /// no error
   SUCCESS = 0, /**< enum value 0 */

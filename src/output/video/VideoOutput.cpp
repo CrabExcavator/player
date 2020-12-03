@@ -36,7 +36,7 @@ common::Error VideoOutput::Init(const input::input_ctx_sptr &input_ctx) {
   driver_ = driver::DriverFactory::create(GET_CONFIG(vo_driver));
   running_ = true;
 
-  if (common::Error::SUCCESS != driver_->init(shared_from_this())) {
+  if (common::Error::SUCCESS != driver_->Init(shared_from_this())) {
     ret = common::Error::UNKNOWN_ERROR;
   } else {
     AdjustHZ(GET_CONFIG(default_tick_hz));
@@ -73,7 +73,7 @@ bool VideoOutput::LoopImpl() {
 
       /// playback
       frame_rendering_ = frame_;
-      driver_->drawImage(shared_from_this());
+      driver_->DrawImage(shared_from_this());
       frame_rendering_ = nullptr;
       /// playback
 
@@ -90,7 +90,7 @@ bool VideoOutput::LoopImpl() {
         image_format_ = frame_->GetImageFormat();
         img_height_ = frame_->GetHeight();
         img_pitch_ = frame_->GetWidth();
-        driver_->reConfig(shared_from_this());
+        driver_->ReConfig(shared_from_this());
         last_tick_ = std::chrono::steady_clock::now() + std::chrono::seconds(1);
         last_pts_ = 0;
         time_base_ = stream_->GetTimeBase();
@@ -118,8 +118,7 @@ bool VideoOutput::LoopImpl() {
 }
 
 common::Error VideoOutput::LoopInMainThread() {
-  driver_->waitEvents(shared_from_this());
-  return common::Error::SUCCESS;
+  return driver_->WaitEvents(shared_from_this());
 }
 
 }

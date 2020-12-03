@@ -80,7 +80,7 @@ common::Error FFResample::Init(Desc src, Desc dst) {
     LOG(WARNING) << "dst sample fmt set fail";
     ret = common::Error::UNKNOWN_ERROR;
   } else if (0 > swr_init(swr_ctx.get())) {
-    LOG(WARNING) << "swr init fail";
+    LOG(WARNING) << "swr Init fail";
     ret = common::Error::UNKNOWN_ERROR;
   } else {
       src_ = src;

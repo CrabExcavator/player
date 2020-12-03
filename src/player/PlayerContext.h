@@ -29,7 +29,7 @@ class PlayerContext : public misc::Runnable, public misc::Looper<60>, public std
   PlayerContext() = default;
 
   /**
-   * @brief init player context && start threads
+   * @brief Init player context && start threads
    * @return error code
    */
   common::Error Init();

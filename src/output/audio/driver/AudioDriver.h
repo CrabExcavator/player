@@ -58,7 +58,7 @@ class AudioDriver {
   virtual common::Error Stop(ao_sptr ao) = 0;
 
   /**
-   * @brief reConfig
+   * @brief ReConfig
    * @param [in] ao audio output
    * @return error code
    */

@@ -23,7 +23,7 @@ class VideoOutput : public output::IOutput, public std::enable_shared_from_this<
  public:
   VideoOutput();
   VideoOutput(const VideoOutput &rhs) = delete;
-  VideoOutput(VideoOutput &&rhs) = default;
+  VideoOutput(VideoOutput &&rhs) = delete;
   VideoOutput &operator=(const VideoOutput &rhs) = delete;
   VideoOutput &operator=(VideoOutput &&rhs) = delete;
   ~VideoOutput() override = default;

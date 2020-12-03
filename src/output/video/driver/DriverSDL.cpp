@@ -3,7 +3,6 @@
 // Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
-#include <SDL2/SDL.h>
 #include <map>
 
 #include "DriverSDL.h"
@@ -25,65 +24,77 @@ static SDL_PixelFormatEnum getFormat(video::ImageFormat imgfmt) {
   return formats.at(imgfmt);
 }
 
+DriverSDL::DriverSDL():
+window_(nullptr),
+renderer_(nullptr),
+texture_(nullptr){}
+
 DriverSDL::~DriverSDL() {
-  _renderer = nullptr;
-  _window = nullptr;
-  SDL_Quit();
+  renderer_ = nullptr;
+  window_ = nullptr;
 }
 
-common::Error DriverSDL::init(vo_sptr vo) {
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    return common::Error::videoDriverInitFail;
+common::Error DriverSDL::Init(vo_sptr vo) {
+  auto ret = common::Error::SUCCESS;
+  auto &sdl_manager = tool::sdl::SDLManager::GetInstance();
+
+  if (common::Error::SUCCESS != (ret = sdl_manager->CreateWindow("air",
+                                                                 vo->window_width_,
+                                                                 vo->window_height_,
+                                                                 window_))) {
+    LOG(WARNING) << "create window fail";
+  } else if (common::Error::SUCCESS != (ret = sdl_manager->CreateRenderer(window_,
+                                                                          renderer_))) {
+    LOG(WARNING) << "create renderer fail";
+  } else if (common::Error::SUCCESS != (ret = ReConfig(vo))) {
+    LOG(WARNING) << "re_config fail";
   }
-  window_uptr window{
-      SDL_CreateWindow("air", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                       vo->window_width_, vo->window_height_, SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN),
-      SDL_DestroyWindow
-  };
-  if (window == nullptr) {
-    return common::Error::videoDriverInitFail;
-  }
-  _window.swap(window);
-  renderer_uptr renderer{
-      SDL_CreateRenderer(_window.get(), -1,
-                         SDL_RENDERER_ACCELERATED),
-      SDL_DestroyRenderer
-  };
-  if (renderer == nullptr) {
-    return common::Error::videoDriverInitFail;
-  }
-  _renderer.swap(renderer);
-  reConfig(vo);
-  return common::Error::SUCCESS;
+  return ret;
 }
 
-common::Error DriverSDL::drawImage(vo_sptr vo) {
-  SDL_RenderClear(_renderer.get());
-  SDL_SetTextureBlendMode(_texture.get(), SDL_BLENDMODE_NONE);
-  if (vo->frame_rendering_ != nullptr) {
-    void *pixels = nullptr;
-    int pitch = 0;
-    SDL_LockTexture(_texture.get(), nullptr, &pixels, &pitch);
-    misc::vector_sptr<misc::Slice> data = nullptr;
-    vo->frame_rendering_->GetData(data);
+common::Error DriverSDL::DrawImage(vo_sptr vo) {
+  auto ret = common::Error::SUCCESS;
+  auto &sdl_manager = tool::sdl::SDLManager::GetInstance();
+  void *pixels = nullptr;
+  int pitch = 0;
+  misc::vector_sptr<misc::Slice> data = nullptr;
 
-    /// @todo put in fmt translate func
-    for (auto &aData : *data) {
-      memcpy(pixels, aData.GetPtr(), aData.GetLength());
-      pixels = (void*)((uint8_t*)pixels + aData.GetLength());
+  if (common::Error::SUCCESS != (ret = sdl_manager->RenderClear(renderer_))) {
+    LOG(WARNING) << "render clear fail";
+  } else if (nullptr == vo->frame_rendering_) {
+    // do nothing
+  } else if (common::Error::SUCCESS !=
+  (ret = sdl_manager->SetTextureBlendMode(texture_, SDL_BLENDMODE_NONE))) {
+    LOG(WARNING) << "set texture blend mode fail";
+  } else if (common::Error::SUCCESS !=
+  (ret = sdl_manager->LockTexture(texture_, nullptr, pixels, pitch))) {
+    LOG(WARNING) << "lock texture fail";
+  } else if (common::Error::SUCCESS != vo->frame_rendering_->GetData(data)) {
+    LOG(WARNING) << "get data from frame fail";
+  } else {
+    for (auto &ele : *data) {
+      memcpy(pixels, ele.GetPtr(), ele.GetLength());
+      pixels = (void*)((uint8_t*)pixels + ele.GetLength());
     }
-
-    SDL_UnlockTexture(_texture.get());
-    SDL_RenderCopy(_renderer.get(), _texture.get(), nullptr, nullptr);
-    SDL_RenderPresent(_renderer.get());
+    if (common::Error::SUCCESS != (ret = sdl_manager->UnlockTexture(texture_))) {
+      LOG(WARNING) << "unlock texture fail";
+    } else if (common::Error::SUCCESS != (ret = sdl_manager->RenderCopy(renderer_, texture_))) {
+      LOG(WARNING) << "render copy fail";
+    } else if (common::Error::SUCCESS != (ret = sdl_manager->RenderPresent(renderer_))) {
+      LOG(WARNING) << "render present fail";
+    }
   }
-  return common::Error::SUCCESS;
+  return ret;
 }
 
-common::Error DriverSDL::waitEvents(vo_sptr vo) {
+common::Error DriverSDL::WaitEvents(vo_sptr vo) {
+  auto ret = common::Error::SUCCESS;
+  auto &sdl_manager = tool::sdl::SDLManager::GetInstance();
   int timeout_ms = 10;
   SDL_Event ev;
-  while (SDL_WaitEventTimeout(&ev, timeout_ms)) {
+
+  while (common::Error::SUCCESS == (ret = sdl_manager->WaitEventTimeout(timeout_ms, ev))) {
+    /// should not get event once
     timeout_ms = 0;
     auto input_ctx = vo->GetInputCtx();
     switch (ev.type) {
@@ -92,19 +103,26 @@ common::Error DriverSDL::waitEvents(vo_sptr vo) {
       default:break;
     }
   }
-  return common::Error::SUCCESS;
+  return ret;
 }
 
-common::Error DriverSDL::reConfig(vo_sptr vo) {
+common::Error DriverSDL::ReConfig(vo_sptr vo) {
+  auto ret = common::Error::SUCCESS;
+  auto &sdl_manager = tool::sdl::SDLManager::GetInstance();
   auto texture_fmt = getFormat(vo->image_format_);
-  SDL_SetRenderDrawColor(_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
-  texture_uptr texture{
-      SDL_CreateTexture(_renderer.get(), texture_fmt,
-                        SDL_TEXTUREACCESS_STREAMING, vo->img_pitch_, vo->img_height_),
-      SDL_DestroyTexture
-  };
-  _texture.swap(texture);
-  return common::Error::SUCCESS;
+  texture_ = nullptr;
+
+  if (common::Error::SUCCESS !=
+      (ret = sdl_manager->SetRenderDrawColor(renderer_, 0xFF, 0xFF, 0xFF, 0xFF))) {
+    LOG(WARNING) << "set render draw color fail";
+  } else if (common::Error::SUCCESS !=(ret = sdl_manager->CreateTexture(renderer_,
+                                                                        texture_fmt,
+                                                                        vo->img_pitch_,
+                                                                        vo->img_height_,
+                                                                        texture_))) {
+    LOG(WARNING) << "create texture fail";
+  }
+  return ret;
 }
 
 }

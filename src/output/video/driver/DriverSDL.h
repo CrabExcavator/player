@@ -12,6 +12,7 @@
 
 #include "VideoDriver.h"
 #include "misc/typeptr.h"
+#include "tool/sdl/SDLManager.h"
 
 namespace output::video::driver {
 
@@ -23,7 +24,7 @@ class DriverSDL : public VideoDriver {
   /**
    * @brief default
    */
-  DriverSDL() = default;
+  DriverSDL();
 
   /**
    * @brief clear SDL
@@ -35,50 +36,33 @@ class DriverSDL : public VideoDriver {
    * @param [in] vo
    * @return error code
    */
-  common::Error init(vo_sptr vo) override;
+  common::Error Init(vo_sptr vo) override;
 
   /**
    * @brief draw one image in each call
    * @param [in] vo
    * @return error code
    */
-  common::Error drawImage(vo_sptr vo) override;
+  common::Error DrawImage(vo_sptr vo) override;
 
   /**
    * @brief listen for event, should called in main thread
    * @param [in] vo
    * @return error code
    */
-  common::Error waitEvents(vo_sptr vo) override;
+  common::Error WaitEvents(vo_sptr vo) override;
 
   /**
-   * @brief 1. reConfig texture
+   * @brief 1. ReConfig texture
    * @param [in] vo
    * @return error code
    */
-  common::Error reConfig(vo_sptr vo) override;
+  common::Error ReConfig(vo_sptr vo) override;
 
  private:
-  using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>;
-
-  using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>;
-
-  using texture_uptr = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>;
-
-  /**
-   * @brief pointer to window
-   */
-  window_uptr _window;
-
-  /**
-   * @brief pointer to renderer
-   */
-  renderer_uptr _renderer;
-
-  /**
-   * @brief pointer to texture
-   */
-  texture_uptr _texture;
+  tool::sdl::window_uptr window_;
+  tool::sdl::renderer_uptr renderer_;
+  tool::sdl::texture_uptr texture_;
 };
 
 }

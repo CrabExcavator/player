@@ -33,28 +33,28 @@ class VideoDriver {
    * @param [in] vo
    * @return error code
    */
-  virtual common::Error init(vo_sptr vo) = 0;
+  virtual common::Error Init(vo_sptr vo) = 0;
 
   /**
    * @brief draw image
    * @param [in]vo
    * @return error code
    */
-  virtual common::Error drawImage(vo_sptr vo) = 0;
+  virtual common::Error DrawImage(vo_sptr vo) = 0;
 
   /**
    * @brief wait events
    * @param [in] vo
    * @return error code
    */
-  virtual common::Error waitEvents(vo_sptr vo) = 0;
+  virtual common::Error WaitEvents(vo_sptr vo) = 0;
 
   /**
-   * @brief reConfig
+   * @brief ReConfig
    * @param [in] vo
    * @return error code
    */
-  virtual common::Error reConfig(vo_sptr vo) = 0;
+  virtual common::Error ReConfig(vo_sptr vo) = 0;
 };
 
 }

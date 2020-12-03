@@ -95,6 +95,7 @@ set(
 set(
         TEST_SOURCE
         test/sample.cpp
+        test/sdl.cpp
 )
 set(
         TEST_LIB

@@ -34,13 +34,13 @@ common::Error PlayerContext::Init() {
   event_handler_->AddLast(universal_handler);
 
   if (common::Error::SUCCESS != (ret = input_ctx_->Init())) {
-    LOG(ERROR) << "init input context fail";
+    LOG(ERROR) << "Init input context fail";
   } else if (common::Error::SUCCESS != (ret = demux_ctx_->Init(input_ctx_))) {
-    LOG(ERROR) << "init demux context fail";
+    LOG(ERROR) << "Init demux context fail";
   } else if (common::Error::SUCCESS != (ret = ao_->Init())) {
-    LOG(ERROR) << "init ao fail";
+    LOG(ERROR) << "Init ao fail";
   } else if (common::Error::SUCCESS != (ret = vo_->Init(input_ctx_))) {
-    LOG(ERROR) << "init vo fail";
+    LOG(ERROR) << "Init vo fail";
   } else {
     AdjustHZ(GET_CONFIG(default_tick_hz));
   }
@@ -56,7 +56,7 @@ common::Error PlayerContext::Run() {
   runners.emplace_back(misc::Future::CreateFutureNode(vo_));
   BLOCKING_PUSH_TO_SLOT(ENTRY_SLOT,
                         std::make_shared<player::PlayEntry>
-                   (player::entry_type::file, audio_sample, 0));
+                   (player::entry_type::file, video_sample, 0));
   do {} while (Loop());
   return ret;
 }

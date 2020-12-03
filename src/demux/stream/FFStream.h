@@ -19,7 +19,7 @@ namespace demux::stream {
 class FFStream : public IStream {
  public:
   /**
-   * @brief init avS
+   * @brief Init avS
    * @param stream
    * @return error code
    */

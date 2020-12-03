@@ -19,7 +19,7 @@ class FFFrame : public IFrame {
   ~FFFrame() override;
 
   /**
-   * @brief init && take control of AVFrame
+   * @brief Init && take control of AVFrame
    * @param [in] av_frame
    * @param [in] first
    * @param [in] last

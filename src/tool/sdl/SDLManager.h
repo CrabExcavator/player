@@ -20,29 +20,58 @@ using window_uptr = std::unique_ptr<SDL_Window, std::function<void(SDL_Window*)>
 
 using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>;
 
-using texture_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Texture *)>>;
+using texture_uptr = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>;
 
-class SDLManager : public GlobalInstance {
+/// @attention it's not a CTRP pattern
+class SDLManager : public misc::GlobalInstance<SDLManager> {
  public:
-  static common::Error Init();
-  static common::Error Destroy();
-  /**
-   * @brief create window
-   * @param [in] window_name
-   * @param [out] window
-   * @return error code
-   */
-  static common::Error CreateWindow(const std::string &window_name,
+  static std::unique_ptr<SDLManager> &GetInstance();
+
+  common::Error Init();
+
+  common::Error Destroy() const;
+
+  common::Error CreateWindow(const std::string &window_name,
                                     int window_width,
                                     int window_height,
-                                    window_uptr &window);
+                                    window_uptr &window) const;
 
-  /**
-   * @brief create renderer
-   * @param [in] window
-   * @return error code
-   */
-  static common::Error CreateRenderer(const window_uptr &window, renderer_uptr &renderer);
+  common::Error CreateRenderer(const window_uptr &window, renderer_uptr &renderer) const;
+
+  common::Error RenderClear(const renderer_uptr &renderer) const;
+
+  common::Error SetRenderDrawColor(const renderer_uptr &renderer,
+                                   uint8_t r,
+                                   uint8_t g,
+                                   uint8_t b,
+                                   uint8_t a) const;
+
+  common::Error CreateTexture(const renderer_uptr &renderer,
+                              SDL_PixelFormatEnum texture_fmt,
+                              int image_pitch,
+                              int image_height,
+                              texture_uptr &texture) const;
+
+  common::Error SetTextureBlendMode(const texture_uptr &texture, SDL_BlendMode blend_mode) const;
+
+  common::Error LockTexture(const texture_uptr &texture,
+                            const SDL_Rect *rect,
+                            void *&pixels,
+                            int &pitch) const;
+
+  common::Error UnlockTexture(const texture_uptr &texture) const;
+
+  common::Error RenderCopy(const renderer_uptr &renderer, const texture_uptr &texture) const;
+
+  common::Error RenderPresent(const renderer_uptr &renderer) const;
+
+  common::Error WaitEventTimeout(int timeout_ms, SDL_Event &event) const;
+
+ private:
+  SDLManager();
+
+ private:
+  bool inited_;
 };
 
 }
