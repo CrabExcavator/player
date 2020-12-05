@@ -27,7 +27,7 @@ class Config {
    * @brief get config singleton
    * @return config singleton
    */
-  static config_sptr getInstance();
+  static config_sptr GetInstance();
 
   /**
    * @brief load config from local filesystem
@@ -101,7 +101,7 @@ class Config {
   dic_uptr dic_;
 };
 
-#define GET_CONFIG(entry) common::Config::getInstance()->Get(common::DefaultConfig::entry)
+#define GET_CONFIG(entry) common::Config::GetInstance()->Get(common::DefaultConfig::entry)
 
 }
 

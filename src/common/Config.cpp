@@ -8,7 +8,7 @@
 #include "Config.h"
 
 namespace common {
-config_sptr Config::getInstance() {
+config_sptr Config::GetInstance() {
   static config_sptr _config(new Config);
   return _config;
 }
