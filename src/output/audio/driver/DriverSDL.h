@@ -8,6 +8,8 @@
 
 #include "AudioDriver.h"
 #include "misc/typeptr.h"
+#include "misc/Buffer.h"
+#include "tool/sdl/SDLManager.h"
 
 namespace output::audio::driver {
 
@@ -23,6 +25,14 @@ class DriverSDL : public AudioDriver {
                            misc::vector_sptr<std::string> &devices) override;
   common::Error GetDesc(ao_sptr ao,
                         tool::resample::Desc &desc) override;
+
+ private:
+  static SDL_AudioFormat format_translate(audio::SampleFormat sample_format);
+  static void audio_callback(void *data, Uint8 *stream, int len);
+  void playback(Uint8 *stream, int len);
+
+ private:
+  misc::Buffer<uint8_t, 65536> buffer_;
 };
 
 }

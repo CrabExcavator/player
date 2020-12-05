@@ -18,6 +18,9 @@ enum class Error : std::int64_t {
   SDL_ERR_INIT, /**< enum value -14999 */
   SDL_ERR_CREATE_WINDOW, /**< enum value -14998 */
   SDL_ERR_CREATE_RENDERER, /**< enum value -14997 */
+  SDL_ERR_OPEN_AUDIO, /**< enum value -14996 */
+  SDL_ERR_PUT_AUDIO, /**< enum value -14995 */
+  SDL_ERR_GET_AUDIO, /**< enum value -14994 */
 
   /// error code of demux
   demuxUnknownError = -5000, /**< enum value -5000 */
@@ -43,6 +46,7 @@ enum class Error : std::int64_t {
   INITED_TWICE, /**< enum value -997 */
   NOT_INITED, /**< enum value -996 */
   TIME_OUT,
+  UN_IMPL,
 
   /// no error
   SUCCESS = 0, /**< enum value 0 */

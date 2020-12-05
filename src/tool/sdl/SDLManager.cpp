@@ -154,7 +154,7 @@ common::Error SDLManager::CreateTexture(const renderer_uptr &renderer,
                           SDL_TEXTUREACCESS_STREAMING,
                           image_pitch,
                           image_height),
-                          SDL_DestroyTexture
+        SDL_DestroyTexture
       };
       if (nullptr == _texture) {
         ret = common::Error::UNKNOWN_ERROR;
@@ -237,6 +237,131 @@ common::Error SDLManager::WaitEventTimeout(int timeout_ms, SDL_Event &event) con
     LOG(WARNING) << "sdl not Init";
   } else if (0 == SDL_WaitEventTimeout(&event, timeout_ms)) {
     ret = common::Error::TIME_OUT;
+  }
+  return ret;
+}
+common::Error SDLManager::CreateAudioStream(SDL_AudioFormat src_format,
+                                            Uint8 src_channels,
+                                            int src_rate,
+                                            SDL_AudioFormat dst_format,
+                                            Uint8 dst_channels,
+                                            int dst_rate,
+                                            audio_stream_uptr &audio_stream) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not Init";
+  } else if (nullptr != audio_stream) {
+    ret = common::Error::INVALID_ARGS;
+    LOG(WARNING) << "audio stream should be null";
+  } else {
+    audio_stream_uptr _audio_stream {
+      SDL_NewAudioStream(src_format,
+                         src_channels,
+                         src_rate,
+                         dst_format,
+                         dst_channels,
+                         dst_rate),
+      SDL_FreeAudioStream
+    };
+    if (nullptr == _audio_stream) {
+      ret = common::Error::OUT_OF_MEMORY;
+      LOG(WARNING) << "OOM in create audio stream";
+    } else {
+      audio_stream.swap(_audio_stream);
+    }
+  }
+  return ret;
+}
+
+common::Error SDLManager::AudioStreamPut(const audio_stream_uptr &audio_stream,
+                                         uint8_t *data,
+                                         int size) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not Init";
+  } else if (0 > SDL_AudioStreamPut(audio_stream.get(), data, size)) {
+    ret = common::Error::SDL_ERR_PUT_AUDIO;
+    LOG(WARNING) << SDL_GetError();
+  }
+  return ret;
+}
+
+common::Error SDLManager::AudioStreamAvailable(const audio_stream_uptr &audio_stream, int &avail_bytes) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not Init";
+  } else {
+    avail_bytes = SDL_AudioStreamAvailable(audio_stream.get());
+  }
+  return ret;
+}
+
+common::Error SDLManager::AudioStreamGet(const audio_stream_uptr &audio_stream,
+                                         uint8_t *&data,
+                                         int size,
+                                         int &gotten) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not Init";
+  } else if (0 > (gotten = SDL_AudioStreamGet(audio_stream.get(), data, size))) {
+    ret = common::Error::SDL_ERR_PUT_AUDIO;
+    LOG(WARNING) << SDL_GetError();
+  }
+  return ret;
+}
+common::Error SDLManager::AudioStreamFlush(const audio_stream_uptr &audio_stream) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not Init";
+  } else {
+    SDL_AudioStreamFlush(audio_stream.get());
+  }
+  return ret;
+}
+
+common::Error SDLManager::AudioStreamClear(const audio_stream_uptr &audio_stream) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not Init";
+  } else {
+    SDL_AudioStreamClear(audio_stream.get());
+  }
+  return ret;
+}
+
+common::Error SDLManager::OpenAudio(SDL_AudioSpec *desired, SDL_AudioSpec *obtained) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not init";
+  } else if (0 > SDL_OpenAudio(desired, obtained)) {
+    ret =common::Error::SDL_ERR_UNKNOWN;
+    LOG(WARNING) << "open audio fail";
+  }
+  return ret;
+}
+
+common::Error SDLManager::PauseAudio(int pause_on) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not init";
+  } else {
+    SDL_PauseAudio(pause_on);
   }
   return ret;
 }

@@ -48,17 +48,31 @@ common::Error AudioOutput::Stop() {
 bool AudioOutput::LoopImpl() {
   if (running_) {
     if (frame_ != nullptr && !frame_->IsLast()) {
-      tool::resample::resample_output_sptr resample_output = nullptr;
-      frame_->DoResample(resample_, resample_output);
-      auto resample_frame = std::make_shared<demux::frame::ResampledFrame>();
-      resample_frame->Init(frame_, resample_output);
-      frame_ = resample_frame;
       if (frame_->IsFirst()) {
+        tool::resample::Desc dst_desc{}, src_desc{};
+        if (common::Error::SUCCESS == driver_->GetDesc(shared_from_this(), dst_desc)) {
+          auto ff_resample = std::make_shared<tool::resample::FFResample>();
+          src_desc.sample_format = frame_->GetSampleFormat();
+          src_desc.sample_rate = frame_->GetSampleRate();
+          src_desc.number_of_channel = frame_->GetNumOfChannel();
+          src_desc.linesize = frame_->GetAudioLineSize();
+          src_desc.layout = frame_->GetChannelLayout();
+          ff_resample->Init(src_desc, dst_desc);
+          resample_ = ff_resample;
+        }
         sample_format_ = frame_->GetSampleFormat();
         num_of_channel_ = frame_->GetNumOfChannel();
         size_of_sample_ = frame_->GetSampleSize();
         sample_rate_ = frame_->GetSampleRate();
         driver_->Open(shared_from_this());
+      }
+
+      if (nullptr != resample_) {
+        tool::resample::resample_output_sptr resample_output = nullptr;
+        frame_->DoResample(resample_, resample_output);
+        auto resample_frame = std::make_shared<demux::frame::ResampledFrame>();
+        resample_frame->Init(frame_, resample_output);
+        frame_ = resample_frame;
       }
 
       /// start playback
@@ -84,18 +98,6 @@ bool AudioOutput::LoopImpl() {
         sample_rate_ = frame_->GetSampleRate();
         channel_layout_ = frame_->GetChannelLayout();
         driver_->Init(shared_from_this());
-        // get desc
-        tool::resample::Desc dst_desc{}, src_desc{};
-        driver_->GetDesc(shared_from_this(), dst_desc);
-        // init resample
-        auto ff_resample = std::make_shared<tool::resample::FFResample>();
-        src_desc.sample_format = frame_->GetSampleFormat();
-        src_desc.sample_rate = frame_->GetSampleRate();
-        src_desc.number_of_channel = frame_->GetNumOfChannel();
-        src_desc.linesize = frame_->GetAudioLineSize();
-        src_desc.layout = frame_->GetChannelLayout();
-        ff_resample->Init(src_desc, dst_desc);
-        resample_ = ff_resample;
       }
 
       /**

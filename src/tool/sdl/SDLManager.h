@@ -22,6 +22,8 @@ using renderer_uptr = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Rende
 
 using texture_uptr = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>;
 
+using audio_stream_uptr = std::unique_ptr<SDL_AudioStream, std::function<void(SDL_AudioStream *)>>;
+
 /// @attention it's not a CTRP pattern
 class SDLManager : public misc::GlobalInstance<SDLManager> {
  public:
@@ -67,6 +69,32 @@ class SDLManager : public misc::GlobalInstance<SDLManager> {
 
   common::Error WaitEventTimeout(int timeout_ms, SDL_Event &event) const;
 
+  common::Error CreateAudioStream(SDL_AudioFormat src_format,
+                                  Uint8 src_channels,
+                                  int src_rate,
+                                  SDL_AudioFormat dst_format,
+                                  Uint8 dst_channels,
+                                  int dst_rate,
+                                  audio_stream_uptr &audio_stream) const;
+
+  common::Error AudioStreamPut(const audio_stream_uptr &audio_stream,
+                               uint8_t *data,
+                               int size) const;
+
+  common::Error AudioStreamAvailable(const audio_stream_uptr &audio_stream, int &avail_bytes) const;
+
+  common::Error AudioStreamGet(const audio_stream_uptr &audio_stream,
+                               uint8_t *&data,
+                               int size,
+                               int &gotten) const;
+
+  common::Error AudioStreamFlush(const audio_stream_uptr &audio_stream) const;
+
+  common::Error AudioStreamClear(const audio_stream_uptr &audio_stream) const;
+
+  common::Error OpenAudio(SDL_AudioSpec *desired, SDL_AudioSpec *obtained) const;
+
+  common::Error PauseAudio(int pause_on) const;
  private:
   SDLManager();
 

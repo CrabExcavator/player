@@ -96,9 +96,6 @@ common::Error DriverPortAudio::Play(ao_sptr ao) {
         break;
       }
     }
-    if (Pa_IsStreamStopped(stream_)) {
-      Pa_StartStream(stream_);
-    }
   }
   return common::Error::SUCCESS;
 }

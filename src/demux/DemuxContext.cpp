@@ -37,8 +37,8 @@ bool DemuxContext::LoopImpl() {
     demuxer_->Open(entry, streams);
     for (auto &stream : *streams) {
       if (output::OutputPort::AUDIO == stream->GetOutputPort()) {
-        //BLOCKING_PUSH_TO_SLOT(AUDIO_OUTPUT_STREAM_SLOT, stream);
-        //BLOCKING_PUSH_TO_SLOT(AUDIO_OUTPUT_CTL_SLOT, common::Signal::NEXT_STREAM);
+        BLOCKING_PUSH_TO_SLOT(AUDIO_OUTPUT_STREAM_SLOT, stream);
+        BLOCKING_PUSH_TO_SLOT(AUDIO_OUTPUT_CTL_SLOT, common::Signal::NEXT_STREAM);
       } else if (output::OutputPort::VIDEO == stream->GetOutputPort()) {
         BLOCKING_PUSH_TO_SLOT(VIDEO_OUTPUT_STREAM_SLOT, stream);
         BLOCKING_PUSH_TO_SLOT(VIDEO_OUTPUT_CTL_SLOT, common::Signal::NEXT_STREAM);
