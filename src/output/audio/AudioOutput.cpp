@@ -75,11 +75,11 @@ bool AudioOutput::LoopImpl() {
         frame_ = resample_frame;
       }
 
-      /// start playback
+      /// start Playback
       frame_playing_ = frame_;
       driver_->Play(shared_from_this());
       frame_playing_ = nullptr;
-      /// end playback
+      /// end Playback
 
       frame_ = nullptr;
     }

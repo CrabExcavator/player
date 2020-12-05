@@ -17,8 +17,10 @@ int main(int argc, char *argv[]) {
     LOG(INFO) << "player ctx Init fail";
   } else if (common::Error::SUCCESS != (ret = player_context->Run())) {
     LOG(INFO) << "player ctx run fail";
+  } else if (common::Error::SUCCESS != (ret = player_context->Destroy())) {
+    LOG(INFO) << "player ctx destroy fail";
   } else {
-    LOG(INFO) << "success return";
+    LOG(INFO) << "return successfully";
   }
   return common::Error::SUCCESS == ret ? 0 : -1;
 }

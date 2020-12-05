@@ -44,14 +44,14 @@ class AudioDriver {
   virtual common::Error Open(ao_sptr ao) = 0;
 
   /**
-   * @brief playback one frame
+   * @brief Playback one frame
    * @param [in] ao audio output
    * @return error code
    */
   virtual common::Error Play(ao_sptr ao) = 0;
 
   /**
-   * @brief stop playback
+   * @brief stop Playback
    * @param [in] ao audio output
    * @return error code
    */

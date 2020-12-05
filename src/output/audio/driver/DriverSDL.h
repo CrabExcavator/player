@@ -21,15 +21,13 @@ class DriverSDL : public AudioDriver {
   common::Error Play(ao_sptr ao) override;
   common::Error Stop(ao_sptr ao) override;
   common::Error ReConfig(ao_sptr ao) override;
-  common::Error GetDevices(ao_sptr ao,
-                           misc::vector_sptr<std::string> &devices) override;
-  common::Error GetDesc(ao_sptr ao,
-                        tool::resample::Desc &desc) override;
+  common::Error GetDevices(ao_sptr ao, misc::vector_sptr<std::string> &devices) override;
+  common::Error GetDesc(ao_sptr ao, tool::resample::Desc &desc) override;
 
  private:
-  static SDL_AudioFormat format_translate(audio::SampleFormat sample_format);
-  static void audio_callback(void *data, Uint8 *stream, int len);
-  void playback(Uint8 *stream, int len);
+  static SDL_AudioFormat FormatTranslate(audio::SampleFormat sample_format);
+  static void AudioCallback(void *data, Uint8 *stream, int len);
+  void Playback(Uint8 *stream, int len);
 
  private:
   misc::Buffer<uint8_t, 65536> buffer_;

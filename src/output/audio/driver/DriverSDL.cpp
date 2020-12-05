@@ -10,7 +10,9 @@
 namespace output::audio::driver {
 
 DriverSDL::~DriverSDL() {
+  auto &sdl_manager = tool::sdl::SDLManager::GetInstance();
   buffer_.close();
+  sdl_manager->PauseAudio(1);
 }
 
 common::Error DriverSDL::Init(ao_sptr ao) {
@@ -23,11 +25,11 @@ common::Error DriverSDL::Open(ao_sptr ao) {
   auto &sdl_manager = tool::sdl::SDLManager::GetInstance();
   SDL_AudioSpec spec;
   spec.freq = ao->sample_rate_;
-  spec.format = format_translate(ao->sample_format_);
+  spec.format = FormatTranslate(ao->sample_format_);
   spec.channels = ao->num_of_channel_;
   spec.silence = 0;
   spec.samples = 1024;
-  spec.callback = audio_callback;
+  spec.callback = AudioCallback;
   spec.userdata = this;
 
   if (common::Error::SUCCESS != (ret = sdl_manager->OpenAudio(&spec, nullptr))) {
@@ -85,7 +87,7 @@ common::Error DriverSDL::GetDesc(ao_sptr ao, tool::resample::Desc &desc) {
   return ret;
 }
 
-SDL_AudioFormat DriverSDL::format_translate(audio::SampleFormat sample_format) {
+SDL_AudioFormat DriverSDL::FormatTranslate(audio::SampleFormat sample_format) {
   SDL_AudioFormat ret = 0;
 
   if (audio::SampleFormat::FLTP == sample_format) {
@@ -94,11 +96,11 @@ SDL_AudioFormat DriverSDL::format_translate(audio::SampleFormat sample_format) {
   return ret;
 }
 
-void DriverSDL::audio_callback(void *data, Uint8 *stream, int len) {
-  static_cast<DriverSDL*>(data)->playback(stream, len);
+void DriverSDL::AudioCallback(void *data, Uint8 *stream, int len) {
+  static_cast<DriverSDL *>(data)->Playback(stream, len);
 }
 
-void DriverSDL::playback(Uint8 *stream, int len) {
+void DriverSDL::Playback(Uint8 *stream, int len) {
   buffer_.get(stream, 0, len);
 }
 

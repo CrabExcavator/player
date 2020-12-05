@@ -63,7 +63,7 @@ bool VideoOutput::LoopImpl() {
   if (running_) {
     if (nullptr != frame_ && !frame_->IsLast()) {
       /**
-       * we can not just dive into playback code with sync reason
+       * we can not just dive into Playback code with sync reason
        * sync with system clock
        */
       auto rendering_time = (frame_->GetPts() - last_pts_) * time_base_ + last_tick_;
@@ -71,11 +71,11 @@ bool VideoOutput::LoopImpl() {
       last_tick_ = std::chrono::steady_clock::now();
       last_pts_ = frame_->GetPts();
 
-      /// playback
+      /// Playback
       frame_rendering_ = frame_;
       driver_->DrawImage(shared_from_this());
       frame_rendering_ = nullptr;
-      /// playback
+      /// Playback
 
       frame_ = nullptr;
     }

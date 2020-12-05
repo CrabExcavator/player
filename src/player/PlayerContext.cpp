@@ -21,6 +21,14 @@ namespace player {
 static std::string audio_sample = "sample.mp3";
 static std::string video_sample = "small_bunny_1080p_60fps.mp4";
 
+PlayerContext::PlayerContext():
+input_ctx_(nullptr),
+event_handler_(nullptr),
+demux_ctx_(nullptr),
+ao_(nullptr),
+vo_(nullptr),
+runners(){}
+
 common::Error PlayerContext::Init() {
   auto ret = common::Error::SUCCESS;
 
@@ -56,7 +64,7 @@ common::Error PlayerContext::Run() {
   runners.emplace_back(misc::Future::CreateFutureNode(vo_));
   BLOCKING_PUSH_TO_SLOT(ENTRY_SLOT,
                         std::make_shared<player::PlayEntry>
-                   (player::entry_type::file, audio_sample, 0));
+                   (player::entry_type::file, video_sample, 0));
   do {} while (Loop());
   return ret;
 }
@@ -85,6 +93,16 @@ bool PlayerContext::LoopImpl() {
     }
   }
   return common::Error::SUCCESS == ret;
+}
+
+common::Error PlayerContext::Destroy() {
+  auto ret =common::Error::SUCCESS;
+  input_ctx_ = nullptr;
+  event_handler_ = nullptr;
+  demux_ctx_ = nullptr;
+  ao_ = nullptr;
+  vo_ = nullptr;
+  return ret;
 }
 
 }

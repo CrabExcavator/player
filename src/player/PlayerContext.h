@@ -26,13 +26,19 @@ class PlayerContext : public misc::Runnable, public misc::Looper<60>, public std
   /**
    * @brief default
    */
-  PlayerContext() = default;
+  PlayerContext();
 
   /**
    * @brief Init player context && start threads
    * @return error code
    */
   common::Error Init();
+
+  /**
+   * @brief Destroy player context
+   * @return error code
+   */
+  common::Error Destroy();
 
   /**
    * @brief run main loop
@@ -64,9 +70,9 @@ class PlayerContext : public misc::Runnable, public misc::Looper<60>, public std
   input::handler::event_handler_chain_sptr event_handler_;
 
   /**
-   * @brief video output
+   * @brief demux context
    */
-  output::video::vo_sptr vo_;
+  demux::demux_ctx_sptr demux_ctx_;
 
   /**
    * @brief audio output
@@ -74,9 +80,9 @@ class PlayerContext : public misc::Runnable, public misc::Looper<60>, public std
   output::audio::ao_sptr ao_;
 
   /**
-   * @brief demux context
+   * @brief video output
    */
-  demux::demux_ctx_sptr demux_ctx_;
+  output::video::vo_sptr vo_;
 
   /**
    * @brief all runners

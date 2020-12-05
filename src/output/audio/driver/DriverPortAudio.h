@@ -30,7 +30,7 @@ class DriverPortAudio : public AudioDriver {
   ~DriverPortAudio() override;
 
   /**
-   * @brief bind PortAudio playback callback & terminate callback
+   * @brief bind PortAudio Playback callback & terminate callback
    * @param [in] ao audio output
    * @return error code
    */
@@ -46,7 +46,7 @@ class DriverPortAudio : public AudioDriver {
   common::Error Play(ao_sptr ao) override;
 
   /**
-   * @brief stop audio playback
+   * @brief stop audio Playback
    * @param [in] ao audio output
    * @return error code
    */
@@ -82,7 +82,7 @@ class DriverPortAudio : public AudioDriver {
   void paStreamFinishedMethod();
 
   /**
-   * @brief PortAudio playback callback wrapper
+   * @brief PortAudio Playback callback wrapper
    * @param [in] inputBuffer
    * @param [out] outputBuffer
    * @param [out] framesPerBuffer
@@ -98,9 +98,9 @@ class DriverPortAudio : public AudioDriver {
                         void *userData);
 
   /**
-   * @brief PortAudio playback callback
+   * @brief PortAudio Playback callback
    * @param [in] inputBuffer data from input device like microphone
-   * @param [out] outputBuffer data to playback
+   * @param [out] outputBuffer data to Playback
    * @param [out] framesPerBuffer number of frame in inputBuffer of outputBuffer
    * @param [in] timeInfo timing info when callback is called
    * @param [out] statusFlags Flag bit constants for the statusFlags to PaStreamCallback
@@ -118,7 +118,7 @@ class DriverPortAudio : public AudioDriver {
   PaStream *stream_ = nullptr;
 
   /**
-   * @brief buffer to pass bytes to PortAudio playback callback
+   * @brief buffer to pass bytes to PortAudio Playback callback
    */
   misc::Buffer<uint8_t, 65536> buffer_;
 };
