@@ -13,11 +13,11 @@ config_sptr Config::getInstance() {
   return _config;
 }
 
-void Config::loadConfig(const std::string &path) {
+void Config::LoadConfig(const std::string &path) {
   LOG(INFO) << "load config";
 }
 
-Config::Config() : _dic(std::make_unique<std::unordered_map<std::string, std::string>>()) {
+Config::Config() : dic_(std::make_unique<std::unordered_map<std::string, std::string>>()) {
 
 }
 

@@ -33,7 +33,7 @@ class Config {
    * @brief load config from local filesystem
    * @param [in] path path of config file
    */
-  static void loadConfig(const std::string &path);
+  static void LoadConfig(const std::string &path);
 
   /**
    * @brief delete
@@ -73,8 +73,8 @@ class Config {
    * @return value
    */
   template<typename T>
-  T get(const misc::Pocket<T> &pocket) {
-    std::lock_guard _(_mutex);
+  T Get(const misc::Pocket<T> &pocket) {
+    std::lock_guard _(mutex_);
     const auto &key = pocket.getKey();
     // todo add additional type support
 //            if (_dic->contains(key)) {
@@ -93,15 +93,15 @@ class Config {
   /**
    * @brief mutex
    */
-  std::mutex _mutex;
+  std::mutex mutex_;
 
   /**
    * @brief data structure to store config
    */
-  dic_uptr _dic;
+  dic_uptr dic_;
 };
 
-#define GET_CONFIG(entry) common::Config::getInstance()->get(common::DefaultConfig::entry)
+#define GET_CONFIG(entry) common::Config::getInstance()->Get(common::DefaultConfig::entry)
 
 }
 
