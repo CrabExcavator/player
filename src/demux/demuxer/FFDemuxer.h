@@ -35,7 +35,7 @@ class FFDemuxer : public IDemuxer {
   common::Error Epoch() override;
 
   /**
-   * @brief close
+   * @brief Close
    * @return error code
    */
   common::Error Close() override;

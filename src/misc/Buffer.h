@@ -74,9 +74,9 @@ class Buffer {
   }
 
   /**
-   * @brief clear all ele
+   * @brief Clear all ele
    */
-  void clear() {
+  void Clear() {
     mutex_.lock();
     DEFER([&]() { mutex_.unlock(); });
     close_ = false;
@@ -86,19 +86,11 @@ class Buffer {
   }
 
   /**
-   * @brief close buffer and release all choke thread
+   * @brief Close buffer and release all choke thread
    */
-  void close() {
+  void Close() {
     close_ = true;
     cond_.notify_all();
-  }
-
-  /**
-   * @brief size of buffer
-   * @return size of buffer
-   */
-  int size() {
-    return buffered_ele_;
   }
 
  private:
@@ -204,7 +196,7 @@ class Buffer {
 
  private:
   /**
-   * @brief is buffer close
+   * @brief is buffer Close
    */
   std::atomic<bool> close_ = false;
 

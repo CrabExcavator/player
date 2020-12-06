@@ -30,7 +30,7 @@ static std::map<SampleFormat, PaSampleFormat> sampleMap = {
 };
 
 DriverPortAudio::~DriverPortAudio() {
-  buffer_.close();
+  buffer_.Close();
   Pa_StopStream(stream_);
   Pa_Terminate();
 }

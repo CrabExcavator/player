@@ -33,7 +33,7 @@ class FFStream : public IStream {
   common::Error Read(frame::frame_sptr &frame) override;
 
   /**
-   * @brief close stream
+   * @brief Close stream
    * @return error code
    */
   common::Error Close() override;

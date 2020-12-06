@@ -60,7 +60,7 @@ common::Error DriverSDL::DrawImage(vo_sptr vo) {
   misc::vector_sptr<misc::Slice> data = nullptr;
 
   if (common::Error::SUCCESS != (ret = sdl_manager->RenderClear(renderer_))) {
-    LOG(WARNING) << "render clear fail";
+    LOG(WARNING) << "render Clear fail";
   } else if (nullptr == vo->frame_rendering_) {
     // do nothing
   } else if (common::Error::SUCCESS !=

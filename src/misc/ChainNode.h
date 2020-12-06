@@ -37,7 +37,7 @@ class ChainNode {
   virtual common::Error Flush(const vector_sptr<T> &in, vector_sptr<T> &out) = 0;
 
   /**
-   * @brief close
+   * @brief Close
    * @return error code
    */
   virtual common::Error Close() = 0;

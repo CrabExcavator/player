@@ -17,7 +17,7 @@ DriverSDL::DriverSDL():
 
 DriverSDL::~DriverSDL() {
   auto &sdl_manager = tool::sdl::SDLManager::GetInstance();
-  buffer_.close();
+  buffer_.Close();
   sdl_manager->PauseAudioDevice(device_id_, 1);
   SDL_CloseAudioDevice(device_id_);
   device_id_ = 0;

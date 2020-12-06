@@ -27,7 +27,7 @@ class DriverSDL : public VideoDriver {
   DriverSDL();
 
   /**
-   * @brief clear SDL
+   * @brief Clear SDL
    */
   ~DriverSDL() override;
 

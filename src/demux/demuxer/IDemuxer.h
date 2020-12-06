@@ -37,7 +37,7 @@ class IDemuxer {
   virtual common::Error Epoch() = 0;
 
   /**
-   * @brief close demuxer
+   * @brief Close demuxer
    * @return error code
    */
   virtual common::Error Close() = 0;

@@ -32,7 +32,7 @@ class IStream {
   virtual common::Error Read(frame::frame_sptr &frame) = 0;
 
   /**
-   * @brief close stream
+   * @brief Close stream
    * @return error code
    */
   virtual common::Error Close() = 0;

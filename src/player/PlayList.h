@@ -161,7 +161,7 @@ class PlayList : public std::enable_shared_from_this<PlayList> {
   play_list_sptr removeIndex(int index);
 
   /**
-   * @brief clear play list
+   * @brief Clear play list
    * @return pointer to *this
    */
   play_list_sptr clear();

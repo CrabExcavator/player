@@ -120,7 +120,7 @@ class Chain : public std::enable_shared_from_this<Chain<T>> {
   }
 
   /**
-   * @brief close chain
+   * @brief Close chain
    * @return error code
    */
   common::Error Close() {
