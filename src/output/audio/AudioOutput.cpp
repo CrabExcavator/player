@@ -47,24 +47,17 @@ common::Error AudioOutput::Stop() {
 
 bool AudioOutput::LoopImpl() {
   if (running_) {
-    if (frame_ != nullptr && !frame_->IsLast()) {
+    if (nullptr != frame_ && !frame_->IsLast()) {
       if (frame_->IsFirst()) {
+        driver_->Init(shared_from_this());
+        UpdateDesc(frame_);
         tool::resample::Desc dst_desc{}, src_desc{};
         if (common::Error::SUCCESS == driver_->GetDesc(shared_from_this(), dst_desc)) {
           auto ff_resample = std::make_shared<tool::resample::FFResample>();
-          src_desc.sample_format = frame_->GetSampleFormat();
-          src_desc.sample_rate = frame_->GetSampleRate();
-          src_desc.number_of_channel = frame_->GetNumOfChannel();
-          src_desc.linesize = frame_->GetAudioLineSize();
-          src_desc.layout = frame_->GetChannelLayout();
+          FillDesc(frame_, src_desc);
           ff_resample->Init(src_desc, dst_desc);
           resample_ = ff_resample;
         }
-        sample_format_ = frame_->GetSampleFormat();
-        num_of_channel_ = frame_->GetNumOfChannel();
-        size_of_sample_ = frame_->GetSampleSize();
-        sample_rate_ = frame_->GetSampleRate();
-        driver_->Open(shared_from_this());
       }
 
       if (nullptr != resample_) {
@@ -73,6 +66,13 @@ bool AudioOutput::LoopImpl() {
         auto resample_frame = std::make_shared<demux::frame::ResampledFrame>();
         resample_frame->Init(frame_, resample_output);
         frame_ = resample_frame;
+        if (frame_->IsFirst()) {
+          UpdateDesc(frame_);
+        }
+      }
+
+      if (frame_->IsFirst()) {
+        driver_->Open(shared_from_this());
       }
 
       /// start Playback
@@ -86,19 +86,6 @@ bool AudioOutput::LoopImpl() {
 
     if (nullptr != stream_ &&
         common::Error::SUCCESS == stream_->Read(frame_)) {
-      /**
-       * we should do something for first frame
-       * @attention the first frame always carry data
-       */
-      if (frame_->IsFirst()) {
-        // init audio output
-        sample_format_ = frame_->GetSampleFormat();
-        num_of_channel_ = frame_->GetNumOfChannel();
-        size_of_sample_ = frame_->GetSampleSize();
-        sample_rate_ = frame_->GetSampleRate();
-        channel_layout_ = frame_->GetChannelLayout();
-        driver_->Init(shared_from_this());
-      }
 
       /**
        * we should do something for last frame
@@ -119,6 +106,23 @@ bool AudioOutput::LoopImpl() {
     }
   }
   return running_;
+}
+
+void AudioOutput::UpdateDesc(const demux::frame::frame_sptr& frame) {
+  sample_format_ = frame->GetSampleFormat();
+  num_of_channel_ = frame->GetNumOfChannel();
+  size_of_sample_ = frame->GetSampleSize();
+  sample_rate_ = frame->GetSampleRate();
+  channel_layout_ = frame->GetChannelLayout();
+}
+
+void AudioOutput::FillDesc(const demux::frame::frame_sptr &frame, tool::resample::Desc &desc) {
+  desc.sample_format = frame->GetSampleFormat();
+  desc.layout = frame->GetChannelLayout();
+  desc.sample_rate = frame->GetSampleRate();
+  desc.number_of_channel = frame->GetNumOfChannel();
+  desc.number_of_sample = frame->GetNumOfSample();
+  desc.linesize = frame->GetAudioLineSize();
 }
 
 }

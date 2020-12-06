@@ -24,7 +24,7 @@ common::Error SDLManager::Init() {
 
   if (inited_) {
     ret = common::Error::INITED_TWICE;
-  } else if (0 > SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
+  } else if (0 > SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
     ret = common::Error::SDL_ERR_INIT;
   } else {
     inited_ = true;
@@ -362,6 +362,52 @@ common::Error SDLManager::PauseAudio(int pause_on) const {
     LOG(WARNING) << "sdl not init";
   } else {
     SDL_PauseAudio(pause_on);
+  }
+  return ret;
+}
+
+common::Error SDLManager::OpenAudioDevice(const char *device,
+                                          int is_capture,
+                                          const SDL_AudioSpec *desired,
+                                          SDL_AudioSpec *&obtained,
+                                          int allowed_changes,
+                                          SDL_AudioDeviceID &device_id) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not init";
+  } else if (0 >= (device_id = SDL_OpenAudioDevice(device,
+                                                  is_capture,
+                                                  desired,
+                                                  obtained,
+                                                  allowed_changes))) {
+    ret = common::Error::SDL_ERR_OPEN_AUDIO;
+    LOG(WARNING) << "open audio device fail " << SDL_GetError();
+  }
+  return ret;
+}
+
+common::Error SDLManager::CloseAudioDevice(const int &device_id) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not init";
+  } else {
+    SDL_CloseAudioDevice(device_id);
+  }
+  return ret;
+}
+
+common::Error SDLManager::PauseAudioDevice(const int &device_id, int pause_on) const {
+  auto ret = common::Error::SUCCESS;
+
+  if (!inited_) {
+    ret = common::Error::NOT_INITED;
+    LOG(WARNING) << "sdl not init";
+  } else {
+    SDL_PauseAudioDevice(device_id, pause_on);
   }
   return ret;
 }

@@ -27,8 +27,13 @@ common::Error FFResampleOutput::GetData(misc::vector_sptr<misc::Slice> &out) {
   assert(nullptr == out);
 
   out = std::make_shared<std::vector<misc::Slice>>();
-  for (int i = 0 ; i < desc_.number_of_channel ; i++) {
-    misc::Slice slice(data_[i], desc_.linesize);
+  if (output::audio::IsPlaneSampleFormat(desc_.sample_format)) {
+    for (int i = 0; i < desc_.number_of_channel; i++) {
+      misc::Slice slice(data_[i], desc_.linesize);
+      out->emplace_back(slice);
+    }
+  } else {
+    misc::Slice slice(data_[0], desc_.linesize);
     out->emplace_back(slice);
   }
   return ret;
@@ -109,7 +114,7 @@ common::Error FFResample::operator()(const uint8_t **src_data,
                                              dst_.number_of_sample,
                                              SampleFormatTranslate(dst_.sample_format),
                                              0)) {
-    ret = common::Error::OUT_OF_MEMORY;
+    ret = common::Error::UNKNOWN_ERROR;
   } else if (0 > (dst_.number_of_sample = swr_convert(swr_ctx_.get(),
                                                       dst_data,
                                                       dst_.number_of_sample,
@@ -141,6 +146,10 @@ AVSampleFormat FFResample::SampleFormatTranslate(output::audio::SampleFormat sam
 
   if (output::audio::SampleFormat::FLTP == sample_format) {
     ret = AV_SAMPLE_FMT_FLTP;
+  } else if (output::audio::SampleFormat::S16P == sample_format) {
+    ret = AV_SAMPLE_FMT_S16P;
+  } else if (output::audio::SampleFormat::S16 == sample_format) {
+    ret = AV_SAMPLE_FMT_S16;
   }
   return ret;
 }

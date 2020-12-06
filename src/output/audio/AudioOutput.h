@@ -46,6 +46,11 @@ class AudioOutput : public IOutput, public std::enable_shared_from_this<AudioOut
   bool LoopImpl() override;
 
  private:
+  void UpdateDesc(const demux::frame::frame_sptr &frame);
+
+  static void FillDesc(const demux::frame::frame_sptr &frame, tool::resample::Desc &desc);
+
+ private:
   std::atomic<bool> running_;
   audio::driver::audio_driver_uptr driver_;
   demux::frame::frame_sptr frame_;

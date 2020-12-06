@@ -15,6 +15,7 @@ namespace output::audio::driver {
 
 class DriverSDL : public AudioDriver {
  public:
+  DriverSDL();
   ~DriverSDL() override;
   common::Error Init(ao_sptr ao) override;
   common::Error Open(ao_sptr ao) override;
@@ -31,6 +32,7 @@ class DriverSDL : public AudioDriver {
 
  private:
   misc::Buffer<uint8_t, 65536> buffer_;
+  SDL_AudioDeviceID device_id_;
 };
 
 }

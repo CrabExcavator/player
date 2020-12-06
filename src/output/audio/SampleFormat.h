@@ -17,6 +17,8 @@ namespace output::audio {
 enum class SampleFormat : std::int64_t {
   UNKNOWN = 0, /**< enum value 0 */
   FLTP, /**< enum value 1 */
+  S16P, /**< enum value 2 */
+  S16,
 };
 
 struct SampleFormatAttribute {
@@ -25,6 +27,8 @@ struct SampleFormatAttribute {
 };
 
 extern std::map<SampleFormat, SampleFormatAttribute*> SampleFormatAttributeMap;
+
+extern bool IsPlaneSampleFormat(SampleFormat format);
 
 };
 

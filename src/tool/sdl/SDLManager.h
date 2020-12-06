@@ -95,6 +95,18 @@ class SDLManager : public misc::GlobalInstance<SDLManager> {
   common::Error OpenAudio(SDL_AudioSpec *desired, SDL_AudioSpec *obtained) const;
 
   common::Error PauseAudio(int pause_on) const;
+
+  common::Error OpenAudioDevice(const char *device,
+                                int is_capture,
+                                const SDL_AudioSpec *desired,
+                                SDL_AudioSpec *&obtained,
+                                int allowed_changes,
+                                SDL_AudioDeviceID &device_id) const;
+
+  common::Error CloseAudioDevice(const int &device_id) const;
+
+  common::Error PauseAudioDevice(const int &device_id, int pause_on) const;
+
  private:
   SDLManager();
 

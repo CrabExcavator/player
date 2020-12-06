@@ -12,7 +12,7 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + ~~event handler~~
 + ~~dispatch Stream to Output~~
 + ~~resample~~
-+ ao & vo ReConfig
++ support packed audio format
 + thread pool for decode & blit & resample
 + video sync with audio
 + serializer
@@ -20,6 +20,7 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + object pool
 + REPL
 + osd
++ ao & vo ReConfig
 + seek
 + network streaming
 + cache
@@ -33,6 +34,9 @@ It's free media player that aiming at supporting Iot device or embedded in other
 
 + resample need flush
     + [refer](https://blog.csdn.net/qq_34305316/article/details/106459849)
+  
++ sdl audio driver
+    + there is not sound if callback stuck for a period
 
 ## TEST
 
