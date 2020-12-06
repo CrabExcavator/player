@@ -70,7 +70,7 @@ common::Error DriverSDL::Play(ao_sptr ao) {
       if (IsPlaneSampleFormat(ao->sample_format_)) {
         for (int sample = 0; sample < ao->frame_playing_->GetNumOfSample(); sample++) {
           for (auto aData : *data) {
-            buffer_.put(aData.GetPtr(), cur, ao->size_of_sample_);
+            buffer_.Put(aData.GetPtr(), cur, ao->size_of_sample_);
           }
           cur += ao->size_of_sample_;
         }
@@ -78,10 +78,10 @@ common::Error DriverSDL::Play(ao_sptr ao) {
         if (1 != data->size()) {
           ret = common::Error::UNKNOWN_ERROR;
         } else {
-          buffer_.put(data->at(0).GetPtr(), 0,
+          buffer_.Put(data->at(0).GetPtr(), 0,
                       ao->num_of_channel_
-                      * ao->size_of_sample_
-                      * ao->frame_playing_->GetNumOfSample());
+                          * ao->size_of_sample_
+                          * ao->frame_playing_->GetNumOfSample());
         }
       }
     }
@@ -137,7 +137,7 @@ void DriverSDL::AudioCallback(void *data, Uint8 *stream, int len) {
 }
 
 void DriverSDL::Playback(Uint8 *stream, int len) {
-  buffer_.get(stream, 0, len);
+  buffer_.Get(stream, 0, len);
 }
 
 }

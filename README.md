@@ -12,8 +12,8 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + ~~event handler~~
 + ~~dispatch Stream to Output~~
 + ~~resample~~
-+ support packed audio format
-+ thread pool for decode & blit & resample
++ ~~support packed audio format~~
++ bit rate control
 + video sync with audio
 + serializer
 + config
@@ -54,7 +54,7 @@ It's free media player that aiming at supporting Iot device or embedded in other
 
 the source files are organized by different usage in different folder and designed
 by traditional OOP that the src code that impl one feature should not cross 
-too many files, the dst code can though. Anyway, we should consider where to put
+too many files, the dst code can though. Anyway, we should consider where to Put
 the src code and to fix it in.
 
 ### The Folder

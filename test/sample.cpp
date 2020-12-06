@@ -86,43 +86,43 @@ TEST(SAMPLE, AUDIO) {
     ASSERT_EQ(err, paNoError);
 }
 
-#include "misc/Buffer.h"
-
-TEST(SAMPLE, BUFFER) {
-    for (int i = 0 ; i < 1000 ; i++) {
-        LOG(INFO) << "----------------------------------------------------------------";
-        long long total_put = 0;
-        long long total_get = 0;
-        misc::Buffer<uint8_t, 10> buffer;
-        std::array<uint8_t, 3> in{3, 2, 1};
-        std::array<uint8_t, 3> x{1, 2, 3};
-        misc::Thread thread("233");
-        thread.run([&]() {
-            for (int j = 0; j < 1000; j++) {
-                buffer.get(x, 0, 3);
-                ASSERT_EQ(x, in);
-                total_get += 3;
-            }
-        });
-        for (int j = 0; j < 1000; j++) {
-            buffer.put(in, 0, 3);
-            total_put += 3;
-        }
-        thread.join();
-        LOG(INFO) << total_put << " " << total_get << " " << buffer.size();
-    }
-    std::array<uint8_t, 3> in{3, 2, 1};
-    misc::Buffer<uint8_t , 100> buffer;
-    misc::Thread thread;
-    thread.run([&](){
-        for (int i = 0 ; i < 100 ; i++) {
-            buffer.put(in, 0, 3);
-        }
-    });
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    buffer.close();
-    thread.join();
-}
+//#include "misc/Buffer.h"
+//
+//TEST(SAMPLE, BUFFER) {
+//    for (int i = 0 ; i < 1000 ; i++) {
+//        LOG(INFO) << "----------------------------------------------------------------";
+//        long long total_put = 0;
+//        long long total_get = 0;
+//        misc::Buffer<uint8_t, 10> buffer;
+//        std::array<uint8_t, 3> in{3, 2, 1};
+//        std::array<uint8_t, 3> x{1, 2, 3};
+//        misc::Thread thread("233");
+//        thread.run([&]() {
+//            for (int j = 0; j < 1000; j++) {
+//              buffer.Get(x, 0, 3);
+//                ASSERT_EQ(x, in);
+//                total_get += 3;
+//            }
+//        });
+//        for (int j = 0; j < 1000; j++) {
+//          buffer.Put(in, 0, 3);
+//            total_put += 3;
+//        }
+//        thread.join();
+//        LOG(INFO) << total_put << " " << total_get << " " << buffer.size();
+//    }
+//    std::array<uint8_t, 3> in{3, 2, 1};
+//    misc::Buffer<uint8_t , 100> buffer;
+//    misc::Thread thread;
+//    thread.run([&](){
+//        for (int i = 0 ; i < 100 ; i++) {
+//          buffer.Put(in, 0, 3);
+//        }
+//    });
+//    std::this_thread::sleep_for(std::chrono::seconds(1));
+//    buffer.close();
+//    thread.join();
+//}
 
 TEST(SAMPLE, DEFER) {
     DEFER([](){

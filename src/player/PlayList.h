@@ -231,7 +231,7 @@ class PlayList : public std::enable_shared_from_this<PlayList> {
   std::set<PlayEntry> _set;
 
   /**
-   * @brief where to put play entry
+   * @brief where to Put play entry
    */
   std::list<play_entry_sptr> _entries;
 

@@ -65,94 +65,12 @@ class Buffer {
     array_ = std::move(rhs.array_);
   }
 
-  /**
-   * @brief put ele in array with copy fashion
-   * @param [in] src head of src
-   * @param [in] beginOfEle begin of ele to copy
-   * @param [in] numOfEle number of ele to copy
-   */
-  template<typename INT1, typename INT2>
-  void put(const T *src, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(mutex_);
-    cond_.wait(lock, [&](){
-      return close_ || PutCond(numOfEle);
-    });
-    int nxt_tail = tail_ + numOfEle;
-    for (INT2 i = 0; i < numOfEle; i++) {
-      array_[(tail_ + i) % Size] = src[beginOfEle + i];
-    }
-    tail_ = nxt_tail % Size;
-    buffered_ele_ += numOfEle;
-    lock.unlock();
-    cond_.notify_one();
+  void Get(T *dst, int beginOfEle, int numOfEle) {
+    GetImpl<T>(dst, beginOfEle, numOfEle);
   }
 
-  /**
-   * @brief put ele in array with copy fashion
-   * @tparam oSize the size of src array
-   * @param [in] src src array to copy
-   * @param [in] beginOfEle begin of ele to copy
-   * @param [in] numOfEle number of ele to copy
-   */
-  template<typename INT1, typename INT2, size_t oSize>
-  void put(const std::array<T, oSize> &src, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(mutex_);
-    cond_.wait(lock, [&](){
-      return close_ || PutCond(numOfEle);
-    });
-    int nxt_tail = tail_ + numOfEle;
-    for (INT2 i = 0; i < numOfEle; i++) {
-      array_[(tail_ + i) % Size] = src[(beginOfEle + i) % oSize];
-    }
-    tail_ = nxt_tail % Size;
-    buffered_ele_ += numOfEle;
-    lock.unlock();
-    cond_.notify_one();
-  }
-
-  /**
-   * @brief get ele from array to dst
-   * @param [out] dst pointer to dst
-   * @param [in] beginOfEle begin of ele to put
-   * @param [in] numOfEle number of ele to put
-   */
-  template<typename INT1, typename INT2>
-  void get(T *dst, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(mutex_);
-    cond_.wait(lock, [&](){
-      return close_ || GetCond(numOfEle);
-    });
-    int nxt_head = head_ + numOfEle;
-    for (INT2 i = 0; i < numOfEle; i++) {
-      dst[beginOfEle + i] = array_[(head_ + i) % Size];
-    }
-    head_ = nxt_head % Size;
-    buffered_ele_ -= numOfEle;
-    lock.unlock();
-    cond_.notify_one();
-  }
-
-  /**
-   * @brief get ele from array to dst
-   * @tparam oSize size of dst array
-   * @param [out] dst pointer to dst
-   * @param [in] beginOfEle begin of ele to put
-   * @param [in] numOfEle number of ele to put
-   */
-  template<typename INT1, typename INT2, size_t oSize>
-  void get(std::array<T, oSize> &dst, INT1 beginOfEle, INT2 numOfEle) {
-    std::unique_lock<std::mutex> lock(mutex_);
-    cond_.wait(lock, [&](){
-      return close_ || GetCond(numOfEle);
-    });
-    int nxt_head = head_ + numOfEle;
-    for (INT2 i = 0; i < numOfEle; i++) {
-      dst[(beginOfEle + i) % oSize] = array_[(head_ + i) % Size];
-    }
-    head_ = nxt_head % Size;
-    buffered_ele_ -= numOfEle;
-    lock.unlock();
-    cond_.notify_one();
+  void Put(const T *src, int beginOfEle, int numOfEle) {
+    PutImpl<T>(src, beginOfEle, numOfEle);
   }
 
   /**
@@ -200,6 +118,88 @@ class Buffer {
    */
   inline bool PutCond(int numOfEle) {
     return numOfEle + buffered_ele_ <= Size;
+  }
+
+  /**
+   * @brief get ele from array to dst
+   * @param [out] dst pointer to dst
+   * @param [in] beginOfEle begin of ele to Put
+   * @param [in] numOfEle number of ele to Put
+   */
+  template<typename delegate>
+  inline void GetImpl(T *dst, int beginOfEle, int numOfEle) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || GetCond(numOfEle);
+    });
+    int nxt_head = (head_ + numOfEle) % Size;
+    for (int i = 0; i < numOfEle; i++) {
+      dst[beginOfEle + i] = array_[(head_ + i) % Size];
+    }
+    head_ = nxt_head;
+    buffered_ele_ -= numOfEle;
+    lock.unlock();
+    cond_.notify_one();
+  }
+
+  template<>
+  inline void GetImpl<uint8_t>(T *dst, int beginOfEle, int numOfEle) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || GetCond(numOfEle);
+    });
+    int nxt_head = (head_ + numOfEle) % Size;
+    if (nxt_head <= head_) {
+      memcpy(dst + beginOfEle, array_.data() + head_, Size - head_);
+      memcpy(dst + beginOfEle + Size - head_, array_.data(), nxt_head);
+    } else {
+      memcpy(dst + beginOfEle, array_.data() + head_, numOfEle);
+    }
+    head_ = nxt_head;
+    buffered_ele_ -= numOfEle;
+    lock.unlock();
+    cond_.notify_one();
+  }
+
+  /**
+   * @brief Put ele in array with copy fashion
+   * @param [in] src head of src
+   * @param [in] beginOfEle begin of ele to copy
+   * @param [in] numOfEle number of ele to copy
+   */
+  template<typename delegate>
+  inline void PutImpl(const T *src, int beginOfEle, int numOfEle) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || PutCond(numOfEle);
+    });
+    int nxt_tail = (tail_ + numOfEle) % Size;
+    for (int i = 0; i < numOfEle; i++) {
+      array_[(tail_ + i) % Size] = src[beginOfEle + i];
+    }
+    tail_ = nxt_tail;
+    buffered_ele_ += numOfEle;
+    lock.unlock();
+    cond_.notify_one();
+  }
+
+  template<>
+  inline void PutImpl<uint8_t>(const T *src, int beginOfEle, int numOfEle) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    cond_.wait(lock, [&](){
+      return close_ || PutCond(numOfEle);
+    });
+    int nxt_tail = (tail_ + numOfEle) % Size;
+    if (nxt_tail <= tail_) {
+      memcpy(array_.data() + tail_, src + beginOfEle, Size - tail_);
+      memcpy(array_.data(), src + beginOfEle + Size - tail_, nxt_tail);
+    } else {
+      memcpy(array_.data() + tail_, src + beginOfEle, numOfEle);
+    }
+    tail_ = nxt_tail;
+    buffered_ele_ += numOfEle;
+    lock.unlock();
+    cond_.notify_one();
   }
 
  private:

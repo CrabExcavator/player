@@ -85,7 +85,7 @@ common::Error DriverPortAudio::Play(ao_sptr ao) {
             // do nothing
           } else {
             for (auto aData : *data) {
-              buffer_.put(aData.GetPtr(), cur, ao->size_of_sample_);
+              buffer_.Put(aData.GetPtr(), cur, ao->size_of_sample_);
             }
           }
           cur += ao->size_of_sample_;
@@ -137,7 +137,7 @@ int DriverPortAudio::paCallback(const void *inputBuffer, void *outputBuffer, uns
 
 int DriverPortAudio::paCallbackMethod(const void *inputBuffer, void *outputBuffer, unsigned long samplesPerBuffer,
                                       const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags) {
-  buffer_.get(static_cast<uint8_t *>(outputBuffer), 0, num_of_channel * unit_size * samplesPerBuffer);
+  buffer_.Get(static_cast<uint8_t *>(outputBuffer), 0, num_of_channel * unit_size * samplesPerBuffer);
   return paContinue;
 }
 
