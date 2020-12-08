@@ -3,6 +3,8 @@
 // Copyright (c) 2020 Studio F.L.A. All rights reserved.
 //
 
+#include <cassert>
+
 #include "FFResample.h"
 
 namespace tool::resample {

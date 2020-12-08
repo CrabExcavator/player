@@ -11,6 +11,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
+#include <cstdint>
 
 #include "misc/util.h"
 #include "typeptr.h"
@@ -66,11 +67,11 @@ class Buffer {
   }
 
   void Get(T *dst, int beginOfEle, int numOfEle) {
-    GetImpl<T>(dst, beginOfEle, numOfEle);
+    GetImpl(dst, beginOfEle, numOfEle);
   }
 
   void Put(const T *src, int beginOfEle, int numOfEle) {
-    PutImpl<T>(src, beginOfEle, numOfEle);
+    PutImpl(src, beginOfEle, numOfEle);
   }
 
   /**
@@ -134,8 +135,7 @@ class Buffer {
     cond_.notify_one();
   }
 
-  template<>
-  inline void GetImpl<uint8_t>(T *dst, int beginOfEle, int numOfEle) {
+  inline void GetImpl(uint8_t *dst, int beginOfEle, int numOfEle) {
     std::unique_lock<std::mutex> lock(mutex_);
     cond_.wait(lock, [&](){
       return close_ || GetCond(numOfEle);
@@ -175,8 +175,7 @@ class Buffer {
     cond_.notify_one();
   }
 
-  template<>
-  inline void PutImpl<uint8_t>(const T *src, int beginOfEle, int numOfEle) {
+  inline void PutImpl(const uint8_t *src, int beginOfEle, int numOfEle) {
     std::unique_lock<std::mutex> lock(mutex_);
     cond_.wait(lock, [&](){
       return close_ || PutCond(numOfEle);

@@ -7,6 +7,7 @@
 #define PLAYER_IMAGE_FORMAT_H
 
 #include <map>
+#include <cstdint>
 
 namespace output::video {
 

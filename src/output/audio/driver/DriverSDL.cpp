@@ -110,7 +110,7 @@ common::Error DriverSDL::GetDevices(ao_sptr ao, misc::vector_sptr<std::string> &
 }
 
 common::Error DriverSDL::GetDesc(ao_sptr ao, tool::resample::Desc &desc) {
-  auto ret = common::Error::SUCCESS;
+  auto ret = common::Error::UN_IMPL;
 
   desc.sample_format = SampleFormat::S16;
   desc.sample_rate = ao->sample_rate_;

@@ -5,6 +5,7 @@
 
 #include <map>
 #include <glog/logging.h>
+#include <cassert>
 
 #include "FFFrame.h"
 #include "tool/resample/IResample.h"

@@ -8,6 +8,7 @@
 
 #include <deque>
 #include <memory>
+#include <cassert>
 
 #include "ChainNode.h"
 
