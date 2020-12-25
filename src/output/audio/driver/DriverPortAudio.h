@@ -7,7 +7,6 @@
 #define PLAYER_DRIVERPORTAUDIO_H
 
 #include <portaudio.h>
-#include <folly/MPMCQueue.h>
 
 #include "AudioDriver.h"
 #include "misc/Buffer.h"

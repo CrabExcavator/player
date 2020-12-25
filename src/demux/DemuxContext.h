@@ -7,7 +7,6 @@
 #define PLAYER_DEMUXCONTEXT_H
 
 #include <memory>
-#include <folly/MPMCQueue.h>
 
 #include "player/PlayList.h"
 #include "misc/Thread.h"

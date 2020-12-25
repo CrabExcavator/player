@@ -8,7 +8,6 @@
 
 #include <memory>
 #include <chrono>
-#include <folly/MPMCQueue.h>
 
 #include "ImageFormat.h"
 #include "output/video/driver/VideoDriver.h"

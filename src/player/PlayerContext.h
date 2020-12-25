@@ -7,7 +7,6 @@
 #define PLAYER_PLAYERCONTEXT_H
 
 #include <memory>
-#include <folly/MPMCQueue.h>
 
 #include "misc/typeptr.h"
 #include "misc/Runnable.h"

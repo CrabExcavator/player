@@ -13,6 +13,7 @@
 #include "common/Error.h"
 #include "common/Signal.h"
 #include "misc/typeptr.h"
+#include "misc/Channel.h"
 
 namespace common {
 

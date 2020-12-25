@@ -130,3 +130,17 @@ TEST(SAMPLE, DEFER) {
     });
     std::cout << "HEHE" << std::endl;
 }
+
+#include "misc/Channel.h"
+
+TEST(SAMPLE, CHANNEL) {
+  misc::Channel<100, int> channel;
+  for (int i = 0 ; i < 100 ; i++) {
+    channel.BlockingPut(i);
+  }
+  int val;
+  for (int i = 0 ; i < 100 ; i++) {
+    channel.BlockingGet(val);
+    ASSERT_EQ(i, val);
+  }
+}

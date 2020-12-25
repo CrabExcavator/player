@@ -10,6 +10,7 @@
 
 #include "IStream.h"
 #include "misc/avheader.h"
+#include "misc/Channel.h"
 
 namespace demux::stream {
 

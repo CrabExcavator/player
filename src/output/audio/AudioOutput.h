@@ -8,7 +8,6 @@
 
 #include <memory>
 #include <chrono>
-#include <folly/MPMCQueue.h>
 
 #include "SampleFormat.h"
 #include "output/audio/driver/AudioDriver.h"
