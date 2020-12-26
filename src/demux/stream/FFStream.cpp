@@ -30,7 +30,6 @@ common::Error FFStream::Init(const AVStream *stream) {
   codec_ctx_->channel_layout = av_get_default_channel_layout(codec_ctx_->channels);
   time_base_ = std::chrono::duration_cast<std::chrono::nanoseconds>(
       std::chrono::duration<double>(av_q2d(stream->time_base)));
-  queue_ = std::make_shared<folly::MPMCQueue<frame::ffframe_sptr>>(GET_CONFIG(default_queue_size));
   return common::Error::SUCCESS;
 }
 
@@ -38,7 +37,7 @@ common::Error FFStream::Read(frame::frame_sptr &frame) {
   auto ret = common::Error::SUCCESS;
 
   frame::ffframe_sptr frame_ = nullptr;
-  ret = queue_->read(frame_) ? common::Error::SUCCESS : common::Error::UN_READ;
+  ret = queue_.Get(frame_) ? common::Error::SUCCESS : common::Error::UN_READ;
   frame = frame_;
   return ret;
 }
@@ -46,7 +45,7 @@ common::Error FFStream::Read(frame::frame_sptr &frame) {
 common::Error FFStream::Close() {
   auto frame = std::make_shared<frame::FFFrame>();
   frame->Init(nullptr, false, true);
-  queue_->blockingWrite(frame);
+  queue_.BlockingPut(frame);
   return common::Error::SUCCESS;
 }
 
@@ -74,7 +73,7 @@ common::Error FFStream::Feed(const av_packet_sptr &packet) {
     if (first_) {
       first_ = false;
     }
-    queue_->blockingWrite(frame);
+    queue_.BlockingPut(frame);
   } while (av_err >= 0);
   return err;
 }

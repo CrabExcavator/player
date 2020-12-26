@@ -144,3 +144,22 @@ TEST(SAMPLE, CHANNEL) {
     ASSERT_EQ(i, val);
   }
 }
+
+#include "misc/BlockingChannel.h"
+TEST(SAMPLE, BLOCKING_CHANNEL) {
+  int number_of_iterator = 1000000;
+  int output;
+
+  misc::BlockingChannel<int> blocking_channel;
+  misc::Thread thread;
+  thread.run([&](){
+    for (int i = 0 ; i < number_of_iterator ; i++) {
+      blocking_channel << i;
+    }
+  });
+  for (int i = 0 ; i < number_of_iterator ; i++) {
+    blocking_channel >> output;
+    ASSERT_EQ(i, output);
+  }
+  thread.join();
+}

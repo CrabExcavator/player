@@ -8,7 +8,6 @@
 
 #include <array>
 #include <map>
-#include <folly/MPMCQueue.h>
 
 #include "common/Error.h"
 #include "common/Signal.h"
@@ -20,29 +19,29 @@ namespace common {
 template <typename T>
 class Slot {
  public:
-  Slot() : slot_(1024) {}
+  Slot() = default;
 
-  inline void BlockingPush(T ele) {
-    slot_.blockingWrite(ele);
+  inline void BlockingPut(T ele) {
+    slot_.BlockingPut(ele);
   }
 
   inline T BlockingGet() {
     T ele;
-    slot_.blockingRead(ele);
+    slot_.BlockingGet(ele);
     return ele;
   }
 
   inline bool Get(T &ele) {
-    return slot_.read(ele);
+    return slot_.Get(ele);
   }
 
  private:
-  folly::MPMCQueue<T> slot_;
+  misc::Channel<1024, T> slot_;
 };
 
 #define DECLARE_SLOT(slot_num, type) extern Slot<type> slot_##slot_num
 
-#define BLOCKING_PUSH_TO_SLOT(slot_num, ele) common::slot_##slot_num.BlockingPush(ele)
+#define BLOCKING_PUT_TO_SLOT(slot_num, ele) common::slot_##slot_num.BlockingPut(ele)
 
 #define BLOCKING_GET_FROM_SLOT(slot_num) common::slot_##slot_num.BlockingGet()
 

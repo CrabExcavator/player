@@ -65,7 +65,7 @@ class FFStream : public IStream {
 
   av_codec_ctx_uptr codec_ctx_ = nullptr;
 
-  std::shared_ptr<folly::MPMCQueue<frame::ffframe_sptr>> queue_ = nullptr;
+  misc::Channel<1024, frame::ffframe_sptr> queue_;
 
   std::chrono::nanoseconds time_base_{};
 

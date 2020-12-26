@@ -10,7 +10,6 @@
 #include <glog/logging.h>
 #include <mutex>
 #include <condition_variable>
-#include <chrono>
 #include <cstdint>
 
 #include "misc/util.h"

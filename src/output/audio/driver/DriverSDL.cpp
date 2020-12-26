@@ -4,6 +4,7 @@
 //
 
 #include <fstream>
+#include <cmath>
 
 #include "DriverSDL.h"
 #include "output/audio/AudioOutput.h"
