@@ -62,9 +62,8 @@ common::Error PlayerContext::Run() {
   runners.emplace_back(misc::Future::CreateFutureNode(demux_ctx_));
   runners.emplace_back(misc::Future::CreateFutureNode(ao_));
   runners.emplace_back(misc::Future::CreateFutureNode(vo_));
-  BLOCKING_PUT_TO_SLOT(ENTRY_SLOT,
-                       std::make_shared<player::PlayEntry>
-                            (player::entry_type::file, video_sample, 0));
+  BLOCKING_PUT_TO_SLOT(ENTRY_SLOT,std::make_shared<player::PlayEntry>
+                           (player::entry_type::file, video_sample, 0));
   do {} while (Loop());
   return ret;
 }
