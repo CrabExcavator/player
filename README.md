@@ -4,6 +4,12 @@
 
 It's free media player that aiming at supporting Iot device or embedded in other software
 
+## Refactor
++ process graph framework
++ split demux to demuxer + stream + decode
++ demuxer prefetch
++ bootstrap & close gracefully
+
 ## Todo
 
 + ~~audio ouput demo~~
@@ -13,6 +19,8 @@ It's free media player that aiming at supporting Iot device or embedded in other
 + ~~dispatch Stream to Output~~
 + ~~resample~~
 + ~~support packed audio format~~
++ cache
++ rate limiter
 + bit rate control
 + video sync with audio
 + serializer

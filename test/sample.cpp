@@ -163,3 +163,8 @@ TEST(SAMPLE, BLOCKING_CHANNEL) {
   }
   thread.join();
 }
+
+#include "dag/DAGExecutor.h"
+TEST(SAMPLE, DAG) {
+
+}

@@ -122,4 +122,10 @@ using resample_output_sptr = std::shared_ptr<IResampleOutput>;
 
 }
 
+namespace dag {
+class IDAGNode;
+using dag_node_sptr = std::shared_ptr<IDAGNode>;
+using dag_node_wptr = std::weak_ptr<IDAGNode>;
+}
+
 #endif //PLAYER_TYPEPTR_H
