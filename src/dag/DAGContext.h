@@ -24,6 +24,13 @@ class DAGContext {
     misc::Future::Dispatch(node, std::forward<Callback>(callback), std::forward<Args>(args)...);
     return ret;
   }
+
+  void SetRoot(const dag_root_sptr &root) {
+    dag_root_ = root;
+  }
+
+ private:
+  dag_root_wptr dag_root_;
 };
 
 }

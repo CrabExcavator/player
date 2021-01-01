@@ -129,6 +129,10 @@ using dag_node_wptr = std::weak_ptr<IDAGNode>;
 
 class DAGContext;
 using dag_ctx_sptr = std::shared_ptr<DAGContext>;
+
+class DAGRoot;
+using dag_root_sptr = std::shared_ptr<DAGRoot>;
+using dag_root_wptr = std::shared_ptr<DAGRoot>;
 }
 
 #endif //PLAYER_TYPEPTR_H

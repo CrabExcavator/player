@@ -9,7 +9,8 @@
 namespace dag {
 
 DAGNodeWrapper::DAGNodeWrapper():
-DAGNode()
+dag_context_(nullptr),
+sons_()
 {}
 
 common::Error DAGNodeWrapper::Init(const dag::dag_ctx_sptr& dag_context) {

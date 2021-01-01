@@ -20,11 +20,11 @@ class Defer {
   using defer_sptr = std::shared_ptr<Defer>;
   Defer() = delete;
   template<typename Func, typename... Args>
-  explicit Defer(Func &&func, Args &&... args): _defer(nullptr, [&](Defer *_) {
+  explicit Defer(Func &&func, Args &&... args): defer_(nullptr, [&](Defer *_) {
     func(std::forward<Args>(args)...);
   }) {}
  private:
-  defer_sptr _defer;
+  defer_sptr defer_;
 };
 
 #define DEFER(func, args...) misc::Defer _(func, ##args)

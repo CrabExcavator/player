@@ -9,6 +9,8 @@
 
 namespace dag {
 
-DAGContext::DAGContext() {}
+DAGContext::DAGContext():
+dag_root_()
+{}
 
 }

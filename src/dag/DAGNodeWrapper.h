@@ -6,12 +6,14 @@
 #ifndef PLAYER_SRC_DAG_DAGNODEWRAPPER_H_
 #define PLAYER_SRC_DAG_DAGNODEWRAPPER_H_
 
-#include "DAGNode.h"
+#include <list>
+
+#include "IDAGNode.h"
 #include "DAGContext.h"
 
 namespace dag {
 
-class DAGNodeWrapper: public DAGNode {
+class DAGNodeWrapper: public IDAGNode {
  public:
   DAGNodeWrapper();
 
@@ -21,6 +23,10 @@ class DAGNodeWrapper: public DAGNode {
 
   common::Error Run() override;
 
+ private:
+  dag_ctx_sptr dag_context_;
+
+  std::list<dag_node_sptr> sons_;
 };
 
 }

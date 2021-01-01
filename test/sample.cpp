@@ -169,14 +169,13 @@ TEST(SAMPLE, BLOCKING_CHANNEL) {
 
 #include "dag/DAGNodeWrapper.h"
 #include "dag/DAGContext.h"
-#include "dag/DAGNode.h"
-#include "misc/Latch.h"
+#include "dag/DAGRoot.h"
 
-class SampleDAGNode : public dag::DAGNode {
+class SampleDAGNode : public dag::IDAGNode {
  public:
   common::Error Run() override {
     LOG(INFO) << "sample dag node " << x;
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     return common::Error::SUCCESS;
   }
 
@@ -186,6 +185,8 @@ class SampleDAGNode : public dag::DAGNode {
 
 TEST(SAMPLE, DAGWrapper) {
   auto dag_context = std::make_shared<dag::DAGContext>();
+  auto dag_root = std::make_shared<dag::DAGRoot>();
+  dag_root->Init(dag_context);
   auto dag_node_wrapper = std::make_shared<dag::DAGNodeWrapper>();
   dag_node_wrapper->Init(dag_context);
   for (int i = 0 ; i < 64 ; i++) {
@@ -193,5 +194,22 @@ TEST(SAMPLE, DAGWrapper) {
     sample_dag_node->x = i;
     dag_node_wrapper->Add(sample_dag_node);
   }
-  dag_node_wrapper->Run();
+  dag_root->Add(dag_node_wrapper);
+
+  auto new_dag_node_wrapper = std::make_shared<dag::DAGNodeWrapper>();
+  for (int i = 0 ; i < 64 ; i++) {
+    auto sample_dag_node = std::make_shared<SampleDAGNode>();
+    sample_dag_node->x = i + 100;
+    new_dag_node_wrapper->Add(sample_dag_node);
+  }
+  new_dag_node_wrapper->Add(dag_node_wrapper);
+  dag_root->Add(new_dag_node_wrapper);
+  dag_root->Wait();
+}
+
+TEST(SAMPLE, LAMBDA) {
+  int a = 123;
+  auto f = [&a] {LOG(INFO) << a;};
+  a = 321;
+  f();
 }
