@@ -126,6 +126,9 @@ namespace dag {
 class IDAGNode;
 using dag_node_sptr = std::shared_ptr<IDAGNode>;
 using dag_node_wptr = std::weak_ptr<IDAGNode>;
+
+class DAGContext;
+using dag_ctx_sptr = std::shared_ptr<DAGContext>;
 }
 
 #endif //PLAYER_TYPEPTR_H

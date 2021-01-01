@@ -9,6 +9,7 @@
 #include <thread>
 #include <memory>
 #include <utility>
+#include <glog/logging.h>
 
 #include "common/Error.h"
 #include "misc/Runnable.h"
@@ -58,6 +59,15 @@ class FutureNode {
 
 class Future {
  public:
+  template<typename Callback, typename... Args>
+  static void Dispatch(const misc::runnable_sptr& runner, Callback &&callback, Args &&...args) {
+    std::thread thread([=](){
+      runner->Run();
+      callback(std::forward<Args>(args)...);
+    });
+    thread.detach();
+  }
+
   static future_node_sptr CreateFutureNode(misc::runnable_sptr runner) {
     auto future_node = FutureNode::Create();
     future_node->Init(std::move(runner));

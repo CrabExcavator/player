@@ -14,7 +14,6 @@ namespace dag {
 class IDAGNode : public misc::Runnable {
  public:
   common::Error Run() override = 0;
-  virtual common::Error Close() = 0;
 };
 
 }

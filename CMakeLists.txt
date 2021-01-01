@@ -42,9 +42,10 @@ set(
         src/common/DefaultConfig.cpp
         src/common/Slots.cpp
         src/common/GlobalInstanceManager.cpp
-        src/dag/DAGExecutor.cpp
         src/dag/DAGManager.cpp
-        src/dag/IDAGNode.cpp
+        src/dag/DAGNode.cpp
+        src/dag/DAGContext.cpp
+        src/dag/DAGNodeWrapper.cpp
         src/player/PlayerContext.cpp
         src/player/PlayList.cpp
         src/player/PlayEntry.cpp

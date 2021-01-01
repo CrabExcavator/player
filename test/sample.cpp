@@ -128,6 +128,9 @@ TEST(SAMPLE, DEFER) {
     DEFER([](){
         std::cout << "Hello World" << std::endl;
     });
+    misc::Defer a([](int x){
+      LOG(INFO) << x;
+    }, 1);
     std::cout << "HEHE" << std::endl;
 }
 
@@ -164,7 +167,31 @@ TEST(SAMPLE, BLOCKING_CHANNEL) {
   thread.join();
 }
 
-#include "dag/DAGExecutor.h"
-TEST(SAMPLE, DAG) {
+#include "dag/DAGNodeWrapper.h"
+#include "dag/DAGContext.h"
+#include "dag/DAGNode.h"
+#include "misc/Latch.h"
 
+class SampleDAGNode : public dag::DAGNode {
+ public:
+  common::Error Run() override {
+    LOG(INFO) << "sample dag node " << x;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    return common::Error::SUCCESS;
+  }
+
+ public:
+  int x = 0;
+};
+
+TEST(SAMPLE, DAGWrapper) {
+  auto dag_context = std::make_shared<dag::DAGContext>();
+  auto dag_node_wrapper = std::make_shared<dag::DAGNodeWrapper>();
+  dag_node_wrapper->Init(dag_context);
+  for (int i = 0 ; i < 64 ; i++) {
+    auto sample_dag_node = std::make_shared<SampleDAGNode>();
+    sample_dag_node->x = i;
+    dag_node_wrapper->Add(sample_dag_node);
+  }
+  dag_node_wrapper->Run();
 }
